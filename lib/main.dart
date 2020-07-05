@@ -42,13 +42,29 @@ void main() => runApp(
       ),
     ));
 
+Map<int, Color> color = {
+  050: Color.fromRGBO(0x71, 0xC8, 0x37, 0.1),
+  100: Color.fromRGBO(0x71, 0xC8, 0x37, 0.2),
+  200: Color.fromRGBO(0x71, 0xC8, 0x37, 0.3),
+  300: Color.fromRGBO(0x71, 0xC8, 0x37, 0.4),
+  400: Color.fromRGBO(0x71, 0xC8, 0x37, 0.5),
+  500: Color.fromRGBO(0x71, 0xC8, 0x37, 0.6),
+  600: Color.fromRGBO(0x71, 0xC8, 0x37, 0.7),
+  700: Color.fromRGBO(0x71, 0xC8, 0x37, 0.8),
+  800: Color.fromRGBO(0x71, 0xC8, 0x37, 0.9),
+  900: Color.fromRGBO(0x71, 0xC8, 0x37, 1.0),
+};
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Envely',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: MaterialColor(0xFF71C837, color),
+        // primarySwatch: Colors.green,
+        secondaryHeaderColor: Colors.white,
+        hintColor: Colors.green,
       ),
       // BlocBuilder will listen to changes in AuthenticationState
       // and build an appropriate widget based on the state.

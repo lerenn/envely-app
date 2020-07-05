@@ -8,9 +8,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
       body: SafeArea(
           minimum: const EdgeInsets.all(16),
           child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -43,6 +40,7 @@ class LoginPage extends StatelessWidget {
               ));
             },
           )),
+      backgroundColor: Theme.of(context).primaryColor,
     );
   }
 }
@@ -54,7 +52,7 @@ class _AuthForm extends StatelessWidget {
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
     return Container(
-      alignment: Alignment.center,
+      alignment: Alignment.bottomCenter,
       child: BlocProvider<LoginBloc>(
         create: (context) => LoginBloc(authBloc, authService),
         child: _SignInForm(),
@@ -112,8 +110,13 @@ class __SignInFormState extends State<_SignInForm> {
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'Email address',
+                      labelStyle: TextStyle(
+                          color: Theme.of(context).secondaryHeaderColor),
                       filled: true,
                       isDense: true,
+                    ),
+                    style: TextStyle(
+                      color: Theme.of(context).secondaryHeaderColor,
                     ),
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -131,6 +134,8 @@ class __SignInFormState extends State<_SignInForm> {
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'Password',
+                      labelStyle: TextStyle(
+                          color: Theme.of(context).secondaryHeaderColor),
                       filled: true,
                       isDense: true,
                     ),
@@ -147,8 +152,8 @@ class __SignInFormState extends State<_SignInForm> {
                     height: 16,
                   ),
                   RaisedButton(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Colors.white,
+                    color: Theme.of(context).secondaryHeaderColor,
+                    textColor: Theme.of(context).primaryColor,
                     padding: const EdgeInsets.all(16),
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(8.0)),
