@@ -1,19 +1,69 @@
+// import 'package:flutter/material.dart';
+
+// import 'package:envely/pages/login_page.dart';
+
+// main() => runApp(Envely());
+
+// class Envely extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Envely',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: LoginScreen(),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:envely/login/ui/login_screen.dart';
+import 'package:envely/blocs/blocs.dart';
+import 'package:envely/services/services.dart';
+import 'package:envely/pages/pages.dart';
 
-main() => runApp(Envely());
+void main() => runApp(
+        // Injects the Authentication service
+        RepositoryProvider<AuthenticationService>(
+      create: (context) {
+        return FakeAuthenticationService();
+      },
+      // Injects the Authentication BLoC
+      child: BlocProvider<AuthenticationBloc>(
+        create: (context) {
+          final authService =
+              RepositoryProvider.of<AuthenticationService>(context);
+          return AuthenticationBloc(authService)..add(AppLoaded());
+        },
+        child: MyApp(),
+      ),
+    ));
 
-class Envely extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Envely',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      // BlocBuilder will listen to changes in AuthenticationState
+      // and build an appropriate widget based on the state.
+      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is AuthenticationAuthenticated) {
+            // show home page
+            return HomePage(
+              user: state.user,
+            );
+          }
+          // otherwise show login page
+          return LoginPage();
+        },
+      ),
     );
   }
 }
