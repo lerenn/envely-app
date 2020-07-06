@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
-import 'package:envely/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();

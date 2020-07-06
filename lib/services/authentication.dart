@@ -1,6 +1,6 @@
-import 'package:envely/exceptions/exceptions.dart';
+import 'package:Envely/exceptions/exceptions.dart';
 
-import 'package:envely/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 abstract class AuthenticationService {
   Future<User> getCurrentUser();

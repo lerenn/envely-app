@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'package:envely/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();

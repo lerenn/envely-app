@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:envely/blocs/blocs.dart';
-import 'package:envely/services/services.dart';
+import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/services/services.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -52,12 +53,11 @@ class _AuthForm extends StatelessWidget {
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
     return Container(
-      alignment: Alignment.bottomCenter,
-      child: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(authBloc, authService),
-        child: _SignInForm(),
-      ),
-    );
+        alignment: Alignment.bottomCenter,
+        child: BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(authBloc, authService),
+          child: _SignInForm(),
+        ));
   }
 }
 
@@ -107,6 +107,14 @@ class __SignInFormState extends State<_SignInForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  Container(
+                    constraints: BoxConstraints.expand(
+                      height: 150,
+                    ),
+                    margin: const EdgeInsets.only(bottom: 100),
+                    child: SvgPicture.asset('assets/images/icons/envely.svg',
+                        semanticsLabel: 'Envely Icon'),
+                  ),
                   TextFormField(
                     decoration: InputDecoration(
                       labelText: 'Email address',

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 
-import 'package:envely/services/services.dart';
+import 'package:Envely/services/services.dart';
 
 import 'authentication_event.dart';
 import 'authentication_state.dart';

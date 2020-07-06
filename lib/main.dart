@@ -1,6 +1,6 @@
 // import 'package:flutter/material.dart';
 
-// import 'package:envely/pages/login_page.dart';
+// import 'package:Envely/pages/login_page.dart';
 
 // main() => runApp(Envely());
 
@@ -21,9 +21,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:envely/blocs/blocs.dart';
-import 'package:envely/services/services.dart';
-import 'package:envely/pages/pages.dart';
+import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/services/services.dart';
+import 'package:Envely/pages/pages.dart';
 
 void main() => runApp(
         // Injects the Authentication service
@@ -62,9 +62,8 @@ class MyApp extends StatelessWidget {
       title: 'Envely',
       theme: ThemeData(
         primarySwatch: MaterialColor(0xFF71C837, color),
-        // primarySwatch: Colors.green,
         secondaryHeaderColor: Colors.white,
-        hintColor: Colors.green,
+        hintColor: Colors.white,
       ),
       // BlocBuilder will listen to changes in AuthenticationState
       // and build an appropriate widget based on the state.

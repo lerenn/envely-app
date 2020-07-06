@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:envely/blocs/authentication/authentication.dart';
-import 'package:envely/models/models.dart';
+import 'package:Envely/blocs/authentication/authentication.dart';
+import 'package:Envely/models/models.dart';
 
 class HomePage extends StatelessWidget {
   final User user;

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 
-import 'package:envely/blocs/authentication/authentication.dart';
-import 'package:envely/exceptions/exceptions.dart';
-import 'package:envely/services/services.dart';
+import 'package:Envely/blocs/authentication/authentication.dart';
+import 'package:Envely/exceptions/exceptions.dart';
+import 'package:Envely/services/services.dart';
 
 import 'login_event.dart';
 import 'login_state.dart';
