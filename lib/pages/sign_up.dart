@@ -62,7 +62,7 @@ class SignIn extends StatelessWidget {
     return Container(
         width: size * 1 / 2,
         child: Container(
-            margin: new EdgeInsets.all(20.0),
+            padding: new EdgeInsets.all(20.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -91,36 +91,37 @@ class SignIn extends StatelessWidget {
                 ])));
   }
 
-  Column form(BuildContext context, ScreenInformations screenInformations) {
+  Container form(BuildContext context, ScreenInformations screenInformations) {
     double size;
     if (screenInformations.orientation == Orientation.landscape &&
-        screenInformations.screenSize.width < 700)
-      size = screenInformations.screenSize.width;
+        screenInformations.screenSize.width >= 700)
+      size = screenInformations.screenSize.width * 1 / 3;
     else
-      size = 700;
-    return Column(children: <Widget>[
-      Container(
-          width: size,
-          decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.circular(8.0)),
-          // shape: new RoundedRectangleBorder(
-          //   borderRadius: new BorderRadius.circular(8.0)),
-          margin: new EdgeInsets.all(20.0),
-          padding: new EdgeInsets.all(10.0),
-          child: Column(children: <Widget>[
-            lastNameField(context),
-            separator(),
-            firstNameField(context),
-            separator(),
-            emailField(context),
-            separator(),
-            passwordField(context),
-            separator(),
-            signUpButton(context),
-          ], crossAxisAlignment: CrossAxisAlignment.stretch)),
-      conditions(context, size),
-    ]);
+      size = screenInformations.screenSize.width;
+    return Container(
+        width: size,
+        child: Column(children: <Widget>[
+          Container(
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.circular(8.0)),
+              // shape: new RoundedRectangleBorder(
+              //   borderRadius: new BorderRadius.circular(8.0)),
+              margin: new EdgeInsets.all(20.0),
+              padding: new EdgeInsets.all(10.0),
+              child: Column(children: <Widget>[
+                lastNameField(context),
+                separator(),
+                firstNameField(context),
+                separator(),
+                emailField(context),
+                separator(),
+                passwordField(context),
+                separator(),
+                signUpButton(context),
+              ], crossAxisAlignment: CrossAxisAlignment.stretch)),
+          conditions(context, size),
+        ]));
   }
 
   SizedBox separator() {
