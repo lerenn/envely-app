@@ -61,40 +61,43 @@ class SignIn extends StatelessWidget {
 
     return Container(
         width: size * 1 / 2,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: 'Budget for People',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: size / 20,
-                      color: Theme.of(context).hintColor),
-                ),
-              ),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text:
-                      'Start your journey today and make your dreams a priority.',
-                  style: TextStyle(
-                    color: Theme.of(context).hintColor,
-                    fontStyle: FontStyle.italic,
-                    fontSize: size / 30,
+        child: Container(
+            margin: new EdgeInsets.all(20.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: 'Budget for People',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: size / 20,
+                          color: Theme.of(context).hintColor),
+                    ),
                   ),
-                ),
-              )
-            ]));
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text:
+                          'Start your journey today and make your dreams a priority.',
+                      style: TextStyle(
+                        color: Theme.of(context).hintColor,
+                        fontStyle: FontStyle.italic,
+                        fontSize: size / 30,
+                      ),
+                    ),
+                  )
+                ])));
   }
 
   Column form(BuildContext context, ScreenInformations screenInformations) {
     double size;
-    if (screenInformations.orientation == Orientation.landscape)
-      size = screenInformations.screenSize.width / 3;
+    if (screenInformations.orientation == Orientation.landscape &&
+        screenInformations.screenSize.width < 700)
+      size = screenInformations.screenSize.width;
     else
-      size = 500;
+      size = 700;
     return Column(children: <Widget>[
       Container(
           width: size,
