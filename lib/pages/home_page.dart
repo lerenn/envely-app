@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
@@ -33,7 +32,8 @@ class HomePage extends StatelessWidget {
                 child: Text('Logout'),
                 onPressed: () {
                   // Add UserLoggedOut to authentication event stream.
-                  authBloc.add(UserLoggedOut());
+                  BlocProvider.of<AuthenticationBloc>(context)
+                      .add(UserLoggedOut());
                 },
               )
             ],

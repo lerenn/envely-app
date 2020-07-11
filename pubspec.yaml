@@ -35,7 +35,6 @@ dev_dependencies:
   bloc: ^5.0.0
   equatable: ^1.2.0
   flutter_bloc: ^5.0.0
-  flutter_svg: ^0.18.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -49,7 +48,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/icons/envely.svg
+    - assets/images/icons/envely-1024.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

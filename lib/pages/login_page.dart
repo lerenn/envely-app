@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:Envely/ui/ui.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/services/services.dart';
 
@@ -10,37 +10,15 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          minimum: const EdgeInsets.all(16),
-          child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
-              final authBloc = BlocProvider.of<AuthenticationBloc>(context);
-              if (state is AuthenticationNotAuthenticated) {
-                return _AuthForm(); // Show authentication form
-              }
-              if (state is AuthenticationFailure) {
-                // show error message
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(state.message),
-                    FlatButton(
-                        textColor: Theme.of(context).primaryColor,
-                        child: Text('Retry'),
-                        onPressed: () {
-                          authBloc.add(AppLoaded());
-                        })
-                  ],
-                ));
-              }
-              // show splashcreen
-              return Center(
-                  child: CircularProgressIndicator(
-                strokeWidth: 2,
-              ));
-            },
-          )),
+          if (state is AuthenticationNotAuthenticated)
+            return Center(child: SingleChildScrollView(child: _AuthForm()));
+          if (state is AuthenticationFailure)
+            return _AuthFailure(message: state.message);
+          return _Loading();
+        }),
+      ),
       backgroundColor: Theme.of(context).primaryColor,
     );
   }
@@ -49,24 +27,51 @@ class LoginPage extends StatelessWidget {
 class _AuthForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authService = RepositoryProvider.of<AuthenticationService>(context);
-    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    return ScreenInfosWidget(builder: (context, screenInformations) {
+      if (screenInformations.orientation == Orientation.portrait) {
+        return Column(
+          children: <Widget>[
+            iconLogin(),
+            signInWithLoginBloc(context),
+          ],
+        );
+      } else {
+        return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  iconLogin(),
+                  signInWithLoginBloc(context),
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              )
+            ]);
+      }
+    });
+  }
 
-    return Container(
-        alignment: Alignment.bottomCenter,
-        child: BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(authBloc, authService),
-          child: _SignInForm(),
-        ));
+  Image iconLogin() {
+    return Image(
+        image: AssetImage('assets/images/icons/envely-1024.png'), width: 150);
+  }
+
+  BlocProvider signInWithLoginBloc(BuildContext context) {
+    return BlocProvider<LoginBloc>(
+      create: (context) => LoginBloc(
+          BlocProvider.of<AuthenticationBloc>(context),
+          RepositoryProvider.of<AuthenticationService>(context)),
+      child: _SignInForm(),
+    );
   }
 }
 
 class _SignInForm extends StatefulWidget {
   @override
-  __SignInFormState createState() => __SignInFormState();
+  _SignInFormState createState() => _SignInFormState();
 }
 
-class __SignInFormState extends State<_SignInForm> {
+class _SignInFormState extends State<_SignInForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
@@ -74,11 +79,98 @@ class __SignInFormState extends State<_SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    final _loginBloc = BlocProvider.of<LoginBloc>(context);
+    return BlocListener<LoginBloc, LoginState>(listener: (context, state) {
+      if (state is LoginFailure) {
+        _showError(state.error);
+      }
+    }, child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      if (state is LoginLoading) {
+        return Center(
+          child:
+              Container(margin: new EdgeInsets.all(100.0), child: _Loading()),
+        );
+      }
 
+      return Form(
+          key: _key,
+          autovalidate: _autoValidate,
+          child: ScreenInfosWidget(builder: (context, screenInformations) {
+            double size;
+            if (screenInformations.orientation == Orientation.landscape)
+              size = screenInformations.screenSize.width / 3;
+            else
+              size = 500;
+
+            return Container(
+                margin: new EdgeInsets.all(25.0),
+                width: size,
+                child: Column(
+                  children: <Widget>[
+                    emailField(),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    passwordField(),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    validationButton(state),
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                ));
+          }));
+    }));
+  }
+
+  TextFormField emailField() {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Email address',
+        labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+        filled: true,
+        isDense: true,
+      ),
+      style: TextStyle(
+        color: Theme.of(context).secondaryHeaderColor,
+      ),
+      controller: _emailController,
+      keyboardType: TextInputType.emailAddress,
+      autocorrect: false,
+      validator: (value) {
+        if (value == null) {
+          return 'Email is required.';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField passwordField() {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: 'Password',
+        labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+        filled: true,
+        isDense: true,
+      ),
+      obscureText: true,
+      controller: _passwordController,
+      style: TextStyle(
+        color: Theme.of(context).secondaryHeaderColor,
+      ),
+      validator: (value) {
+        if (value == null) {
+          return 'Password is required.';
+        }
+        return null;
+      },
+    );
+  }
+
+  RaisedButton validationButton(LoginState state) {
     _onLoginButtonPressed() {
       if (_key.currentState.validate()) {
-        _loginBloc.add(LoginInWithEmailButtonPressed(
+        BlocProvider.of<LoginBloc>(context).add(LoginInWithEmailButtonPressed(
             email: _emailController.text, password: _passwordController.text));
       } else {
         setState(() {
@@ -87,94 +179,13 @@ class __SignInFormState extends State<_SignInForm> {
       }
     }
 
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state is LoginFailure) {
-          _showError(state.error);
-        }
-      },
-      child: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
-          if (state is LoginLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Form(
-            key: _key,
-            autovalidate: _autoValidate,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    constraints: BoxConstraints.expand(
-                      height: 150,
-                    ),
-                    margin: const EdgeInsets.only(bottom: 100),
-                    child: SvgPicture.asset('assets/images/icons/envely.svg',
-                        semanticsLabel: 'Envely Icon'),
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email address',
-                      labelStyle: TextStyle(
-                          color: Theme.of(context).secondaryHeaderColor),
-                      filled: true,
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      color: Theme.of(context).secondaryHeaderColor,
-                    ),
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Email is required.';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(
-                          color: Theme.of(context).secondaryHeaderColor),
-                      filled: true,
-                      isDense: true,
-                    ),
-                    obscureText: true,
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Password is required.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  RaisedButton(
-                    color: Theme.of(context).secondaryHeaderColor,
-                    textColor: Theme.of(context).primaryColor,
-                    padding: const EdgeInsets.all(16),
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(8.0)),
-                    child: Text('LOG IN'),
-                    onPressed:
-                        state is LoginLoading ? () {} : _onLoginButtonPressed,
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+    return RaisedButton(
+      color: Theme.of(context).secondaryHeaderColor,
+      textColor: Theme.of(context).primaryColor,
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(8.0)),
+      child: Text('LOG IN'),
+      onPressed: state is LoginLoading ? () {} : _onLoginButtonPressed,
     );
   }
 
@@ -182,6 +193,43 @@ class __SignInFormState extends State<_SignInForm> {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(error),
       backgroundColor: Theme.of(context).errorColor,
+    ));
+  }
+}
+
+class _AuthFailure extends StatelessWidget {
+  final String message;
+
+  _AuthFailure({@required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+      children: <Widget>[
+        RichText(
+            text: TextSpan(
+                text: message,
+                style: TextStyle(color: Theme.of(context).hintColor))),
+        FlatButton(
+            color: Colors.white,
+            textColor: Theme.of(context).primaryColor,
+            child: Text('Retry'),
+            onPressed: () {
+              BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
+            })
+      ],
+    ));
+  }
+}
+
+class _Loading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: CircularProgressIndicator(
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
+      strokeWidth: 2,
     ));
   }
 }
