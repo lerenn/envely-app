@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Envely/pages/pages.dart';
 import 'package:Envely/ui/ui.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/services/services.dart';
@@ -114,7 +115,8 @@ class _SignInFormState extends State<_SignInForm> {
                     const SizedBox(
                       height: 12,
                     ),
-                    validationButton(state),
+                    signInButton(state),
+                    signUpButton(state),
                   ],
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                 ));
@@ -167,8 +169,8 @@ class _SignInFormState extends State<_SignInForm> {
     );
   }
 
-  RaisedButton validationButton(LoginState state) {
-    _onLoginButtonPressed() {
+  RaisedButton signInButton(LoginState state) {
+    _onSignInButtonPressed() {
       if (_key.currentState.validate()) {
         BlocProvider.of<LoginBloc>(context).add(LoginInWithEmailButtonPressed(
             email: _emailController.text, password: _passwordController.text));
@@ -184,8 +186,26 @@ class _SignInFormState extends State<_SignInForm> {
       textColor: Theme.of(context).primaryColor,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
-      child: Text('LOG IN'),
-      onPressed: state is LoginLoading ? () {} : _onLoginButtonPressed,
+      child: Text('SIGN IN'),
+      onPressed: state is LoginLoading ? () {} : _onSignInButtonPressed,
+    );
+  }
+
+  FlatButton signUpButton(LoginState state) {
+    _onSignUpButtonPressed() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SignIn()),
+      );
+    }
+
+    return FlatButton(
+      color: Theme.of(context).primaryColor,
+      textColor: Theme.of(context).secondaryHeaderColor,
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(8.0)),
+      child: Text('SIGN UP'),
+      onPressed: _onSignUpButtonPressed,
     );
   }
 
