@@ -13,13 +13,12 @@ class SignIn extends StatelessWidget {
           child: Center(child: SingleChildScrollView(
               child: ScreenInfosWidget(builder: (context, screenInformations) {
             if (screenInformations.orientation == Orientation.portrait ||
-                screenInformations.screenSize.width < 600) {
+                screenInformations.screenSize.width < 700) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   explainations(context, screenInformations),
-                  form(context),
-                  conditions(),
+                  form(context, screenInformations),
                 ],
               );
             } else {
@@ -29,8 +28,7 @@ class SignIn extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         explainations(context, screenInformations),
-                        form(context),
-                        conditions(),
+                        form(context, screenInformations),
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     )
@@ -40,69 +38,86 @@ class SignIn extends StatelessWidget {
     );
   }
 
-  RichText conditions() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-          text:
-              'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
-    );
+  Container conditions(BuildContext context, double size) {
+    return Container(
+        width: size,
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+              style: TextStyle(color: Theme.of(context).hintColor),
+              text:
+                  'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
+        ));
   }
 
-  Column explainations(
+  Container explainations(
       BuildContext context, ScreenInformations screenInformations) {
     var size;
 
     if (screenInformations.orientation == Orientation.portrait)
-      size = screenInformations.screenSize.width;
-    else
       size = screenInformations.screenSize.height;
+    else
+      size = screenInformations.screenSize.width;
 
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RichText(
-            text: TextSpan(
-              text: 'Budget for People',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: size / 12,
-                  color: Theme.of(context).hintColor),
-            ),
-          ),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              text: 'Start your journey today and make your dreams a priority.',
-              style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontStyle: FontStyle.italic,
-                fontSize: size / 20,
+    return Container(
+        width: size * 1 / 2,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: 'Budget for People',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: size / 20,
+                      color: Theme.of(context).hintColor),
+                ),
               ),
-            ),
-          )
-        ]);
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text:
+                      'Start your journey today and make your dreams a priority.',
+                  style: TextStyle(
+                    color: Theme.of(context).hintColor,
+                    fontStyle: FontStyle.italic,
+                    fontSize: size / 30,
+                  ),
+                ),
+              )
+            ]));
   }
 
-  Container form(BuildContext context) {
-    return Container(
-        decoration: new BoxDecoration(
-            color: Colors.white, borderRadius: new BorderRadius.circular(8.0)),
-        // shape: new RoundedRectangleBorder(
-        //   borderRadius: new BorderRadius.circular(8.0)),
-        margin: new EdgeInsets.all(20.0),
-        padding: new EdgeInsets.all(10.0),
-        child: Column(children: <Widget>[
-          lastNameField(context),
-          separator(),
-          firstNameField(context),
-          separator(),
-          emailField(context),
-          separator(),
-          passwordField(context),
-          separator(),
-          signUpButton(context),
-        ], crossAxisAlignment: CrossAxisAlignment.stretch));
+  Column form(BuildContext context, ScreenInformations screenInformations) {
+    double size;
+    if (screenInformations.orientation == Orientation.landscape)
+      size = screenInformations.screenSize.width / 3;
+    else
+      size = 500;
+    return Column(children: <Widget>[
+      Container(
+          width: size,
+          decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.circular(8.0)),
+          // shape: new RoundedRectangleBorder(
+          //   borderRadius: new BorderRadius.circular(8.0)),
+          margin: new EdgeInsets.all(20.0),
+          padding: new EdgeInsets.all(10.0),
+          child: Column(children: <Widget>[
+            lastNameField(context),
+            separator(),
+            firstNameField(context),
+            separator(),
+            emailField(context),
+            separator(),
+            passwordField(context),
+            separator(),
+            signUpButton(context),
+          ], crossAxisAlignment: CrossAxisAlignment.stretch)),
+      conditions(context, size),
+    ]);
   }
 
   SizedBox separator() {
