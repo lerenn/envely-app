@@ -195,7 +195,7 @@ class _SignInFormState extends State<_SignInForm> {
     _onSignUpButtonPressed() {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SignIn()),
+        MaterialPageRoute(builder: (context) => SignUpPage()),
       );
     }
 

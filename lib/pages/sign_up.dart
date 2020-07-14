@@ -1,9 +1,31 @@
-import 'package:Envely/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Envely/models/models.dart';
 import 'package:Envely/ui/ui.dart';
+import 'package:Envely/services/services.dart';
+import 'package:Envely/blocs/blocs.dart';
 
-class SignIn extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+          if (state is AuthenticationNotAuthenticated) return SignUpContent();
+          if (state is AuthenticationFailure)
+            return _AuthFailure(message: state.message);
+          if (state is AuthenticationAuthenticated) Navigator.pop(context);
+          return _Loading();
+        }),
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+}
+
+class SignUpContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +40,7 @@ class SignIn extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   explainations(context, screenInformations),
-                  form(context, screenInformations),
+                  signUpWithLoginBloc(context),
                 ],
               );
             } else {
@@ -28,7 +50,7 @@ class SignIn extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         explainations(context, screenInformations),
-                        form(context, screenInformations),
+                        signUpWithLoginBloc(context),
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
                     )
@@ -36,18 +58,6 @@ class SignIn extends StatelessWidget {
             }
           })))),
     );
-  }
-
-  Container conditions(BuildContext context, double size) {
-    return Container(
-        width: size,
-        child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-              style: TextStyle(color: Theme.of(context).hintColor),
-              text:
-                  'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
-        ));
   }
 
   Container explainations(
@@ -91,37 +101,78 @@ class SignIn extends StatelessWidget {
                 ])));
   }
 
-  Container form(BuildContext context, ScreenInformations screenInformations) {
-    double size;
-    if (screenInformations.orientation == Orientation.landscape &&
-        screenInformations.screenSize.width >= 700)
-      size = screenInformations.screenSize.width * 1 / 3;
-    else
-      size = screenInformations.screenSize.width;
+  BlocProvider signUpWithLoginBloc(BuildContext context) {
+    return BlocProvider<SignUpBloc>(
+      create: (context) => SignUpBloc(
+          BlocProvider.of<AuthenticationBloc>(context),
+          RepositoryProvider.of<AuthenticationService>(context)),
+      child: _SignUpForm(),
+    );
+  }
+}
+
+class _SignUpForm extends StatefulWidget {
+  @override
+  _SignUpFormState createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<_SignUpForm> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final _lastNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  bool _autoValidate = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+        key: _key,
+        autovalidate: _autoValidate,
+        child: ScreenInfosWidget(builder: (context, screenInformations) {
+          double size;
+          if (screenInformations.orientation == Orientation.landscape &&
+              screenInformations.screenSize.width >= 700)
+            size = screenInformations.screenSize.width * 1 / 3;
+          else
+            size = screenInformations.screenSize.width;
+          return Container(
+              width: size,
+              child: Column(children: <Widget>[
+                Container(
+                    decoration: new BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: new BorderRadius.circular(8.0)),
+                    // shape: new RoundedRectangleBorder(
+                    //   borderRadius: new BorderRadius.circular(8.0)),
+                    margin: new EdgeInsets.all(20.0),
+                    padding: new EdgeInsets.all(10.0),
+                    child: Column(children: <Widget>[
+                      lastNameField(context),
+                      separator(),
+                      firstNameField(context),
+                      separator(),
+                      emailField(context),
+                      separator(),
+                      passwordField(context),
+                      separator(),
+                      signUpButton(context),
+                    ], crossAxisAlignment: CrossAxisAlignment.stretch)),
+                conditions(context, size),
+              ]));
+        }));
+  }
+
+  Container conditions(BuildContext context, double size) {
     return Container(
         width: size,
-        child: Column(children: <Widget>[
-          Container(
-              decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.circular(8.0)),
-              // shape: new RoundedRectangleBorder(
-              //   borderRadius: new BorderRadius.circular(8.0)),
-              margin: new EdgeInsets.all(20.0),
-              padding: new EdgeInsets.all(10.0),
-              child: Column(children: <Widget>[
-                lastNameField(context),
-                separator(),
-                firstNameField(context),
-                separator(),
-                emailField(context),
-                separator(),
-                passwordField(context),
-                separator(),
-                signUpButton(context),
-              ], crossAxisAlignment: CrossAxisAlignment.stretch)),
-          conditions(context, size),
-        ]));
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+              style: TextStyle(color: Theme.of(context).hintColor),
+              text:
+                  'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
+        ));
   }
 
   SizedBox separator() {
@@ -132,6 +183,7 @@ class SignIn extends StatelessWidget {
 
   TextFormField lastNameField(BuildContext context) {
     return TextFormField(
+      controller: _lastNameController,
       decoration: InputDecoration(
         labelText: 'Last Name',
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -153,6 +205,7 @@ class SignIn extends StatelessWidget {
 
   TextFormField firstNameField(BuildContext context) {
     return TextFormField(
+      controller: _firstNameController,
       decoration: InputDecoration(
         labelText: 'First Name',
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -174,6 +227,7 @@ class SignIn extends StatelessWidget {
 
   TextFormField emailField(BuildContext context) {
     return TextFormField(
+      controller: _emailController,
       decoration: InputDecoration(
         labelText: 'Email address',
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -195,6 +249,7 @@ class SignIn extends StatelessWidget {
 
   TextFormField passwordField(BuildContext context) {
     return TextFormField(
+      controller: _passwordController,
       decoration: InputDecoration(
         labelText: 'Password',
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -215,7 +270,19 @@ class SignIn extends StatelessWidget {
   }
 
   FlatButton signUpButton(BuildContext context) {
-    _onSignUpButtonPressed() {}
+    _onSignUpButtonPressed() {
+      if (_key.currentState.validate()) {
+        BlocProvider.of<SignUpBloc>(context).add(SignUpInWithEmailButtonPressed(
+            lastName: _lastNameController.text,
+            firstName: _firstNameController.text,
+            email: _emailController.text,
+            password: _passwordController.text));
+      } else {
+        setState(() {
+          _autoValidate = true;
+        });
+      }
+    }
 
     return FlatButton(
       color: Theme.of(context).primaryColor,
@@ -225,5 +292,42 @@ class SignIn extends StatelessWidget {
       child: Text('SIGN UP'),
       onPressed: _onSignUpButtonPressed,
     );
+  }
+}
+
+class _AuthFailure extends StatelessWidget {
+  final String message;
+
+  _AuthFailure({@required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+      children: <Widget>[
+        RichText(
+            text: TextSpan(
+                text: message,
+                style: TextStyle(color: Theme.of(context).hintColor))),
+        FlatButton(
+            color: Colors.white,
+            textColor: Theme.of(context).primaryColor,
+            child: Text('Retry'),
+            onPressed: () {
+              BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
+            })
+      ],
+    ));
+  }
+}
+
+class _Loading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: CircularProgressIndicator(
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
+      strokeWidth: 2,
+    ));
   }
 }
