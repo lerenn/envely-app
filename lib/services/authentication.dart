@@ -21,7 +21,7 @@ class FakeAuthenticationService extends AuthenticationService {
     if (email.toLowerCase() != 'test@domain.com' || password != 'testpass123') {
       throw AuthenticationException(message: 'Wrong username or password');
     }
-    return User(name: 'Test User', email: email);
+    return User(lastName: 'User', firstName: 'Test', email: email);
   }
 
   @override
