@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:Envely/models/models.dart';
-import 'package:Envely/ui/ui.dart';
 import 'package:Envely/services/services.dart';
 import 'package:Envely/blocs/blocs.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -29,50 +30,41 @@ class SignUpContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: SafeArea(
-          minimum: const EdgeInsets.all(16),
-          child: Center(child: SingleChildScrollView(
-              child: ScreenInfosWidget(builder: (context, screenInformations) {
-            if (screenInformations.orientation == Orientation.portrait ||
-                screenInformations.screenSize.width < 700) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  explainations(context, screenInformations),
-                  signUpWithLoginBloc(context),
-                ],
-              );
-            } else {
-              return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        explainations(context, screenInformations),
-                        signUpWithLoginBloc(context),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    )
-                  ]);
-            }
-          })))),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: SafeArea(
+            minimum: const EdgeInsets.all(16),
+            child: Center(
+                child: SingleChildScrollView(
+                    child: Container(
+                        constraints: BoxConstraints(maxWidth: 400),
+                        margin: new EdgeInsets.all(25.0),
+                        width: ScreenUtil().setWidth(1080),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            explainations(context),
+                            signUpWithLoginBloc(context),
+                            goBack(context),
+                          ],
+                        ))))));
+  }
+
+  FlatButton goBack(BuildContext context) {
+    return FlatButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      textColor: Theme.of(context).secondaryHeaderColor,
+      child: Text(
+        "Go Back",
+      ),
     );
   }
 
-  Container explainations(
-      BuildContext context, ScreenInformations screenInformations) {
-    var size;
-
-    if (screenInformations.orientation == Orientation.portrait)
-      size = screenInformations.screenSize.height;
-    else
-      size = screenInformations.screenSize.width;
-
+  Container explainations(BuildContext context) {
     return Container(
-        width: size * 1 / 2,
         child: Container(
-            padding: new EdgeInsets.all(20.0),
+            padding: new EdgeInsets.all(10.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -82,7 +74,7 @@ class SignUpContent extends StatelessWidget {
                       text: 'Budget for People',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: size / 20,
+                          fontSize: 40,
                           color: Theme.of(context).hintColor),
                     ),
                   ),
@@ -94,7 +86,7 @@ class SignUpContent extends StatelessWidget {
                       style: TextStyle(
                         color: Theme.of(context).hintColor,
                         fontStyle: FontStyle.italic,
-                        fontSize: size / 30,
+                        fontSize: 20,
                       ),
                     ),
                   )
@@ -129,50 +121,40 @@ class _SignUpFormState extends State<_SignUpForm> {
     return Form(
         key: _key,
         autovalidate: _autoValidate,
-        child: ScreenInfosWidget(builder: (context, screenInformations) {
-          double size;
-          if (screenInformations.orientation == Orientation.landscape &&
-              screenInformations.screenSize.width >= 700)
-            size = screenInformations.screenSize.width * 1 / 3;
-          else
-            size = screenInformations.screenSize.width;
-          return Container(
-              width: size,
+        child: Container(
+            child: Column(children: <Widget>[
+          Container(
+              decoration: new BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: new BorderRadius.circular(8.0)),
+              // shape: new RoundedRectangleBorder(
+              //   borderRadius: new BorderRadius.circular(8.0)),
+              margin: new EdgeInsets.all(20.0),
+              padding: new EdgeInsets.all(10.0),
               child: Column(children: <Widget>[
-                Container(
-                    decoration: new BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: new BorderRadius.circular(8.0)),
-                    // shape: new RoundedRectangleBorder(
-                    //   borderRadius: new BorderRadius.circular(8.0)),
-                    margin: new EdgeInsets.all(20.0),
-                    padding: new EdgeInsets.all(10.0),
-                    child: Column(children: <Widget>[
-                      lastNameField(context),
-                      separator(),
-                      firstNameField(context),
-                      separator(),
-                      emailField(context),
-                      separator(),
-                      passwordField(context),
-                      separator(),
-                      signUpButton(context),
-                    ], crossAxisAlignment: CrossAxisAlignment.stretch)),
-                conditions(context, size),
-              ]));
-        }));
+                lastNameField(context),
+                separator(),
+                firstNameField(context),
+                separator(),
+                emailField(context),
+                separator(),
+                passwordField(context),
+                separator(),
+                signUpButton(context),
+              ], crossAxisAlignment: CrossAxisAlignment.stretch)),
+          conditions(context),
+        ])));
   }
 
-  Container conditions(BuildContext context, double size) {
+  Container conditions(BuildContext context) {
     return Container(
-        width: size,
         child: RichText(
-          textAlign: TextAlign.center,
-          text: TextSpan(
-              style: TextStyle(color: Theme.of(context).hintColor),
-              text:
-                  'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
-        ));
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          style: TextStyle(color: Theme.of(context).hintColor),
+          text:
+              'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
+    ));
   }
 
   SizedBox separator() {

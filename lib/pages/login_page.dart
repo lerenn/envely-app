@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/pages/pages.dart';
-import 'package:Envely/ui/ui.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/services/services.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
+
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -28,33 +30,22 @@ class LoginPage extends StatelessWidget {
 class _AuthForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScreenInfosWidget(builder: (context, screenInformations) {
-      if (screenInformations.orientation == Orientation.portrait) {
-        return Column(
-          children: <Widget>[
-            iconLogin(),
-            signInWithLoginBloc(context),
-          ],
-        );
-      } else {
-        return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  iconLogin(),
-                  signInWithLoginBloc(context),
-                ],
-                mainAxisAlignment: MainAxisAlignment.center,
-              )
-            ]);
-      }
-    });
+    return Column(
+      children: <Widget>[
+        iconLogin(),
+        signInWithLoginBloc(context),
+      ],
+    );
   }
 
-  Image iconLogin() {
-    return Image(
-        image: AssetImage('assets/images/icons/envely-1024.png'), width: 150);
+  Container iconLogin() {
+    if (ScreenUtil.screenHeight > 600)
+      return Container(
+          child: Image(
+              image: AssetImage('assets/images/icons/envely-1024.png'),
+              width: ScreenUtil().setHeight(512)));
+    else
+      return Container();
   }
 
   BlocProvider signInWithLoginBloc(BuildContext context) {
@@ -95,32 +86,25 @@ class _SignInFormState extends State<_SignInForm> {
       return Form(
           key: _key,
           autovalidate: _autoValidate,
-          child: ScreenInfosWidget(builder: (context, screenInformations) {
-            double size;
-            if (screenInformations.orientation == Orientation.landscape)
-              size = screenInformations.screenSize.width / 3;
-            else
-              size = 500;
-
-            return Container(
-                margin: new EdgeInsets.all(25.0),
-                width: size,
-                child: Column(
-                  children: <Widget>[
-                    emailField(),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    passwordField(),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    signInButton(state),
-                    signUpButton(state),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                ));
-          }));
+          child: Container(
+              constraints: BoxConstraints(maxWidth: 400),
+              margin: new EdgeInsets.all(25.0),
+              width: ScreenUtil().setWidth(1080),
+              child: Column(
+                children: <Widget>[
+                  emailField(),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  passwordField(),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  signInButton(state),
+                  signUpButton(state),
+                ],
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+              )));
     }));
   }
 
