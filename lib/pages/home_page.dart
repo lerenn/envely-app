@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Welcome, ${user.firstName} ${user.lastName}',
+                'Welcome, ${user.name}',
                 style: TextStyle(fontSize: 24),
               ),
               const SizedBox(

@@ -110,8 +110,7 @@ class _SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<_SignUpForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final _lastNameController = TextEditingController();
-  final _firstNameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   bool _autoValidate = false;
@@ -132,9 +131,7 @@ class _SignUpFormState extends State<_SignUpForm> {
               margin: new EdgeInsets.all(20.0),
               padding: new EdgeInsets.all(10.0),
               child: Column(children: <Widget>[
-                lastNameField(context),
-                separator(),
-                firstNameField(context),
+                nameField(context),
                 separator(),
                 emailField(context),
                 separator(),
@@ -163,31 +160,9 @@ class _SignUpFormState extends State<_SignUpForm> {
     );
   }
 
-  TextFormField lastNameField(BuildContext context) {
+  TextFormField nameField(BuildContext context) {
     return TextFormField(
-      controller: _lastNameController,
-      decoration: InputDecoration(
-        labelText: 'Last Name',
-        labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-        filled: true,
-        isDense: true,
-      ),
-      style: TextStyle(
-        color: Theme.of(context).primaryColor,
-      ),
-      keyboardType: TextInputType.text,
-      validator: (value) {
-        if (value == null) {
-          return 'Last name is required.';
-        }
-        return null;
-      },
-    );
-  }
-
-  TextFormField firstNameField(BuildContext context) {
-    return TextFormField(
-      controller: _firstNameController,
+      controller: _nameController,
       decoration: InputDecoration(
         labelText: 'First Name',
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
@@ -255,8 +230,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     _onSignUpButtonPressed() {
       if (_key.currentState.validate()) {
         BlocProvider.of<SignUpBloc>(context).add(SignUpInWithEmailButtonPressed(
-            lastName: _lastNameController.text,
-            firstName: _firstNameController.text,
+            name: _nameController.text,
             email: _emailController.text,
             password: _passwordController.text));
       } else {

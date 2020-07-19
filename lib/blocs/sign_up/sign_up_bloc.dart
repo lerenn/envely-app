@@ -31,7 +31,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     yield SignUpLoading();
     try {
       final user = await _authenticationService.signUp(
-          event.lastName, event.firstName, event.email, event.password);
+          event.name, event.email, event.password);
       if (user != null) {
         // push new authentication event
         _authenticationBloc.add(UserLoggedIn(user: user));

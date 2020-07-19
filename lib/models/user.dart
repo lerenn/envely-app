@@ -1,16 +1,12 @@
 import 'package:meta/meta.dart';
 
 class User {
-  final String lastName;
-  final String firstName;
+  final String id;
+  final String name;
   final String email;
 
-  User(
-      {@required this.lastName,
-      @required this.firstName,
-      @required this.email});
+  User({@required this.id, @required this.name, @required this.email});
 
   @override
-  String toString() =>
-      'User { lastName: $lastName, firstName: $firstName, email: $email}';
+  String toString() => 'User { name: $name, email: $email}';
 }
