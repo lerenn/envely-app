@@ -164,7 +164,7 @@ class _SignUpFormState extends State<_SignUpForm> {
     return TextFormField(
       controller: _nameController,
       decoration: InputDecoration(
-        labelText: 'First Name',
+        labelText: 'Name',
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
         filled: true,
         isDense: true,
@@ -175,7 +175,7 @@ class _SignUpFormState extends State<_SignUpForm> {
       keyboardType: TextInputType.text,
       validator: (value) {
         if (value == null) {
-          return 'First name is required.';
+          return 'Name is required.';
         }
         return null;
       },
