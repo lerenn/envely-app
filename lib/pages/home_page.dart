@@ -6,7 +6,7 @@ import 'package:Envely/blocs/authentication/authentication.dart';
 import 'package:Envely/models/models.dart';
 
 const TabNb = 5;
-const MajorTab = 3;
+const MajorTab = 2;
 
 enum EnvelyTabPosition {
   BudgetTab,
@@ -54,15 +54,28 @@ class _HomePageState extends State<HomePage>
           title: EnvelyTitle(
         tabController: _tabController,
       )),
-      bottomNavigationBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: Container(
-              color: Theme.of(context).primaryColor,
-              child: SafeArea(
-                  child: TabBar(
-                      controller: _tabController,
-                      indicatorColor: Theme.of(context).secondaryHeaderColor,
-                      tabs: _buildTabs(context))))),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+          width: 70.0,
+          height: 70.0,
+          child: new RawMaterialButton(
+              shape: new CircleBorder(),
+              fillColor: Colors.lightGreen,
+              elevation: 2.0,
+              child: Icon(
+                Icons.assistant,
+                size: 30,
+                color: Theme.of(context).secondaryHeaderColor,
+              ),
+              onPressed: () {
+                _tabController.animateTo(MajorTab);
+              })),
+      bottomNavigationBar: BottomAppBar(
+          color: Theme.of(context).primaryColor,
+          child: TabBar(
+              controller: _tabController,
+              indicatorColor: Theme.of(context).secondaryHeaderColor,
+              tabs: _buildTabs(context))),
       body: TabBarView(
         controller: _tabController,
         children: [
@@ -73,15 +86,6 @@ class _HomePageState extends State<HomePage>
           Account(user: widget.user),
         ],
       ),
-      // floatingActionButton: Container(
-      //     margin: new EdgeInsets.all(ScreenUtil().setWidth(50)),
-      //     child: FloatingActionButton(
-      //       onPressed: () {
-      //         // Add your onPressed code here!
-      //       },
-      //       child: Icon(Icons.attach_money),
-      //       backgroundColor: Theme.of(context).primaryColor,
-      //     )),
     );
   }
 
@@ -102,7 +106,7 @@ class _HomePageState extends State<HomePage>
     map[EnvelyTabPosition.AssistantTab.index] = EnvelyTab(
         position: EnvelyTabPosition.AssistantTab.index,
         text: "Assistant",
-        iconData: Icons.assistant,
+        iconData: null,
         tabController: _tabController);
     map[EnvelyTabPosition.AccountsTab.index] = EnvelyTab(
         position: EnvelyTabPosition.AccountsTab.index,
