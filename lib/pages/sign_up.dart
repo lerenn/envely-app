@@ -37,7 +37,6 @@ class SignUpContent extends StatelessWidget {
                 child: SingleChildScrollView(
                     child: Container(
                         constraints: BoxConstraints(maxWidth: 400),
-                        margin: new EdgeInsets.all(25.0),
                         width: ScreenUtil().setWidth(1080),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -126,9 +125,8 @@ class _SignUpFormState extends State<_SignUpForm> {
               decoration: new BoxDecoration(
                   color: Colors.white,
                   borderRadius: new BorderRadius.circular(8.0)),
-              // shape: new RoundedRectangleBorder(
-              //   borderRadius: new BorderRadius.circular(8.0)),
-              margin: new EdgeInsets.all(20.0),
+              margin:
+                  new EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
               padding: new EdgeInsets.all(10.0),
               child: Column(children: <Widget>[
                 nameField(context),
