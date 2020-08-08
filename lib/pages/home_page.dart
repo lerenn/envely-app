@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:Envely/blocs/authentication/authentication.dart';
 import 'package:Envely/models/models.dart';
+import 'package:Envely/pages/tabs/tabs.dart';
 
 const TabNb = 5;
 const MajorTab = 2;
@@ -33,11 +32,11 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _tabController =
-        new TabController(vsync: this, length: TabNb, initialIndex: MajorTab)
-          ..addListener(() {
-            // Set state to make sure that the [EnvelyTab] widgets get updated when changing tabs.
-            setState(() {});
-          });
+        new TabController(vsync: this, length: TabNb, initialIndex: MajorTab);
+    _tabController.addListener(() {
+      // Set state to make sure that the [EnvelyTab] widgets get updated when changing tabs.
+      setState(() {});
+    });
   }
 
   @override
@@ -85,7 +84,7 @@ class _HomePageState extends State<HomePage>
           Icon(Icons.assessment),
           Icon(Icons.assistant),
           Icon(Icons.account_balance_wallet),
-          Account(user: widget.user),
+          SettingsTab(user: widget.user),
         ],
       ),
     );
@@ -188,40 +187,5 @@ class _EnvelyTabState extends State<EnvelyTab> {
                   child: Icon(widget.iconData)),
               displayedText
             ])));
-  }
-}
-
-class Account extends StatefulWidget {
-  final User user;
-
-  const Account({Key key, this.user}) : super(key: key);
-
-  @override
-  _AccountState createState() => _AccountState();
-}
-
-class _AccountState extends State<Account> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          'Welcome, ${widget.user.name}',
-          style: TextStyle(fontSize: 24),
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        FlatButton(
-          textColor: Theme.of(context).primaryColor,
-          child: Text('Logout'),
-          onPressed: () {
-            // Add UserLoggedOut to authentication event stream.
-            BlocProvider.of<AuthenticationBloc>(context).add(UserLoggedOut());
-          },
-        )
-      ],
-    );
   }
 }
