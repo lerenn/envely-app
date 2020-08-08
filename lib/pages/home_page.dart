@@ -72,7 +72,9 @@ class _HomePageState extends State<HomePage>
               })),
       bottomNavigationBar: BottomAppBar(
           color: Theme.of(context).primaryColor,
+          shape: const CircularNotchedRectangle(),
           child: TabBar(
+              labelStyle: TextStyle(fontSize: 12.0),
               controller: _tabController,
               indicatorColor: Theme.of(context).secondaryHeaderColor,
               tabs: _buildTabs(context))),
@@ -115,7 +117,7 @@ class _HomePageState extends State<HomePage>
         tabController: _tabController);
     map[EnvelyTabPosition.ParametersTab.index] = EnvelyTab(
         position: EnvelyTabPosition.ParametersTab.index,
-        text: "Parameters",
+        text: "Settings",
         iconData: Icons.account_circle,
         tabController: _tabController);
 
@@ -166,12 +168,26 @@ class EnvelyTab extends StatefulWidget {
 class _EnvelyTabState extends State<EnvelyTab> {
   @override
   Widget build(BuildContext context) {
-    String displayedText;
+    Widget displayedText;
 
-    if (widget.tabController.index == widget.position)
-      displayedText = widget.text;
+    if (widget.tabController.index == widget.position &&
+        widget.tabController.index != 2)
+      displayedText = Text(widget.text, softWrap: false);
+    else
+      displayedText = Row();
 
-    return Tab(text: displayedText, icon: Icon(widget.iconData));
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+        child: Tab(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: 2, horizontal: 0),
+                  child: Icon(widget.iconData)),
+              displayedText
+            ])));
   }
 }
 
