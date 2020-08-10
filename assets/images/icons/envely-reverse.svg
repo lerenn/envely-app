@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="301.65363"
+   inkscape:export-xdpi="301.65363"
+   inkscape:export-filename="/home/frd/Code/src/github.com/team-envely/app/assets/images/icons/envely-1024.png"
+   width="95.485878mm"
+   height="86.201836mm"
+   viewBox="0 0 95.48588 86.201841"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (9f2f71dc58, 2020-08-02)"
+   sodipodi:docname="envely-reverse.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="-172.79222"
+     inkscape:cy="132.19271"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1294"
+     inkscape:window-height="704"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     lock-margins="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-bbox="false"
+     inkscape:pagecheckerboard="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-116.81277,-104.90579)">
+    <path
+       id="rect10"
+       style="font-variation-settings:normal;vector-effect:none;fill:#55d400;fill-opacity:0.25;stroke-width:0.999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       d="M 180.44531 0.001953125 C 166.76592 -0.032787557 168.77408 0.1453197 137.30859 22.498047 C 179.40274 29.194975 192.40122 61.396467 194.94727 112.76758 C 193.25465 69.190518 202.45434 41.624479 240.45508 34.345703 C 191.14833 0.25688719 196.32 0.13288434 180.44531 0.001953125 z M 83.136719 59.517578 C 61.744947 73.664879 34.662664 91.140713 0 112.81055 L 0 325.80078 L 360.89062 325.80078 L 360.89062 112.81055 C 329.009 92.879321 303.606 76.538599 283.08008 63.037109 C 262.46207 96.516 269.77674 124.21641 198.60547 113.34375 C 214.33235 118.40155 218.85698 156.45367 209.08398 202.40625 L 180.44531 219.30859 L 163.21484 209.13867 C 201.52934 147.9424 179.93696 121.74813 186.83008 114.77539 C 105.82121 133.83602 112.41617 98.334343 83.136719 59.517578 z "
+       transform="matrix(0.26458333,0,0,0.26458333,116.81277,104.90579)"
+       inkscape:export-filename="/home/frd/Code/src/github.com/team-envely/website/public/favicon.png"
+       inkscape:export-xdpi="9.3102999"
+       inkscape:export-ydpi="9.3102999" />
+    <path
+       id="rect1069"
+       style="font-variation-settings:normal;vector-effect:none;fill:#55d400;fill-opacity:0.80000001;stroke:none;stroke-width:1.88532;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       d="m 131.02341,113.21229 c 18.2123,12.62019 8.0822,29.1699 37.36899,21.53008 -0.99943,-20.16539 -8.0822,-29.16992 -37.36899,-21.53008 z"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
+    <path
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       d="m 197.90746,114.55947 c -14.22939,11.5658 -4.59541,24.29412 -29.51506,20.1829 -0.63956,-16.46578 4.59546,-24.29412 29.51506,-20.1829 z"
+       style="font-variation-settings:normal;vector-effect:none;fill:#55d400;fill-opacity:0.80000001;stroke:none;stroke-width:2.04218;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       id="rect1069-0" />
+    <path
+       id="rect1087"
+       style="font-variation-settings:normal;vector-effect:none;fill:#55d400;fill-opacity:0.80000001;stroke:none;stroke-width:9.44882;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       d="M 194.94727 112.76758 C 192.13923 113.50009 189.45055 114.15882 186.83008 114.77539 C 179.93696 121.74813 201.52934 147.9424 163.21484 209.13867 L 180.44531 219.30859 L 209.08398 202.40625 C 219.57754 153.06561 213.5896 112.82684 194.94727 112.76758 z "
+       transform="matrix(0.26458333,0,0,0.26458333,116.81277,104.90579)" />
+    <path
+       id="rect10-6"
+       style="font-variation-settings:normal;vector-effect:none;fill:#55d400;fill-opacity:0.5;stroke-width:0.999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       d="M 360.89062 112.8125 L 180.44531 219.30859 L 360.89062 325.80273 L 360.89062 112.8125 z "
+       transform="matrix(0.26458333,0,0,0.26458333,116.81277,104.90579)" />
+    <path
+       d="m 116.81277,134.75395 h 95.48568 m 0,0 v 56.35368 m 0,0 h -95.48568 v -56.35368"
+       style="font-variation-settings:normal;vector-effect:none;fill:#55d400;fill-opacity:0.75;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000"
+       id="rect10-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc" />
+  </g>
+</svg>
