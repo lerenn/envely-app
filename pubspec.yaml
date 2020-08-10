@@ -32,13 +32,25 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # BLoC
   bloc: ^5.0.0
-  equatable: ^1.2.0
   flutter_bloc: ^5.0.0
-  flutter_launcher_icons: ^0.7.5
+  equatable: ^1.2.0
+
+  # Responsive size
   flutter_screenutil: ^2.3.0
-  firebase_auth: ^0.16.1
+
+  # Icons and renaming
+  flutter_launcher_icons: ^0.7.5
   rename: ^1.2.0
+
+  # Firebase
+  firebase_core: ^0.4.0+9
+  firebase_core_web: ^0.1.1+2
+  firebase_auth: ^0.16.1
+  cloud_firestore: ^0.13.7
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

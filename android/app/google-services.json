@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "230012837351",
+    "firebase_url": "https://envely-app.firebaseio.com",
+    "project_id": "envely-app",
+    "storage_bucket": "envely-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230012837351:android:3063bf6a015ec8c8e9f142",
+        "android_client_info": {
+          "package_name": "app.envely.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230012837351-kid0nov92lo4b5e49bt6aa8n3nkbs3i3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAww9fsbn8qrqq_tOu2SdfQj9ICifa9Hys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230012837351-kid0nov92lo4b5e49bt6aa8n3nkbs3i3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
