@@ -9,10 +9,10 @@ const MajorTab = 2;
 
 enum EnvelyTabPosition {
   BudgetTab,
-  SpendingTab,
-  AssistantTab,
   AccountsTab,
-  ParametersTab
+  AssistantTab,
+  StatisticsTab,
+  SettingsTab
 }
 
 class HomePage extends StatefulWidget {
@@ -99,9 +99,9 @@ class _HomePageState extends State<HomePage>
         text: "Budget",
         iconData: Icons.pie_chart,
         tabController: _tabController);
-    map[EnvelyTabPosition.SpendingTab.index] = EnvelyTab(
-        position: EnvelyTabPosition.SpendingTab.index,
-        text: "Spending",
+    map[EnvelyTabPosition.StatisticsTab.index] = EnvelyTab(
+        position: EnvelyTabPosition.StatisticsTab.index,
+        text: "Statistics",
         iconData: Icons.assessment,
         tabController: _tabController);
     map[EnvelyTabPosition.AssistantTab.index] = EnvelyTab(
@@ -114,8 +114,8 @@ class _HomePageState extends State<HomePage>
         text: "Accounts",
         iconData: Icons.account_balance_wallet,
         tabController: _tabController);
-    map[EnvelyTabPosition.ParametersTab.index] = EnvelyTab(
-        position: EnvelyTabPosition.ParametersTab.index,
+    map[EnvelyTabPosition.SettingsTab.index] = EnvelyTab(
+        position: EnvelyTabPosition.SettingsTab.index,
         text: "Settings",
         iconData: Icons.account_circle,
         tabController: _tabController);
@@ -139,14 +139,14 @@ class _EnvelyTitleState extends State<EnvelyTitle> {
   Widget build(BuildContext context) {
     if (widget.tabController.index == EnvelyTabPosition.BudgetTab.index)
       return Text("Budget");
-    if (widget.tabController.index == EnvelyTabPosition.SpendingTab.index)
-      return Text("Spending");
+    if (widget.tabController.index == EnvelyTabPosition.StatisticsTab.index)
+      return Text("Statistics");
     if (widget.tabController.index == EnvelyTabPosition.AssistantTab.index)
       return Text("Assistant");
     if (widget.tabController.index == EnvelyTabPosition.AccountsTab.index)
       return Text("Accounts");
-    if (widget.tabController.index == EnvelyTabPosition.ParametersTab.index)
-      return Text("Parameters");
+    if (widget.tabController.index == EnvelyTabPosition.SettingsTab.index)
+      return Text("Settings");
     return Text("unkown");
   }
 }
