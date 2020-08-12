@@ -15,9 +15,8 @@ class SignUpPage extends StatelessWidget {
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
           if (state is AuthenticationNotAuthenticated) return SignUpContent();
-          if (state is AuthenticationFailure)
-            return _AuthFailure(message: state.message);
-          if (state is AuthenticationAuthenticated) Navigator.pop(context);
+          if (state is AuthenticationAuthenticated ||
+              state is AuthenticationFailure) Navigator.pop(context);
           return _Loading();
         }),
       ),
@@ -116,29 +115,42 @@ class _SignUpFormState extends State<_SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _key,
-        autovalidate: _autoValidate,
-        child: Container(
-            child: Column(children: <Widget>[
-          Container(
-              decoration: new BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.circular(8.0)),
-              margin:
-                  new EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-              padding: new EdgeInsets.all(10.0),
+    return BlocListener<SignUpBloc, SignUpState>(listener: (context, state) {
+      if (state is SignUpFailure) {
+        _showError(state.error);
+      }
+    }, child: BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
+      if (state is SignUpLoading) {
+        return Center(
+          child:
+              Container(margin: new EdgeInsets.all(100.0), child: _Loading()),
+        );
+      }
+
+      return Form(
+          key: _key,
+          autovalidate: _autoValidate,
+          child: Container(
               child: Column(children: <Widget>[
-                nameField(context),
-                separator(),
-                emailField(context),
-                separator(),
-                passwordField(context),
-                separator(),
-                signUpButton(context),
-              ], crossAxisAlignment: CrossAxisAlignment.stretch)),
-          conditions(context),
-        ])));
+            Container(
+                decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(8.0)),
+                margin:
+                    new EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                padding: new EdgeInsets.all(10.0),
+                child: Column(children: <Widget>[
+                  nameField(context),
+                  separator(),
+                  emailField(context),
+                  separator(),
+                  passwordField(context),
+                  separator(),
+                  signUpButton(context),
+                ], crossAxisAlignment: CrossAxisAlignment.stretch)),
+            conditions(context),
+          ])));
+    }));
   }
 
   Container conditions(BuildContext context) {
@@ -247,30 +259,11 @@ class _SignUpFormState extends State<_SignUpForm> {
       onPressed: _onSignUpButtonPressed,
     );
   }
-}
 
-class _AuthFailure extends StatelessWidget {
-  final String message;
-
-  _AuthFailure({@required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      children: <Widget>[
-        RichText(
-            text: TextSpan(
-                text: message,
-                style: TextStyle(color: Theme.of(context).hintColor))),
-        FlatButton(
-            color: Colors.white,
-            textColor: Theme.of(context).primaryColor,
-            child: Text('Retry'),
-            onPressed: () {
-              BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
-            })
-      ],
+  void _showError(String error) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(error),
+      backgroundColor: Theme.of(context).errorColor,
     ));
   }
 }

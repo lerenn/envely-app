@@ -43,7 +43,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     } on AuthenticationException catch (e) {
       yield SignUpFailure(error: e.message);
     } catch (err) {
-      yield SignUpFailure(error: err.messsage ?? 'An unknown error occured');
+      yield SignUpFailure(error: err.message ?? 'An unknown error occured');
     }
   }
 }
