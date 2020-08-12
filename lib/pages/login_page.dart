@@ -39,7 +39,7 @@ class _AuthForm extends StatelessWidget {
   }
 
   Container iconLogin() {
-    if (ScreenUtil.screenHeight > 600)
+    if (ScreenUtil.screenHeight > 400)
       return Container(
           child: Image(
               image: AssetImage('assets/images/icons/envely-1024.png'),
