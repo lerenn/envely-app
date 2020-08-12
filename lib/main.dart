@@ -9,7 +9,8 @@ void main() => runApp(
         // Injects the Authentication service
         RepositoryProvider<AuthenticationService>(
       create: (context) {
-        return FakeAuthenticationService();
+        // return FakeAuthenticationService();
+        return FirebaseAuthenticationService();
       },
       // Injects the Authentication BLoC
       child: BlocProvider<AuthenticationBloc>(
