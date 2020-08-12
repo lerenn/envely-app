@@ -74,6 +74,7 @@ class _HomePageState extends State<HomePage>
           shape: const CircularNotchedRectangle(),
           child: TabBar(
               labelStyle: TextStyle(fontSize: 12.0),
+              labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
               controller: _tabController,
               indicatorColor: Theme.of(context).secondaryHeaderColor,
               tabs: _buildTabs(context))),
