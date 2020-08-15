@@ -5,47 +5,54 @@ import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/services/services.dart';
 import 'package:Envely/pages/pages.dart';
 
-void main() => runApp(
-        // Injects the Authentication service
-        RepositoryProvider<AuthenticationService>(
-      create: (context) {
-        // return FakeAuthenticationService();
-        return FirebaseAuthenticationService();
-      },
-      // Injects the Authentication BLoC
-      child: BlocProvider<AuthenticationBloc>(
-        create: (context) {
-          final authService =
-              RepositoryProvider.of<AuthenticationService>(context);
-          return AuthenticationBloc(authService)..add(AppLoaded());
-        },
-        child: MyApp(),
-      ),
-    ));
+void main() => runApp(Envely());
 
-class MyApp extends StatelessWidget {
+class Envely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return provideRepositories(context, app(context));
+  }
+
+  Widget provideRepositories(BuildContext context, Widget child) {
+    return MultiRepositoryProvider(providers: [
+      RepositoryProvider<AuthenticationService>(
+        create: (context) => FirebaseAuthenticationService(),
+      ),
+      RepositoryProvider<AccountsService>(
+        create: (context) => FirebaseAccountsService(),
+      ),
+    ], child: child);
+  }
+
+  Widget app(context) {
     return MaterialApp(
-      title: 'Envely',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        hintColor: Colors.white,
-      ),
-      // BlocBuilder will listen to changes in AuthenticationState
-      // and build an appropriate widget based on the state.
-      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          if (state is AuthenticationAuthenticated) {
-            // show home page
-            return HomePage(
-              user: state.user,
-            );
-          }
-          // otherwise show login page
-          return LoginPage();
-        },
-      ),
+        title: 'Envely',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+          hintColor: Colors.white,
+        ),
+        home: BlocProvider<AuthenticationBloc>(
+          create: (context) {
+            final authService =
+                RepositoryProvider.of<AuthenticationService>(context);
+            return AuthenticationBloc(authService)..add(AppLoaded());
+          },
+          child: landingPage(context),
+        ));
+  }
+
+  Widget landingPage(BuildContext context) {
+    // BlocBuilder will listen to changes in AuthenticationState
+    // and build an appropriate widget based on the state.
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
+        if (state is AuthenticationAuthenticated) {
+          return HomePage(
+            user: state.user,
+          );
+        }
+        return LoginPage();
+      },
     );
   }
 }

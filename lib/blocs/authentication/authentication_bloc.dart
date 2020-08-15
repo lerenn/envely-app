@@ -33,7 +33,6 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapAppLoadedToState(AppLoaded event) async* {
     yield AuthenticationLoading(); // to display splash screen
     try {
-      await Future.delayed(Duration(milliseconds: 500)); // a simulated delay
       final currentUser = await _authenticationService.getCurrentUser();
 
       if (currentUser != null) {
