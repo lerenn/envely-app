@@ -5,12 +5,11 @@ import 'package:Envely/models/models.dart';
 import 'package:Envely/pages/tabs/tabs.dart';
 
 const TabNb = 5;
-const MajorTab = 2;
 
 enum EnvelyTabPosition {
+  PreviewTab,
   BudgetTab,
   SpendingsTab,
-  AssistantTab,
   AccountsTab,
   SettingsTab
 }
@@ -31,8 +30,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _tabController =
-        new TabController(vsync: this, length: TabNb, initialIndex: MajorTab);
+    _tabController = new TabController(vsync: this, length: TabNb);
     _tabController.addListener(() {
       // Set state to make sure that the [EnvelyTab] widgets get updated when changing tabs.
       setState(() {});
@@ -53,22 +51,6 @@ class _HomePageState extends State<HomePage>
           title: EnvelyTitle(
         tabController: _tabController,
       )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-          width: 70.0,
-          height: 70.0,
-          child: new RawMaterialButton(
-              shape: new CircleBorder(),
-              fillColor: Colors.lightGreen,
-              elevation: 2.0,
-              child: Icon(
-                Icons.assistant,
-                size: 30,
-                color: Theme.of(context).secondaryHeaderColor,
-              ),
-              onPressed: () {
-                _tabController.animateTo(MajorTab);
-              })),
       bottomNavigationBar: BottomAppBar(
           color: Theme.of(context).primaryColor,
           shape: const CircularNotchedRectangle(),
@@ -83,7 +65,7 @@ class _HomePageState extends State<HomePage>
         children: [
           Icon(Icons.pie_chart),
           Icon(Icons.attach_money),
-          Icon(Icons.assistant),
+          Icon(Icons.pie_chart),
           Icon(Icons.account_balance_wallet),
           SettingsTab(user: widget.user),
         ],
@@ -98,17 +80,17 @@ class _HomePageState extends State<HomePage>
     map[EnvelyTabPosition.BudgetTab.index] = EnvelyTab(
         position: EnvelyTabPosition.BudgetTab.index,
         text: "Budget",
-        iconData: Icons.pie_chart,
+        iconData: Icons.assessment,
         tabController: _tabController);
     map[EnvelyTabPosition.SpendingsTab.index] = EnvelyTab(
         position: EnvelyTabPosition.SpendingsTab.index,
         text: "Spendings",
         iconData: Icons.attach_money,
         tabController: _tabController);
-    map[EnvelyTabPosition.AssistantTab.index] = EnvelyTab(
-        position: EnvelyTabPosition.AssistantTab.index,
-        text: "Assistant",
-        iconData: null,
+    map[EnvelyTabPosition.PreviewTab.index] = EnvelyTab(
+        position: EnvelyTabPosition.PreviewTab.index,
+        text: "Preview",
+        iconData: Icons.pie_chart,
         tabController: _tabController);
     map[EnvelyTabPosition.AccountsTab.index] = EnvelyTab(
         position: EnvelyTabPosition.AccountsTab.index,
@@ -142,8 +124,8 @@ class _EnvelyTitleState extends State<EnvelyTitle> {
       return Text("Budget");
     if (widget.tabController.index == EnvelyTabPosition.SpendingsTab.index)
       return Text("Spendings");
-    if (widget.tabController.index == EnvelyTabPosition.AssistantTab.index)
-      return Text("Assistant");
+    if (widget.tabController.index == EnvelyTabPosition.PreviewTab.index)
+      return Text("Preview");
     if (widget.tabController.index == EnvelyTabPosition.AccountsTab.index)
       return Text("Accounts");
     if (widget.tabController.index == EnvelyTabPosition.SettingsTab.index)
@@ -170,8 +152,7 @@ class _EnvelyTabState extends State<EnvelyTab> {
   Widget build(BuildContext context) {
     Widget displayedText;
 
-    if (widget.tabController.index == widget.position &&
-        widget.tabController.index != 2)
+    if (widget.tabController.index == widget.position)
       displayedText = Text(widget.text, softWrap: false);
     else
       displayedText = Row();
