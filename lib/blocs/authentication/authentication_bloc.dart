@@ -1,17 +1,17 @@
 import 'package:bloc/bloc.dart';
 
-import 'package:Envely/services/services.dart';
+import 'package:Envely/repositories/repositories.dart';
 
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final AuthenticationService _authenticationService;
+  final AuthenticationRepository _authenticationRepository;
 
-  AuthenticationBloc(AuthenticationService authenticationService)
-      : assert(authenticationService != null),
-        _authenticationService = authenticationService,
+  AuthenticationBloc(AuthenticationRepository authenticationRepository)
+      : assert(authenticationRepository != null),
+        _authenticationRepository = authenticationRepository,
         super(AuthenticationInitial());
 
   @override
@@ -33,7 +33,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapAppLoadedToState(AppLoaded event) async* {
     yield AuthenticationLoading(); // to display splash screen
     try {
-      final currentUser = await _authenticationService.getCurrentUser();
+      final currentUser = await _authenticationRepository.getCurrentUser();
 
       if (currentUser != null) {
         yield AuthenticationAuthenticated(user: currentUser);
@@ -53,7 +53,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapUserLoggedOutToState(
       UserLoggedOut event) async* {
-    await _authenticationService.signOut();
+    await _authenticationRepository.signOut();
     yield AuthenticationNotAuthenticated();
   }
 }

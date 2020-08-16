@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Envely/blocs/blocs.dart';
-import 'package:Envely/services/services.dart';
+import 'package:Envely/repositories/repositories.dart';
 import 'package:Envely/pages/pages.dart';
 
 void main() => runApp(Envely());
@@ -10,35 +10,39 @@ void main() => runApp(Envely());
 class Envely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return provideRepositories(context, app(context));
+    return repositoriesProvider(authenticationBlocProvider(app(context)));
   }
 
-  Widget provideRepositories(BuildContext context, Widget child) {
+  Widget repositoriesProvider(Widget child) {
     return MultiRepositoryProvider(providers: [
-      RepositoryProvider<AuthenticationService>(
-        create: (context) => FirebaseAuthenticationService(),
+      RepositoryProvider<AuthenticationRepository>(
+        create: (context) => FirebaseAuthenticationRepository(),
       ),
-      RepositoryProvider<AccountsService>(
-        create: (context) => FirebaseAccountsService(),
+      RepositoryProvider<AccountsRepository>(
+        create: (context) => FirebaseAccountsRepository(),
       ),
     ], child: child);
   }
 
-  Widget app(context) {
+  Widget authenticationBlocProvider(Widget child) {
+    return BlocProvider<AuthenticationBloc>(
+        create: (context) {
+          final authRepository =
+              RepositoryProvider.of<AuthenticationRepository>(context);
+          return AuthenticationBloc(authRepository)..add(AppLoaded());
+        },
+        child: child);
+  }
+
+  Widget app(BuildContext context) {
     return MaterialApp(
-        title: 'Envely',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          hintColor: Colors.white,
-        ),
-        home: BlocProvider<AuthenticationBloc>(
-          create: (context) {
-            final authService =
-                RepositoryProvider.of<AuthenticationService>(context);
-            return AuthenticationBloc(authService)..add(AppLoaded());
-          },
-          child: landingPage(context),
-        ));
+      title: 'Envely',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        hintColor: Colors.white,
+      ),
+      home: landingPage(context),
+    );
   }
 
   Widget landingPage(BuildContext context) {

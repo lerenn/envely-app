@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/pages/pages.dart';
 import 'package:Envely/blocs/blocs.dart';
-import 'package:Envely/services/services.dart';
+import 'package:Envely/repositories/repositories.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -52,7 +52,7 @@ class _AuthForm extends StatelessWidget {
     return BlocProvider<LoginBloc>(
       create: (context) => LoginBloc(
           BlocProvider.of<AuthenticationBloc>(context),
-          RepositoryProvider.of<AuthenticationService>(context)),
+          RepositoryProvider.of<AuthenticationRepository>(context)),
       child: _SignInForm(),
     );
   }

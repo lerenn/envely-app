@@ -5,7 +5,7 @@ import 'package:Envely/models/models.dart';
 
 import 'abstract.dart';
 
-class FirebaseAccountsService extends AccountsService {
+class FirebaseAccountsRepository extends AccountsRepository {
   final collection = Firestore.instance.collection('accounts');
 
   Future<void> createAccount(Account account) async {

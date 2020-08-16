@@ -5,7 +5,7 @@ import 'package:Envely/models/models.dart';
 
 import 'abstract.dart';
 
-class FakeAccountsService extends AccountsService {
+class FakeAccountsRepository extends AccountsRepository {
   List<Account> accounts;
   StreamController<List<Account>> streamController;
 

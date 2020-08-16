@@ -2,21 +2,21 @@ import 'package:bloc/bloc.dart';
 
 import 'package:Envely/blocs/authentication/authentication.dart';
 import 'package:Envely/exceptions/exceptions.dart';
-import 'package:Envely/services/services.dart';
+import 'package:Envely/repositories/repositories.dart';
 
 import 'sign_up_event.dart';
 import 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationBloc _authenticationBloc;
-  final AuthenticationService _authenticationService;
+  final AuthenticationRepository _authenticationRepository;
 
   SignUpBloc(AuthenticationBloc authenticationBloc,
-      AuthenticationService authenticationService)
+      AuthenticationRepository authenticationRepository)
       : assert(authenticationBloc != null),
-        assert(authenticationService != null),
+        assert(authenticationRepository != null),
         _authenticationBloc = authenticationBloc,
-        _authenticationService = authenticationService,
+        _authenticationRepository = authenticationRepository,
         super(SignUpInitial());
 
   @override
@@ -30,7 +30,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       SignUpInWithEmailButtonPressed event) async* {
     yield SignUpLoading();
     try {
-      final user = await _authenticationService.signUp(
+      final user = await _authenticationRepository.signUp(
           event.name, event.email, event.password);
       if (user != null) {
         // push new authentication event

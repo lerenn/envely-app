@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:Envely/services/services.dart';
+import 'package:Envely/repositories/repositories.dart';
 import 'package:Envely/blocs/blocs.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -95,7 +95,7 @@ class SignUpContent extends StatelessWidget {
     return BlocProvider<SignUpBloc>(
       create: (context) => SignUpBloc(
           BlocProvider.of<AuthenticationBloc>(context),
-          RepositoryProvider.of<AuthenticationService>(context)),
+          RepositoryProvider.of<AuthenticationRepository>(context)),
       child: _SignUpForm(),
     );
   }
@@ -160,7 +160,7 @@ class _SignUpFormState extends State<_SignUpForm> {
       text: TextSpan(
           style: TextStyle(color: Theme.of(context).hintColor),
           text:
-              'By clicking “Sign up”, you agree to our Terms of Service and Privacy Statement. We’ll occasionally send you account related emails.'),
+              'By clicking “Sign up”, you agree to our Terms of Repository and Privacy Statement. We’ll occasionally send you account related emails.'),
     ));
   }
 

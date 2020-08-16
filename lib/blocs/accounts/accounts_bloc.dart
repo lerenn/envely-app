@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:Envely/services/services.dart';
+import 'package:Envely/repositories/repositories.dart';
 
 import 'accounts_event.dart';
 import 'accounts_state.dart';
 
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
-  final AccountsService _accountsService;
+  final AccountsRepository _accountsRepository;
   StreamSubscription _accountsSubscription;
 
-  AccountsBloc({@required AccountsService accountsService})
-      : assert(accountsService != null),
-        _accountsService = accountsService,
+  AccountsBloc({@required AccountsRepository accountsRepository})
+      : assert(accountsRepository != null),
+        _accountsRepository = accountsRepository,
         super(AccountsLoading());
 
   @override
@@ -34,7 +34,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Stream<AccountsState> _mapAccountsLoadToState() async* {
     _accountsSubscription?.cancel();
-    _accountsSubscription = _accountsService.getAccounts().listen(
+    _accountsSubscription = _accountsRepository.getAccounts().listen(
       (accounts) {
         add(
           AccountsUpdated(accounts),
@@ -44,15 +44,15 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountUpdatedToState(AccountUpdated event) async* {
-    _accountsService.updateAccount(event.account);
+    _accountsRepository.updateAccount(event.account);
   }
 
   Stream<AccountsState> _mapAccountCreatedToState(AccountCreated event) async* {
-    _accountsService.createAccount(event.account);
+    _accountsRepository.createAccount(event.account);
   }
 
   Stream<AccountsState> _mapAccountDeletedToState(AccountDeleted event) async* {
-    _accountsService.deleteAccount(event.account);
+    _accountsRepository.deleteAccount(event.account);
   }
 
   Stream<AccountsState> _mapAccountsUpdatedToState(

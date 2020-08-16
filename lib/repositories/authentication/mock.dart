@@ -3,7 +3,7 @@ import 'package:Envely/exceptions/exceptions.dart';
 
 import 'abstract.dart';
 
-class FakeAuthenticationService extends AuthenticationService {
+class FakeAuthenticationRepository extends AuthenticationRepository {
   User _user;
 
   @override

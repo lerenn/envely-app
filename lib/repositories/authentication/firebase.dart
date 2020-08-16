@@ -5,7 +5,7 @@ import 'package:Envely/exceptions/exceptions.dart';
 
 import 'abstract.dart';
 
-class FirebaseAuthenticationService extends AuthenticationService {
+class FirebaseAuthenticationRepository extends AuthenticationRepository {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseUser _firebaseUser;
   User _cachedUser;

@@ -1,6 +1,6 @@
 import 'package:Envely/models/models.dart';
 
-abstract class AccountsService {
+abstract class AccountsRepository {
   Future<void> createAccount(Account account);
   Stream<List<Account>> getAccounts();
   Future<void> updateAccount(Account account);

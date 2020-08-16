@@ -1,6 +1,6 @@
 import 'package:Envely/models/models.dart';
 
-abstract class AuthenticationService {
+abstract class AuthenticationRepository {
   Future<User> getCurrentUser();
   Future<User> signInWithEmailAndPassword(String email, String password);
   Future<void> signOut();
