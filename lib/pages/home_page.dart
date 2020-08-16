@@ -9,9 +9,9 @@ const MajorTab = 2;
 
 enum EnvelyTabPosition {
   BudgetTab,
-  AccountsTab,
+  SpendingsTab,
   AssistantTab,
-  StatisticsTab,
+  AccountsTab,
   SettingsTab
 }
 
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage>
         controller: _tabController,
         children: [
           Icon(Icons.pie_chart),
-          Icon(Icons.assessment),
+          Icon(Icons.attach_money),
           Icon(Icons.assistant),
           Icon(Icons.account_balance_wallet),
           SettingsTab(user: widget.user),
@@ -100,10 +100,10 @@ class _HomePageState extends State<HomePage>
         text: "Budget",
         iconData: Icons.pie_chart,
         tabController: _tabController);
-    map[EnvelyTabPosition.StatisticsTab.index] = EnvelyTab(
-        position: EnvelyTabPosition.StatisticsTab.index,
-        text: "Statistics",
-        iconData: Icons.assessment,
+    map[EnvelyTabPosition.SpendingsTab.index] = EnvelyTab(
+        position: EnvelyTabPosition.SpendingsTab.index,
+        text: "Spendings",
+        iconData: Icons.attach_money,
         tabController: _tabController);
     map[EnvelyTabPosition.AssistantTab.index] = EnvelyTab(
         position: EnvelyTabPosition.AssistantTab.index,
@@ -140,8 +140,8 @@ class _EnvelyTitleState extends State<EnvelyTitle> {
   Widget build(BuildContext context) {
     if (widget.tabController.index == EnvelyTabPosition.BudgetTab.index)
       return Text("Budget");
-    if (widget.tabController.index == EnvelyTabPosition.StatisticsTab.index)
-      return Text("Statistics");
+    if (widget.tabController.index == EnvelyTabPosition.SpendingsTab.index)
+      return Text("Spendings");
     if (widget.tabController.index == EnvelyTabPosition.AssistantTab.index)
       return Text("Assistant");
     if (widget.tabController.index == EnvelyTabPosition.AccountsTab.index)
