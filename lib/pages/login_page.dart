@@ -210,6 +210,7 @@ class _AuthFailure extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RichText(
             text: TextSpan(

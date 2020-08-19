@@ -41,8 +41,7 @@ class AuthenticationBloc
         yield AuthenticationNotAuthenticated();
       }
     } catch (e) {
-      yield AuthenticationFailure(
-          message: e.message ?? 'An unknown error occured');
+      yield AuthenticationFailure(message: e.toString());
     }
   }
 

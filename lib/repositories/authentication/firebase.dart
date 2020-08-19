@@ -18,10 +18,17 @@ class FirebaseAuthenticationRepository extends AuthenticationRepository {
   }
 
   Future<User> getCurrentUser() async {
-    if (_cachedUser == null) {
-      _firebaseUser = await _firebaseAuth.currentUser();
+    // Check for local user
+    if (_cachedUser != null) {
+      return _cachedUser;
+    }
+
+    // Check for firebase user
+    _firebaseUser = await _firebaseAuth.currentUser();
+    if (_firebaseUser != null) {
       _setFromFirebaseUser();
     }
+
     return _cachedUser;
   }
 
