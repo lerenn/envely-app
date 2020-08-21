@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/pages/pages.dart';
 import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/pages/common/common.dart';
 import 'package:Envely/repositories/repositories.dart';
 
 class LoginPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class LoginPage extends StatelessWidget {
             return Center(child: SingleChildScrollView(child: _AuthForm()));
           if (state is AuthenticationFailure)
             return _AuthFailure(message: state.message);
-          return _Loading();
+          return Loading(true);
         }),
       ),
       backgroundColor: Theme.of(context).primaryColor,
@@ -78,8 +79,8 @@ class _SignInFormState extends State<_SignInForm> {
     }, child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       if (state is LoginLoading) {
         return Center(
-          child:
-              Container(margin: new EdgeInsets.all(100.0), child: _Loading()),
+          child: Container(
+              margin: new EdgeInsets.all(100.0), child: Loading(true)),
         );
       }
 
@@ -224,17 +225,6 @@ class _AuthFailure extends StatelessWidget {
               BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
             })
       ],
-    ));
-  }
-}
-
-class _Loading extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: CircularProgressIndicator(
-      backgroundColor: Theme.of(context).secondaryHeaderColor,
-      strokeWidth: 2,
     ));
   }
 }

@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage>
           Icon(Icons.pie_chart),
           Icon(Icons.attach_money),
           Icon(Icons.pie_chart),
-          Icon(Icons.account_balance_wallet),
+          AccountsTab(),
           SettingsTab(user: widget.user),
         ],
       ),

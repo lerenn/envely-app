@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/repositories/repositories.dart';
+import 'package:Envely/pages/common/common.dart';
 import 'package:Envely/blocs/blocs.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -17,7 +18,7 @@ class SignUpPage extends StatelessWidget {
           if (state is AuthenticationNotAuthenticated) return SignUpContent();
           if (state is AuthenticationAuthenticated ||
               state is AuthenticationFailure) Navigator.pop(context);
-          return _Loading();
+          return Loading(true);
         }),
       ),
       backgroundColor: Theme.of(context).primaryColor,
@@ -122,8 +123,8 @@ class _SignUpFormState extends State<_SignUpForm> {
     }, child: BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       if (state is SignUpLoading) {
         return Center(
-          child:
-              Container(margin: new EdgeInsets.all(100.0), child: _Loading()),
+          child: Container(
+              margin: new EdgeInsets.all(100.0), child: Loading(true)),
         );
       }
 
@@ -264,17 +265,6 @@ class _SignUpFormState extends State<_SignUpForm> {
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text(error),
       backgroundColor: Theme.of(context).errorColor,
-    ));
-  }
-}
-
-class _Loading extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: CircularProgressIndicator(
-      backgroundColor: Theme.of(context).secondaryHeaderColor,
-      strokeWidth: 2,
     ));
   }
 }
