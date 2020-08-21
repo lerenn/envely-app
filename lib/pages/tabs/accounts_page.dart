@@ -23,24 +23,31 @@ class _AccountsTabState extends State<AccountsTab> {
           accountsRepository:
               RepositoryProvider.of<AccountsRepository>(context))
         ..add(AccountsLoad()),
-      child: page(context),
+      child: content(context),
     )));
   }
 
-  Widget page(BuildContext context) {
+  Widget content(BuildContext context) {
     return BlocBuilder<AccountsBloc, AccountsState>(builder: (context, state) {
       if (state is AccountsLoadSuccess)
         return Column(children: <Widget>[
-          listAccounts(context, state.accounts),
-          addAccount(context)
+          _AccountsList(state.accounts),
+          _AddAccountButton()
         ]);
       if (state is AccountsLoadFailure)
         return _AccountsLoadFailure(message: state.error);
       return Loading(false);
     });
   }
+}
 
-  Widget listAccounts(BuildContext context, List<Account> accounts) {
+class _AccountsList extends StatelessWidget {
+  final List<Account> accounts;
+
+  _AccountsList(this.accounts);
+
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
         child: ListView.builder(
             itemCount: accounts.length,
@@ -49,8 +56,11 @@ class _AccountsTabState extends State<AccountsTab> {
               return ListTile(title: Text(account.name));
             }));
   }
+}
 
-  Widget addAccount(BuildContext context) {
+class _AddAccountButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return FlatButton(
         onPressed: () {
           /*...*/
