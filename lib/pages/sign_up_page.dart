@@ -13,6 +13,7 @@ class SignUpPage extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
+        minimum: const EdgeInsets.all(16),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
           if (state is AuthenticationNotAuthenticated) return SignUpContent();
@@ -29,26 +30,25 @@ class SignUpPage extends StatelessWidget {
 class SignUpContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: SafeArea(
-            minimum: const EdgeInsets.all(16),
-            child: Center(
-                child: SingleChildScrollView(
-                    child: Container(
-                        constraints: BoxConstraints(maxWidth: 400),
-                        width: ScreenUtil().setWidth(1080),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            explainations(context),
-                            signUpWithLoginBloc(context),
-                            goBack(context),
-                          ],
-                        ))))));
+    return Center(
+        child: SingleChildScrollView(
+            child: Container(
+                constraints: BoxConstraints(maxWidth: 400),
+                width: ScreenUtil().setWidth(1080),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _Explainations(),
+                    _SignUpWithLoginBloc(),
+                    _GoBackButton(),
+                  ],
+                ))));
   }
+}
 
-  FlatButton goBack(BuildContext context) {
+class _GoBackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () {
         Navigator.pop(context);
@@ -59,8 +59,11 @@ class SignUpContent extends StatelessWidget {
       ),
     );
   }
+}
 
-  Container explainations(BuildContext context) {
+class _Explainations extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Container(
         child: Container(
             padding: new EdgeInsets.all(10.0),
@@ -91,8 +94,11 @@ class SignUpContent extends StatelessWidget {
                   )
                 ])));
   }
+}
 
-  BlocProvider signUpWithLoginBloc(BuildContext context) {
+class _SignUpWithLoginBloc extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider<SignUpBloc>(
       create: (context) => SignUpBloc(
           BlocProvider.of<AuthenticationBloc>(context),
@@ -116,17 +122,9 @@ class _SignUpFormState extends State<_SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignUpBloc, SignUpState>(listener: (context, state) {
-      if (state is SignUpFailure) {
-        _showError(state.error);
-      }
-    }, child: BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
-      if (state is SignUpLoading) {
-        return Center(
-          child: Container(
-              margin: new EdgeInsets.all(100.0), child: Loading(true)),
-        );
-      }
+    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
+      if (state is SignUpLoading) return _SignUpLoading();
+      if (state is SignUpFailure) return _SignUpError(state.error);
 
       return Form(
           key: _key,
@@ -151,7 +149,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                 ], crossAxisAlignment: CrossAxisAlignment.stretch)),
             conditions(context),
           ])));
-    }));
+    });
   }
 
   Container conditions(BuildContext context) {
@@ -260,11 +258,29 @@ class _SignUpFormState extends State<_SignUpForm> {
       onPressed: _onSignUpButtonPressed,
     );
   }
+}
 
-  void _showError(String error) {
+class _SignUpError extends StatelessWidget {
+  final String message;
+
+  _SignUpError(this.message);
+
+  @override
+  Widget build(BuildContext context) {
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(error),
+      content: Text(message),
       backgroundColor: Theme.of(context).errorColor,
     ));
+
+    return null;
+  }
+}
+
+class _SignUpLoading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(margin: new EdgeInsets.all(100.0), child: Loading(true)),
+    );
   }
 }
