@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/models/models.dart';
-import 'package:Envely/pages/tabs/tabs.dart';
+
+import 'accounts/page.dart';
+import 'settings/page.dart';
 
 const TabNb = 5;
 

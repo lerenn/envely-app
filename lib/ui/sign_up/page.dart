@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/repositories/repositories.dart';
-import 'package:Envely/pages/common/common.dart';
+import 'package:Envely/ui/common/common.dart';
 import 'package:Envely/blocs/blocs.dart';
 
 class SignUpPage extends StatelessWidget {

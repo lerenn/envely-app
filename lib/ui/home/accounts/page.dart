@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
-import 'package:Envely/pages/common/common.dart';
+import 'package:Envely/ui/common/common.dart';
 import 'package:Envely/repositories/repositories.dart';
 
 class AccountsTab extends StatefulWidget {

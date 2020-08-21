@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/repositories/repositories.dart';
-import 'package:Envely/pages/pages.dart';
+import 'package:Envely/ui/pages.dart';
 
 void main() => runApp(Envely());
 
