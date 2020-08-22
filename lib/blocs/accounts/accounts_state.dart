@@ -8,6 +8,8 @@ abstract class AccountsState extends Equatable {
   List<Object> get props => [];
 }
 
+class AccountsInit extends AccountsState {}
+
 class AccountsLoading extends AccountsState {}
 
 class AccountsLoadSuccess extends AccountsState {
@@ -26,6 +28,17 @@ class AccountsLoadFailure extends AccountsState {
   final String error;
 
   AccountsLoadFailure({@required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+
+class AccountCreatedSuccess extends AccountsState {}
+
+class AccountCreatedFailure extends AccountsState {
+  final String error;
+
+  AccountCreatedFailure({@required this.error});
 
   @override
   List<Object> get props => [error];

@@ -74,7 +74,10 @@ class _SignInFormState extends State<_SignInForm> {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(listener: (context, state) {
       if (state is LoginFailure) {
-        _showError(state.error);
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(state.error),
+          backgroundColor: Theme.of(context).errorColor,
+        ));
       }
     }, child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       if (state is LoginLoading) {
@@ -124,7 +127,7 @@ class _SignInFormState extends State<_SignInForm> {
       keyboardType: TextInputType.emailAddress,
       autocorrect: false,
       validator: (value) {
-        if (value == null) {
+        if (value == null || value == "") {
           return 'Email is required.';
         }
         return null;
@@ -146,7 +149,7 @@ class _SignInFormState extends State<_SignInForm> {
         color: Theme.of(context).secondaryHeaderColor,
       ),
       validator: (value) {
-        if (value == null) {
+        if (value == null || value == "") {
           return 'Password is required.';
         }
         return null;
@@ -192,13 +195,6 @@ class _SignInFormState extends State<_SignInForm> {
       child: Text('SIGN UP'),
       onPressed: _onSignUpButtonPressed,
     );
-  }
-
-  void _showError(String error) {
-    Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(error),
-      backgroundColor: Theme.of(context).errorColor,
-    ));
   }
 }
 

@@ -183,7 +183,7 @@ class _SignUpFormState extends State<_SignUpForm> {
       ),
       keyboardType: TextInputType.text,
       validator: (value) {
-        if (value == null) {
+        if (value == null || value == "") {
           return 'Name is required.';
         }
         return null;
@@ -205,7 +205,7 @@ class _SignUpFormState extends State<_SignUpForm> {
       ),
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value == null) {
+        if (value == null || value == "") {
           return 'Email is required.';
         }
         return null;
@@ -227,7 +227,7 @@ class _SignUpFormState extends State<_SignUpForm> {
         color: Theme.of(context).primaryColor,
       ),
       validator: (value) {
-        if (value == null) {
+        if (value == null || value == "") {
           return 'Password is required.';
         }
         return null;

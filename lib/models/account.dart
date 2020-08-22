@@ -10,6 +10,39 @@ enum AccountType {
   Unknown
 }
 
+extension AccoreuntTypeExtension on AccountType {
+  String name() {
+    switch (this) {
+      case AccountType.Checking:
+        return 'Checking';
+      case AccountType.Cash:
+        return 'Cash';
+      case AccountType.CreditCard:
+        return 'Credit Card';
+      case AccountType.Asset:
+        return 'Asset (Ex: investment)';
+      case AccountType.Liability:
+        return 'Liability (Ex: mortgage)';
+      default:
+        return this.toString().split('.')[1];
+    }
+  }
+
+  String mode() {
+    switch (this) {
+      case AccountType.Checking: /* Fallthrough */
+      case AccountType.Cash: /* Fallthrough */
+      case AccountType.CreditCard:
+        return 'Budget';
+      case AccountType.Asset: /* Fallthrough */
+      case AccountType.Liability:
+        return 'Tracking';
+      default:
+        return 'Unknown';
+    }
+  }
+}
+
 class Account {
   final String id;
   final String name;

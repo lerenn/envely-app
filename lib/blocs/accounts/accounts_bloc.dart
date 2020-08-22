@@ -15,7 +15,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc({@required AccountsRepository accountsRepository})
       : assert(accountsRepository != null),
         _accountsRepository = accountsRepository,
-        super(AccountsLoading());
+        super(AccountsInit());
 
   @override
   Stream<AccountsState> mapEventToState(AccountsEvent event) async* {
@@ -33,14 +33,19 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountsLoadToState() async* {
+    yield AccountsLoading();
     _accountsSubscription?.cancel();
-    _accountsSubscription = _accountsRepository.getAccounts().listen(
-      (accounts) {
-        add(
-          AccountsUpdated(accounts),
-        );
-      },
-    );
+    try {
+      _accountsSubscription = _accountsRepository.getAccounts().listen(
+        (accounts) {
+          add(
+            AccountsUpdated(accounts),
+          );
+        },
+      );
+    } catch (error) {
+      yield AccountsLoadFailure(error: error.toString());
+    }
   }
 
   Stream<AccountsState> _mapAccountUpdatedToState(AccountUpdated event) async* {
@@ -48,7 +53,13 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountCreatedToState(AccountCreated event) async* {
-    _accountsRepository.createAccount(event.account);
+    yield AccountsLoading();
+    try {
+      _accountsRepository.createAccount(event.account);
+      yield AccountCreatedSuccess();
+    } catch (error) {
+      yield AccountCreatedFailure(error: error.toString());
+    }
   }
 
   Stream<AccountsState> _mapAccountDeletedToState(AccountDeleted event) async* {

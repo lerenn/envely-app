@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/models/models.dart';
 
-import 'accounts/tab.dart';
-import 'settings/tab.dart';
+import 'accounts/tab/tab.dart';
+import 'settings/tab/tab.dart';
 
 const TabNb = 5;
 

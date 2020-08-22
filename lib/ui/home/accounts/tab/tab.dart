@@ -7,6 +7,8 @@ import 'package:Envely/models/models.dart';
 import 'package:Envely/ui/common/common.dart';
 import 'package:Envely/repositories/repositories.dart';
 
+import '../add/page.dart';
+
 class AccountsTab extends StatefulWidget {
   @override
   _AccountsTabState createState() => _AccountsTabState();
@@ -53,7 +55,21 @@ class _AccountsList extends StatelessWidget {
             itemCount: accounts.length,
             itemBuilder: (BuildContext context, int index) {
               final account = accounts[index];
-              return ListTile(title: Text(account.name));
+              return ListTile(
+                  title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                    RichText(
+                        text: TextSpan(
+                      text: account.name,
+                      style: TextStyle(color: Colors.black),
+                    )),
+                    RichText(
+                        text: TextSpan(
+                      text: account.type.name(),
+                      style: TextStyle(color: Colors.grey),
+                    )),
+                  ]));
             }));
   }
 }
@@ -63,7 +79,10 @@ class _AddAccountButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
         onPressed: () {
-          /*...*/
+          return Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return AddAccountPage();
+          }));
         },
         textColor: Theme.of(context).primaryColor,
         child: Row(
