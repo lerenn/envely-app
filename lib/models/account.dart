@@ -10,7 +10,7 @@ enum AccountType {
   Unknown
 }
 
-extension AccoreuntTypeExtension on AccountType {
+extension AccountTypeExtension on AccountType {
   String name() {
     switch (this) {
       case AccountType.Checking:
@@ -41,6 +41,10 @@ extension AccoreuntTypeExtension on AccountType {
         return 'Unknown';
     }
   }
+
+  String short() {
+    return this.toString().split('.')[1];
+  }
 }
 
 class Account {
@@ -54,13 +58,13 @@ class Account {
   String toString() => 'Account { id: $id, name: $name, type: $type}';
 
   AccountEntity toEntity() {
-    return AccountEntity(id, name, type.toString());
+    return AccountEntity(id, name, type.short());
   }
 
   static Account fromEntity(AccountEntity entity) {
     var type = AccountType.Unknown;
     AccountType.values.forEach((t) {
-      if (t.toString() == entity.type) type = t;
+      if (t.short() == entity.type) type = t;
     });
 
     return Account(
