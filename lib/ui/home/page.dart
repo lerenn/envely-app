@@ -6,8 +6,7 @@ import 'package:Envely/models/models.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/repositories/repositories.dart';
 
-import 'accounts/tab.dart';
-import 'settings/tab.dart';
+import 'tabs/tabs.dart';
 
 const TabNb = 5;
 
@@ -78,13 +77,7 @@ class _HomePageState extends State<HomePage>
               tabs: _buildTabs(context))),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          Icon(Icons.pie_chart),
-          Icon(Icons.attach_money),
-          Icon(Icons.pie_chart),
-          AccountsTab(),
-          SettingsTab(user: widget.user),
-        ],
+        children: _buildTabsContent(context),
       ),
     );
   }
@@ -118,6 +111,20 @@ class _HomePageState extends State<HomePage>
         text: "Settings",
         iconData: Icons.account_circle,
         tabController: _tabController);
+
+    for (int i = 0; i < TabNb; i++) list.add(map[i]);
+    return list;
+  }
+
+  List<Widget> _buildTabsContent(BuildContext context) {
+    Map<int, Widget> map = {};
+    List<Widget> list = [];
+
+    map[EnvelyTabPosition.PreviewTab.index] = PreviewTab();
+    map[EnvelyTabPosition.BudgetTab.index] = BudgetTab();
+    map[EnvelyTabPosition.SpendingsTab.index] = SpendingsTab();
+    map[EnvelyTabPosition.AccountsTab.index] = AccountsTab();
+    map[EnvelyTabPosition.SettingsTab.index] = SettingsTab(user: widget.user);
 
     for (int i = 0; i < TabNb; i++) list.add(map[i]);
     return list;
