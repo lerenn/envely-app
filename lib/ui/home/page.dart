@@ -6,7 +6,11 @@ import 'package:Envely/models/models.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/repositories/repositories.dart';
 
-import 'tabs/tabs.dart';
+import 'accounts/accounts.dart';
+import 'budget/budget.dart';
+import 'preview/preview.dart';
+import 'settings/settings.dart';
+import 'spendings/spendings.dart';
 
 const TabNb = 5;
 
@@ -62,10 +66,9 @@ class _HomePageState extends State<HomePage>
 
   Widget content(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: EnvelyTitle(
+      appBar: EnvelyAppBarBuilder(
         tabController: _tabController,
-      )),
+      ).appBar(context),
       bottomNavigationBar: BottomAppBar(
           color: Theme.of(context).primaryColor,
           shape: const CircularNotchedRectangle(),
@@ -131,29 +134,24 @@ class _HomePageState extends State<HomePage>
   }
 }
 
-class EnvelyTitle extends StatefulWidget {
+class EnvelyAppBarBuilder {
   final TabController tabController;
 
-  const EnvelyTitle({this.tabController});
+  const EnvelyAppBarBuilder({this.tabController});
 
-  @override
-  _EnvelyTitleState createState() => _EnvelyTitleState();
-}
+  AppBar appBar(BuildContext context) {
+    if (tabController.index == EnvelyTabPosition.BudgetTab.index)
+      return BudgetAppBarBuilder().build(context);
+    if (tabController.index == EnvelyTabPosition.SpendingsTab.index)
+      return SpendingsAppBarBuilder().build(context);
+    if (tabController.index == EnvelyTabPosition.PreviewTab.index)
+      return PreviewAppBarBuilder().build(context);
+    if (tabController.index == EnvelyTabPosition.AccountsTab.index)
+      return AccountsAppBarBuilder().build(context);
+    if (tabController.index == EnvelyTabPosition.SettingsTab.index)
+      return SettingsAppBarBuilder().build(context);
 
-class _EnvelyTitleState extends State<EnvelyTitle> {
-  @override
-  Widget build(BuildContext context) {
-    if (widget.tabController.index == EnvelyTabPosition.BudgetTab.index)
-      return Text("Budget");
-    if (widget.tabController.index == EnvelyTabPosition.SpendingsTab.index)
-      return Text("Spendings");
-    if (widget.tabController.index == EnvelyTabPosition.PreviewTab.index)
-      return Text("Preview");
-    if (widget.tabController.index == EnvelyTabPosition.AccountsTab.index)
-      return Text("Accounts");
-    if (widget.tabController.index == EnvelyTabPosition.SettingsTab.index)
-      return Text("Settings");
-    return Text("unkown");
+    return AppBar(title: Text("Unknown"));
   }
 }
 
