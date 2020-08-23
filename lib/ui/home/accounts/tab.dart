@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 import 'package:Envely/ui/common/common.dart';
-import 'package:Envely/repositories/repositories.dart';
 
 import 'add/page.dart';
 import 'edit/page.dart';
@@ -21,13 +20,8 @@ class _AccountsTabState extends State<AccountsTab> {
     ScreenUtil.init(context);
     return Scaffold(
         body: SafeArea(
-            child: BlocProvider<AccountsBloc>(
-      create: (context) => AccountsBloc(
-          accountsRepository:
-              RepositoryProvider.of<AccountsRepository>(context))
-        ..add(AccountsLoad()),
       child: content(context),
-    )));
+    ));
   }
 
   Widget content(BuildContext context) {
@@ -65,11 +59,16 @@ class _AccountsList extends StatelessWidget {
                         text: account.name,
                         style: TextStyle(color: Colors.black),
                       )),
-                      RichText(
-                          text: TextSpan(
-                        text: account.type.name(),
-                        style: TextStyle(color: Colors.grey),
-                      )),
+                      Row(children: [
+                        RichText(
+                            text: TextSpan(
+                          text: account.type.name(),
+                          style: TextStyle(color: Colors.grey),
+                        )),
+                        Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Icon(Icons.arrow_right)),
+                      ]),
                     ]),
                 onTap: () {
                   Navigator.push(

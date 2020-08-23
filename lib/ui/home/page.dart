@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/models/models.dart';
+import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/repositories/repositories.dart';
 
 import 'accounts/tab.dart';
 import 'settings/tab.dart';
@@ -48,6 +51,17 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
+    return MultiBlocProvider(providers: [
+      BlocProvider<AccountsBloc>(
+        create: (context) => AccountsBloc(
+            accountsRepository:
+                RepositoryProvider.of<AccountsRepository>(context))
+          ..add(AccountsLoad()),
+      )
+    ], child: content(context));
+  }
+
+  Widget content(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           title: EnvelyTitle(
