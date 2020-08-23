@@ -1,2 +1,2 @@
-export 'account_name_field.dart';
-export 'account_type_field.dart';
+export 'name_field.dart';
+export 'type_field.dart';

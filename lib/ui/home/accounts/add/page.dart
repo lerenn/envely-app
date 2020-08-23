@@ -95,7 +95,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
     }
 
     return RaisedButton(
-      color: Theme.of(context).secondaryHeaderColor,
+      color: Theme.of(context).hintColor,
       textColor: Theme.of(context).primaryColor,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
