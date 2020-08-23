@@ -19,7 +19,9 @@ class EditAccountPage extends StatelessWidget {
     ScreenUtil.init(context);
     return Scaffold(
         appBar: AppBar(title: Text("Edit account")),
-        body: editWithAccountsBloc(context));
+        body: SafeArea(
+            child:
+                SingleChildScrollView(child: editWithAccountsBloc(context))));
   }
 
   BlocProvider editWithAccountsBloc(BuildContext context) {

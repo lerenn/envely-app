@@ -15,7 +15,8 @@ class AddAccountPage extends StatelessWidget {
     ScreenUtil.init(context);
     return Scaffold(
         appBar: AppBar(title: Text("Add Account")),
-        body: addWithAccountsBloc(context));
+        body: SafeArea(
+            child: SingleChildScrollView(child: addWithAccountsBloc(context))));
   }
 
   BlocProvider addWithAccountsBloc(BuildContext context) {
