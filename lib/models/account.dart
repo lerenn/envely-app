@@ -45,8 +45,8 @@ extension AccoreuntTypeExtension on AccountType {
 
 class Account {
   final String id;
-  final String name;
-  final AccountType type;
+  String name;
+  AccountType type;
 
   Account({@required this.id, @required this.name, @required this.type});
 

@@ -8,6 +8,15 @@ abstract class AccountsState extends Equatable {
   List<Object> get props => [];
 }
 
+abstract class AccountsStateFailure extends AccountsState {
+  final String error;
+
+  AccountsStateFailure(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
 class AccountsInit extends AccountsState {}
 
 class AccountsLoading extends AccountsState {}
@@ -19,27 +28,26 @@ class AccountsLoadSuccess extends AccountsState {
 
   @override
   List<Object> get props => [accounts];
-
-  @override
-  String toString() => 'AccountsLoadSuccess { accounts: $accounts }';
 }
 
-class AccountsLoadFailure extends AccountsState {
-  final String error;
-
-  AccountsLoadFailure({@required this.error});
-
-  @override
-  List<Object> get props => [error];
+class AccountsLoadFailure extends AccountsStateFailure {
+  AccountsLoadFailure({@required String error}) : super(error);
 }
 
 class AccountCreatedSuccess extends AccountsState {}
 
-class AccountCreatedFailure extends AccountsState {
-  final String error;
+class AccountCreatedFailure extends AccountsStateFailure {
+  AccountCreatedFailure({@required String error}) : super(error);
+}
 
-  AccountCreatedFailure({@required this.error});
+class AccountUpdatedSuccess extends AccountsState {}
 
-  @override
-  List<Object> get props => [error];
+class AccountUpdatedFailure extends AccountsStateFailure {
+  AccountUpdatedFailure({@required String error}) : super(error);
+}
+
+class AccountDeletedSuccess extends AccountsState {}
+
+class AccountDeletedFailure extends AccountsStateFailure {
+  AccountDeletedFailure({@required String error}) : super(error);
 }

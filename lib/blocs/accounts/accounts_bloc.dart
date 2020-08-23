@@ -49,7 +49,13 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountUpdatedToState(AccountUpdated event) async* {
-    _accountsRepository.updateAccount(event.account);
+    yield AccountsLoading();
+    try {
+      _accountsRepository.updateAccount(event.account);
+      yield AccountUpdatedSuccess();
+    } catch (error) {
+      yield AccountUpdatedFailure(error: error.toString());
+    }
   }
 
   Stream<AccountsState> _mapAccountCreatedToState(AccountCreated event) async* {
@@ -63,7 +69,13 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountDeletedToState(AccountDeleted event) async* {
-    _accountsRepository.deleteAccount(event.account);
+    yield AccountsLoading();
+    try {
+      _accountsRepository.deleteAccount(event.account);
+      yield AccountDeletedSuccess();
+    } catch (error) {
+      yield AccountDeletedFailure(error: error.toString());
+    }
   }
 
   Stream<AccountsState> _mapAccountsUpdatedToState(

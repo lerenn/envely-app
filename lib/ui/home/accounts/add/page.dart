@@ -7,6 +7,8 @@ import 'package:Envely/blocs/accounts/accounts.dart';
 import 'package:Envely/ui/common/common.dart';
 import 'package:Envely/models/models.dart';
 
+import '../common/common.dart';
+
 class AddAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,6 @@ class AddAccountPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text("Add Account")),
         body: addWithAccountsBloc(context));
-    // body: _AddAccountForm());
   }
 
   BlocProvider addWithAccountsBloc(BuildContext context) {
@@ -35,7 +36,7 @@ class _AddAccountForm extends StatefulWidget {
 class _AddAccountFormState extends State<_AddAccountForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  AccountType type = AccountType.CreditCard;
+  final _typeController = AccountTypeFieldController();
   bool _autoValidate = false;
 
   @override
@@ -68,8 +69,8 @@ class _AddAccountFormState extends State<_AddAccountForm> {
               autovalidate: _autoValidate,
               child: Column(
                 children: <Widget>[
-                  nameField(context),
-                  typeField(context),
+                  AccountNameField(controller: _nameController),
+                  AccountTypeField(controller: _typeController),
                   addButton(state)
                 ],
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,74 +78,13 @@ class _AddAccountFormState extends State<_AddAccountForm> {
     }));
   }
 
-  TextFormField nameField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'Account name',
-        labelStyle: TextStyle(color: Theme.of(context).primaryColor),
-        filled: true,
-        isDense: true,
-      ),
-      style: TextStyle(
-        color: Theme.of(context).primaryColor,
-      ),
-      controller: _nameController,
-      keyboardType: TextInputType.emailAddress,
-      autocorrect: false,
-      validator: (value) {
-        if (value == null || value == "") {
-          return 'Name is required.';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget typeField(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(10),
-        child: DropdownButton<AccountType>(
-          value: type,
-          isExpanded: true,
-          items: AccountType.values
-              .where((value) => value != AccountType.Unknown)
-              .map((AccountType value) {
-            return DropdownMenuItem<AccountType>(
-              value: value,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                          text: value.name(),
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor)),
-                    ),
-                    RichText(
-                        text: TextSpan(
-                      text: value.mode(),
-                      style: TextStyle(color: Colors.grey),
-                    )),
-                  ]),
-            );
-          }).toList(),
-          onChanged: (AccountType newValue) {
-            setState(() {
-              type = newValue;
-            });
-          },
-          underline: Container(
-            height: 0,
-            color: Theme.of(context).primaryColor,
-          ),
-        ));
-  }
-
   Widget addButton(AccountsState state) {
-    _onSignInButtonPressed() {
+    _onAddAccountButtonPressed() {
       if (_key.currentState.validate()) {
-        final account =
-            Account(id: "unknown", name: _nameController.text, type: type);
+        final account = Account(
+            id: "unknown",
+            name: _nameController.text,
+            type: _typeController.type);
         BlocProvider.of<AccountsBloc>(context).add(AccountCreated(account));
       } else {
         setState(() {
@@ -159,7 +99,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Add account'),
-      onPressed: state is AccountsLoading ? () {} : _onSignInButtonPressed,
+      onPressed: state is AccountsLoading ? () {} : _onAddAccountButtonPressed,
     );
   }
 }

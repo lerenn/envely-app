@@ -7,7 +7,8 @@ import 'package:Envely/models/models.dart';
 import 'package:Envely/ui/common/common.dart';
 import 'package:Envely/repositories/repositories.dart';
 
-import '../add/page.dart';
+import 'add/page.dart';
+import 'edit/page.dart';
 
 class AccountsTab extends StatefulWidget {
   @override
@@ -56,20 +57,29 @@ class _AccountsList extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final account = accounts[index];
               return ListTile(
-                  title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                    RichText(
-                        text: TextSpan(
-                      text: account.name,
-                      style: TextStyle(color: Colors.black),
-                    )),
-                    RichText(
-                        text: TextSpan(
-                      text: account.type.name(),
-                      style: TextStyle(color: Colors.grey),
-                    )),
-                  ]));
+                title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      RichText(
+                          text: TextSpan(
+                        text: account.name,
+                        style: TextStyle(color: Colors.black),
+                      )),
+                      RichText(
+                          text: TextSpan(
+                        text: account.type.name(),
+                        style: TextStyle(color: Colors.grey),
+                      )),
+                    ]),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditAccountPage(account),
+                    ),
+                  );
+                },
+              );
             }));
   }
 }
