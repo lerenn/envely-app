@@ -16,11 +16,12 @@ class _BudgetDropdownMenuState extends State<BudgetDropdownMenu> {
       dropdownColor: Theme.of(context).primaryColor,
       value: widget.controller.budgetName,
       icon: Icon(Icons.layers),
-      iconEnabledColor: Theme.of(context).hintColor,
+      iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
       items: ['Personal', 'Business', 'Couple'].map((String value) {
         return DropdownMenuItem<String>(value: value, child: Text(value + " "));
       }).toList(),
-      style: TextStyle(fontSize: 20, color: Theme.of(context).hintColor),
+      style: TextStyle(
+          fontSize: 20, color: Theme.of(context).colorScheme.onSecondary),
       onChanged: (String newValue) {
         setState(() {
           widget.controller.budgetName = newValue;

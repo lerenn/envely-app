@@ -49,7 +49,6 @@ class _AccountTypeFieldState extends State<AccountTypeField> {
           },
           underline: Container(
             height: 0,
-            color: Theme.of(context).primaryColor,
           ),
         ));
   }

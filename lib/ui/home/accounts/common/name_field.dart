@@ -11,12 +11,8 @@ class AccountNameField extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: 'Account name',
-        labelStyle: TextStyle(color: Theme.of(context).primaryColor),
         filled: true,
         isDense: true,
-      ),
-      style: TextStyle(
-        color: Theme.of(context).primaryColor,
       ),
       controller: controller,
       keyboardType: TextInputType.name,

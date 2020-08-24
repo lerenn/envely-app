@@ -39,7 +39,6 @@ class Envely extends StatelessWidget {
       title: 'Envely',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        hintColor: Colors.white,
       ),
       home: landingPage(context),
     );

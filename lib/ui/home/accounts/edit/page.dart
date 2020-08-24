@@ -120,8 +120,8 @@ class _EditAccountFormState extends State<_EditAccountForm> {
     }
 
     return RaisedButton(
-      color: Theme.of(context).secondaryHeaderColor,
-      textColor: Theme.of(context).primaryColor,
+      color: Theme.of(context).primaryColor,
+      textColor: Theme.of(context).colorScheme.onPrimary,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Update account'),
@@ -143,7 +143,7 @@ class _EditAccountFormState extends State<_EditAccountForm> {
 
     return RaisedButton(
       color: Theme.of(context).errorColor,
-      textColor: Theme.of(context).secondaryHeaderColor,
+      textColor: Theme.of(context).colorScheme.onPrimary,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Delete account'),

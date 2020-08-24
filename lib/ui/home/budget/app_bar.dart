@@ -17,13 +17,16 @@ class BudgetAppBarBuilder {
           toolbarHeight: 40,
           centerTitle: true,
           textTheme: TextTheme(
-              headline6: TextStyle(color: Theme.of(context).primaryColor)),
-          backgroundColor: Theme.of(context).secondaryHeaderColor,
+              headline6:
+                  TextStyle(color: Theme.of(context).colorScheme.onBackground)),
+          backgroundColor: Theme.of(context).backgroundColor,
           title:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Icon(Icons.arrow_back, color: Theme.of(context).primaryColor),
+            Icon(Icons.arrow_back,
+                color: Theme.of(context).colorScheme.onBackground),
             Text("Period"),
-            Icon(Icons.arrow_forward, color: Theme.of(context).primaryColor)
+            Icon(Icons.arrow_forward,
+                color: Theme.of(context).colorScheme.onBackground)
           ])),
     );
   }

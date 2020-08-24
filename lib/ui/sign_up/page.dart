@@ -53,7 +53,7 @@ class _GoBackButton extends StatelessWidget {
       onPressed: () {
         Navigator.pop(context);
       },
-      textColor: Theme.of(context).secondaryHeaderColor,
+      textColor: Theme.of(context).colorScheme.onPrimary,
       child: Text(
         "Go Back",
       ),
@@ -77,7 +77,7 @@ class _Explainations extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 40,
-                          color: Theme.of(context).hintColor),
+                          color: Theme.of(context).colorScheme.onPrimary),
                     ),
                   ),
                   RichText(
@@ -86,7 +86,7 @@ class _Explainations extends StatelessWidget {
                       text:
                           'Start your journey today and make your dreams a priority.',
                       style: TextStyle(
-                        color: Theme.of(context).hintColor,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         fontStyle: FontStyle.italic,
                         fontSize: 20,
                       ),
@@ -133,7 +133,7 @@ class _SignUpFormState extends State<_SignUpForm> {
               child: Column(children: <Widget>[
             Container(
                 decoration: new BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onPrimary,
                     borderRadius: new BorderRadius.circular(8.0)),
                 margin:
                     new EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
@@ -157,7 +157,7 @@ class _SignUpFormState extends State<_SignUpForm> {
         child: RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-          style: TextStyle(color: Theme.of(context).hintColor),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           text:
               'By clicking “Sign up”, you agree to our Terms of Repository and Privacy Statement. We’ll occasionally send you account related emails.'),
     ));
@@ -177,6 +177,9 @@ class _SignUpFormState extends State<_SignUpForm> {
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
         filled: true,
         isDense: true,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
       ),
       style: TextStyle(
         color: Theme.of(context).primaryColor,
@@ -199,6 +202,9 @@ class _SignUpFormState extends State<_SignUpForm> {
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
         filled: true,
         isDense: true,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
       ),
       style: TextStyle(
         color: Theme.of(context).primaryColor,
@@ -221,6 +227,9 @@ class _SignUpFormState extends State<_SignUpForm> {
         labelStyle: TextStyle(color: Theme.of(context).primaryColor),
         filled: true,
         isDense: true,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
       ),
       obscureText: true,
       style: TextStyle(
@@ -251,7 +260,7 @@ class _SignUpFormState extends State<_SignUpForm> {
 
     return FlatButton(
       color: Theme.of(context).primaryColor,
-      textColor: Theme.of(context).secondaryHeaderColor,
+      textColor: Theme.of(context).colorScheme.onPrimary,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('SIGN UP'),

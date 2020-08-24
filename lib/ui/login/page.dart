@@ -116,12 +116,16 @@ class _SignInFormState extends State<_SignInForm> {
     return TextFormField(
       decoration: InputDecoration(
         labelText: 'Email address',
-        labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         filled: true,
         isDense: true,
+        enabledBorder: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.onPrimary),
+        ),
       ),
       style: TextStyle(
-        color: Theme.of(context).secondaryHeaderColor,
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
@@ -139,14 +143,18 @@ class _SignInFormState extends State<_SignInForm> {
     return TextFormField(
       decoration: InputDecoration(
         labelText: 'Password',
-        labelStyle: TextStyle(color: Theme.of(context).secondaryHeaderColor),
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
         filled: true,
         isDense: true,
+        enabledBorder: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: Theme.of(context).colorScheme.onPrimary),
+        ),
       ),
       obscureText: true,
       controller: _passwordController,
       style: TextStyle(
-        color: Theme.of(context).secondaryHeaderColor,
+        color: Theme.of(context).colorScheme.onPrimary,
       ),
       validator: (value) {
         if (value == null || value == "") {
@@ -170,7 +178,7 @@ class _SignInFormState extends State<_SignInForm> {
     }
 
     return RaisedButton(
-      color: Theme.of(context).secondaryHeaderColor,
+      color: Theme.of(context).colorScheme.onPrimary,
       textColor: Theme.of(context).primaryColor,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
@@ -189,7 +197,7 @@ class _SignInFormState extends State<_SignInForm> {
 
     return FlatButton(
       color: Theme.of(context).primaryColor,
-      textColor: Theme.of(context).secondaryHeaderColor,
+      textColor: Theme.of(context).colorScheme.onPrimary,
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('SIGN UP'),
@@ -212,7 +220,8 @@ class _AuthFailure extends StatelessWidget {
         RichText(
             text: TextSpan(
                 text: message,
-                style: TextStyle(color: Theme.of(context).hintColor))),
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onPrimary))),
         FlatButton(
             color: Colors.white,
             textColor: Theme.of(context).primaryColor,

@@ -120,10 +120,10 @@ class _AccountsLoadFailure extends StatelessWidget {
         RichText(
             text: TextSpan(
                 text: message,
-                style: TextStyle(color: Theme.of(context).hintColor))),
+                style: TextStyle(color: Theme.of(context).primaryColor))),
         FlatButton(
             color: Colors.white,
-            textColor: Theme.of(context).secondaryHeaderColor,
+            textColor: Theme.of(context).colorScheme.onPrimary,
             child: Text('Retry'),
             onPressed: () {
               BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());

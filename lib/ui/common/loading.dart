@@ -8,8 +8,8 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var color = reversedColor
-        ? Theme.of(context).primaryColor
-        : Theme.of(context).secondaryHeaderColor;
+        ? Theme.of(context).backgroundColor
+        : Theme.of(context).colorScheme.onBackground;
 
     return Center(
         child: CircularProgressIndicator(

@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage>
               labelStyle: TextStyle(fontSize: 12.0),
               labelPadding: EdgeInsets.symmetric(horizontal: 0.0),
               controller: _tabController,
-              indicatorColor: Theme.of(context).secondaryHeaderColor,
+              indicatorColor: Theme.of(context).colorScheme.onPrimary,
               tabs: _buildTabs(context))),
       body: TabBarView(
         controller: _tabController,
