@@ -15,11 +15,14 @@ class Envely extends StatelessWidget {
 
   Widget repositoriesProvider(Widget child) {
     return MultiRepositoryProvider(providers: [
+      RepositoryProvider<AccountsRepository>(
+        create: (context) => FirebaseAccountsRepository(),
+      ),
       RepositoryProvider<AuthenticationRepository>(
         create: (context) => FirebaseAuthenticationRepository(),
       ),
-      RepositoryProvider<AccountsRepository>(
-        create: (context) => FirebaseAccountsRepository(),
+      RepositoryProvider<BudgetsRepository>(
+        create: (context) => FirebaseBudgetsRepository(),
       ),
     ], child: child);
   }

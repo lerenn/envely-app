@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
+class User extends Equatable {
   final String id;
   final String name;
   final String email;
@@ -9,4 +10,7 @@ class User {
 
   @override
   String toString() => 'User { name: $name, email: $email}';
+
+  @override
+  List<Object> get props => [id, name, email];
 }

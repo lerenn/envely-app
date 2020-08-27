@@ -1,4 +1,5 @@
 import 'package:Envely/entities/entities.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 enum Currency { EUR, GBP, USD, Custom }
@@ -35,10 +36,10 @@ extension CurrencyExtension on Currency {
   }
 }
 
-class Budget {
+class Budget extends Equatable {
   final String id;
-  String name;
-  Currency currency;
+  final String name;
+  final Currency currency;
 
   Budget({@required this.id, @required this.name, @required this.currency});
 
@@ -61,4 +62,7 @@ class Budget {
       currency: currency,
     );
   }
+
+  @override
+  List<Object> get props => [id, name, currency];
 }

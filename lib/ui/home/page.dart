@@ -63,6 +63,12 @@ class _HomePageState extends State<HomePage>
             accountsRepository:
                 RepositoryProvider.of<AccountsRepository>(context))
           ..add(AccountsLoad()),
+      ),
+      BlocProvider<BudgetsBloc>(
+        create: (context) => BudgetsBloc(
+            budgetsRepository:
+                RepositoryProvider.of<BudgetsRepository>(context))
+          ..add(BudgetsLoad()),
       )
     ], child: content(context));
   }

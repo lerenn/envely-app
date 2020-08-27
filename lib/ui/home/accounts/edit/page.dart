@@ -108,10 +108,12 @@ class _EditAccountFormState extends State<_EditAccountForm> {
   Widget editButton(AccountsState state) {
     _onEditAccountButtonPressed() {
       if (_key.currentState.validate()) {
-        widget.account.name = _nameController.text;
-        widget.account.type = _typeController.type;
+        var newModifiedAccount = Account(
+            id: widget.account.id,
+            name: _nameController.text,
+            type: _typeController.type);
         BlocProvider.of<AccountsBloc>(context)
-            .add(AccountUpdated(widget.account));
+            .add(AccountUpdated(newModifiedAccount));
       } else {
         setState(() {
           _autoValidate = true;

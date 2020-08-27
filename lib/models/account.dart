@@ -1,4 +1,5 @@
 import 'package:Envely/entities/entities.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 enum AccountType {
@@ -47,10 +48,10 @@ extension AccountTypeExtension on AccountType {
   }
 }
 
-class Account {
+class Account extends Equatable {
   final String id;
-  String name;
-  AccountType type;
+  final String name;
+  final AccountType type;
 
   Account({@required this.id, @required this.name, @required this.type});
 
@@ -73,4 +74,7 @@ class Account {
       type: type,
     );
   }
+
+  @override
+  List<Object> get props => [id, name, type];
 }

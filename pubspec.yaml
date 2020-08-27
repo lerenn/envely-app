@@ -45,6 +45,9 @@ dev_dependencies:
   flutter_launcher_icons: ^0.7.5
   rename: ^1.2.0
 
+  # UI Content 
+  progress_indicators: ^0.1.5
+
   # Firebase
   firebase_core: ^0.4.0+9
   firebase_core_web: ^0.1.1+2
