@@ -11,7 +11,11 @@ class BudgetAppBarBuilder {
     return AppBar(
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text("Budget"),
-        BudgetDropdownMenu(controller: budgetSelectionController)
+        Row(children: [
+          BudgetDropdownMenu(controller: budgetSelectionController),
+          Container(margin: EdgeInsets.only(left: 10)),
+          _SettingsButton(),
+        ]),
       ]),
       bottom: AppBar(
           toolbarHeight: 40,
@@ -26,5 +30,12 @@ class BudgetAppBarBuilder {
             Icon(Icons.arrow_forward, color: Theme.of(context).primaryColor)
           ])),
     );
+  }
+}
+
+class _SettingsButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext) {
+    return Icon(Icons.settings);
   }
 }

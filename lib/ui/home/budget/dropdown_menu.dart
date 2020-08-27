@@ -2,6 +2,7 @@ import 'package:Envely/blocs/budgets/budgets_bloc.dart';
 import 'package:Envely/blocs/budgets/budgets_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:progress_indicators/progress_indicators.dart';
 
@@ -14,6 +15,7 @@ class BudgetDropdownMenu extends StatelessWidget {
   BudgetDropdownMenu({@required this.controller});
 
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return BlocListener<BudgetsBloc, BudgetsState>(listener: (context, state) {
       if (state is BudgetsLoadFailure) {
         Scaffold.of(context).showSnackBar(SnackBar(
@@ -71,18 +73,28 @@ class BudgetDropdownMenuLoaded extends StatefulWidget {
 class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
   @override
   Widget build(BuildContext context) {
-    if (widget.controller.budget == null ||
-        !widget.budgets.contains(widget.controller.budget))
-      widget.controller.budget = widget.budgets[0];
+    return Row(children: [
+      dropDown(context),
+    ]);
+  }
 
+  Widget dropDown(BuildContext context) {
     return DropdownButton<Budget>(
       dropdownColor: Theme.of(context).primaryColor,
       value: widget.controller.budget,
-      icon: Icon(Icons.layers),
+      icon: Container(
+          margin: EdgeInsets.only(left: 10), child: Icon(Icons.swap_vert)),
       iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
       items: widget.budgets.map((Budget value) {
         return DropdownMenuItem<Budget>(
-            value: value, child: Text(value.name + " "));
+            value: value,
+            child: Container(
+              width: ScreenUtil().setWidth(400),
+              child: new Text(
+                value.name,
+                textAlign: TextAlign.end,
+              ),
+            ));
       }).toList(),
       style: TextStyle(
           fontSize: 20, color: Theme.of(context).colorScheme.onSecondary),
