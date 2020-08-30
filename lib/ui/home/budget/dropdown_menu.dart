@@ -79,6 +79,10 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
   }
 
   Widget dropDown(BuildContext context) {
+    if (widget.controller.budget == null ||
+        !widget.budgets.contains(widget.controller.budget))
+      widget.controller.budget = widget.budgets[0];
+
     return DropdownButton<Budget>(
       dropdownColor: Theme.of(context).primaryColor,
       value: widget.controller.budget,
