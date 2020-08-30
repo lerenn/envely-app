@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../budget/budget.dart';
 
 class PreviewAppBarBuilder {
-  final BudgetSelectionController budgetSelectionController;
+  final BudgetController budgetController;
 
-  PreviewAppBarBuilder(this.budgetSelectionController);
+  PreviewAppBarBuilder(this.budgetController);
 
   AppBar build(BuildContext context) {
     return AppBar(
@@ -13,7 +13,7 @@ class PreviewAppBarBuilder {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
           Text("Preview"),
-          BudgetDropdownMenu(controller: budgetSelectionController)
+          BudgetDropdownMenu(controller: budgetController)
         ]));
   }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../budget/budget.dart';
 
 class AccountsAppBarBuilder {
-  final BudgetSelectionController budgetSelectionController;
+  final BudgetController budgetController;
 
-  AccountsAppBarBuilder(this.budgetSelectionController);
+  AccountsAppBarBuilder(this.budgetController);
 
   AppBar build(BuildContext context) {
     return AppBar(
@@ -13,7 +13,7 @@ class AccountsAppBarBuilder {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
           Text("Accounts"),
-          BudgetDropdownMenu(controller: budgetSelectionController)
+          BudgetDropdownMenu(controller: budgetController)
         ]));
   }
 }

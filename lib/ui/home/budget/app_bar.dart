@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../budget/budget.dart';
 
 class BudgetAppBarBuilder {
-  final BudgetSelectionController budgetSelectionController;
+  final BudgetController budgetController;
 
-  BudgetAppBarBuilder(this.budgetSelectionController);
+  BudgetAppBarBuilder(this.budgetController);
 
   AppBar build(BuildContext context) {
     return AppBar(
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text("Budget"),
         Row(children: [
-          BudgetDropdownMenu(controller: budgetSelectionController),
+          BudgetDropdownMenu(controller: budgetController),
           Container(margin: EdgeInsets.only(left: 10)),
           _SettingsButton(),
         ]),
@@ -35,7 +35,7 @@ class BudgetAppBarBuilder {
 
 class _SettingsButton extends StatelessWidget {
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     return Icon(Icons.settings);
   }
 }

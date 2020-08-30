@@ -24,8 +24,11 @@ enum EnvelyTabPosition {
 
 class HomePage extends StatefulWidget {
   final User user;
+  final BudgetController budgetController;
 
-  const HomePage({Key key, this.user}) : super(key: key);
+  HomePage({Key key, this.user})
+      : budgetController = BudgetController(),
+        super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -34,7 +37,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  final _budgetSelectionController = BudgetSelectionController();
   EnvelyAppBarBuilder _appBarBuilder;
 
   @override
@@ -45,7 +47,7 @@ class _HomePageState extends State<HomePage>
       // Set state to make sure that the [EnvelyTab] widgets get updated when changing tabs.
       setState(() {});
     });
-    _appBarBuilder = EnvelyAppBarBuilder(_budgetSelectionController);
+    _appBarBuilder = EnvelyAppBarBuilder(widget.budgetController);
   }
 
   @override
@@ -142,19 +144,19 @@ class _HomePageState extends State<HomePage>
 }
 
 class EnvelyAppBarBuilder {
-  final BudgetSelectionController budgetSelectionController;
+  final BudgetController budgetController;
 
-  const EnvelyAppBarBuilder(this.budgetSelectionController);
+  const EnvelyAppBarBuilder(this.budgetController);
 
   AppBar appBar(BuildContext context, TabController tabController) {
     if (tabController.index == EnvelyTabPosition.BudgetTab.index)
-      return BudgetAppBarBuilder(budgetSelectionController).build(context);
+      return BudgetAppBarBuilder(budgetController).build(context);
     if (tabController.index == EnvelyTabPosition.SpendingsTab.index)
-      return SpendingsAppBarBuilder(budgetSelectionController).build(context);
+      return SpendingsAppBarBuilder(budgetController).build(context);
     if (tabController.index == EnvelyTabPosition.PreviewTab.index)
-      return PreviewAppBarBuilder(budgetSelectionController).build(context);
+      return PreviewAppBarBuilder(budgetController).build(context);
     if (tabController.index == EnvelyTabPosition.AccountsTab.index)
-      return AccountsAppBarBuilder(budgetSelectionController).build(context);
+      return AccountsAppBarBuilder(budgetController).build(context);
     if (tabController.index == EnvelyTabPosition.SettingsTab.index)
       return SettingsAppBarBuilder().build(context);
 

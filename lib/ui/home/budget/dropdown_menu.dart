@@ -10,7 +10,7 @@ import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 
 class BudgetDropdownMenu extends StatelessWidget {
-  final BudgetSelectionController controller;
+  final BudgetController controller;
 
   BudgetDropdownMenu({@required this.controller});
 
@@ -60,7 +60,7 @@ class BudgetDropdownMenuLoading extends StatelessWidget {
 }
 
 class BudgetDropdownMenuLoaded extends StatefulWidget {
-  final BudgetSelectionController controller;
+  final BudgetController controller;
   final List<Budget> budgets;
 
   BudgetDropdownMenuLoaded({@required this.controller, @required this.budgets});
@@ -108,6 +108,6 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
   }
 }
 
-class BudgetSelectionController {
+class BudgetController {
   Budget budget;
 }
