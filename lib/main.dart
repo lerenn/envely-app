@@ -10,7 +10,7 @@ void main() => runApp(Envely());
 class Envely extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return repositoriesProvider(authenticationBlocProvider(app(context)));
+    return repositoriesProvider(blocProvider(app(context)));
   }
 
   Widget repositoriesProvider(Widget child) {
@@ -27,14 +27,23 @@ class Envely extends StatelessWidget {
     ], child: child);
   }
 
-  Widget authenticationBlocProvider(Widget child) {
-    return BlocProvider<AuthenticationBloc>(
-        create: (context) {
-          final authRepository =
-              RepositoryProvider.of<AuthenticationRepository>(context);
-          return AuthenticationBloc(authRepository)..add(AppLoaded());
-        },
-        child: child);
+  Widget blocProvider(Widget child) {
+    return MultiBlocProvider(providers: [
+      BlocProvider<AuthenticationBloc>(create: (context) {
+        final authRepository =
+            RepositoryProvider.of<AuthenticationRepository>(context);
+        return AuthenticationBloc(authRepository)..add(AppLoaded());
+      }),
+      BlocProvider<AccountsBloc>(
+          create: (context) => AccountsBloc(
+              accountsRepository:
+                  RepositoryProvider.of<AccountsRepository>(context))),
+      BlocProvider<BudgetsBloc>(
+        create: (context) => BudgetsBloc(
+            budgetsRepository:
+                RepositoryProvider.of<BudgetsRepository>(context)),
+      )
+    ], child: child);
   }
 
   Widget app(BuildContext context) {
@@ -53,9 +62,8 @@ class Envely extends StatelessWidget {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          return HomePage(
-            user: state.user,
-          );
+          BlocProvider.of<BudgetsBloc>(context).add(BudgetsLoad());
+          return HomePage(user: state.user);
         }
         return LoginPage();
       },

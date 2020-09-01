@@ -1,4 +1,3 @@
-import 'package:Envely/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,17 +14,7 @@ class AddAccountPage extends StatelessWidget {
     ScreenUtil.init(context);
     return Scaffold(
         appBar: AppBar(title: Text("Add Account")),
-        body: SafeArea(
-            child: SingleChildScrollView(child: addWithAccountsBloc(context))));
-  }
-
-  BlocProvider addWithAccountsBloc(BuildContext context) {
-    return BlocProvider<AccountsBloc>(
-      create: (context) => AccountsBloc(
-          accountsRepository:
-              RepositoryProvider.of<AccountsRepository>(context)),
-      child: _AddAccountForm(),
-    );
+        body: SafeArea(child: SingleChildScrollView(child: _AddAccountForm())));
   }
 }
 

@@ -7,7 +7,11 @@ abstract class AccountsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AccountsLoad extends AccountsEvent {}
+class AccountsLoad extends AccountsEvent {
+  final Budget budget;
+
+  AccountsLoad(this.budget);
+}
 
 class AccountsUpdated extends AccountsEvent {
   final List<Account> accounts;

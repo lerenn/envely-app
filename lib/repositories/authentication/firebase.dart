@@ -61,7 +61,6 @@ class FirebaseAuthenticationRepository extends AuthenticationRepository {
     await _firebaseUser.updateProfile(updateInfo);
 
     _firebaseUser = await _firebaseAuth.currentUser();
-    print('USERNAME IS: ${_firebaseUser.displayName}');
 
     _setFromFirebaseUser();
     return _cachedUser;

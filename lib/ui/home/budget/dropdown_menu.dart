@@ -81,7 +81,7 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
   Widget dropDown(BuildContext context) {
     if (widget.controller.budget == null ||
         !widget.budgets.contains(widget.controller.budget))
-      widget.controller.budget = widget.budgets[0];
+      widget.controller.set(context, widget.budgets[0]);
 
     return DropdownButton<Budget>(
       dropdownColor: Theme.of(context).primaryColor,
@@ -104,7 +104,7 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
           fontSize: 20, color: Theme.of(context).colorScheme.onSecondary),
       onChanged: (Budget newValue) {
         setState(() {
-          widget.controller.budget = newValue;
+          widget.controller.set(context, newValue);
         });
       },
       underline: Container(height: 0),
@@ -113,5 +113,18 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
 }
 
 class BudgetController {
-  Budget budget;
+  Budget _budget;
+
+  Budget get budget {
+    return _budget;
+  }
+
+  void set(BuildContext context, Budget budget) {
+    // Set budget
+    _budget = budget;
+
+    // Change blocs
+
+    BlocProvider.of<AccountsBloc>(context).add(AccountsLoad(budget));
+  }
 }

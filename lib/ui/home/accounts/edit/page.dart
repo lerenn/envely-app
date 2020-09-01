@@ -1,4 +1,3 @@
-import 'package:Envely/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,17 +19,7 @@ class EditAccountPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text("Edit account")),
         body: SafeArea(
-            child:
-                SingleChildScrollView(child: editWithAccountsBloc(context))));
-  }
-
-  BlocProvider editWithAccountsBloc(BuildContext context) {
-    return BlocProvider<AccountsBloc>(
-      create: (context) => AccountsBloc(
-          accountsRepository:
-              RepositoryProvider.of<AccountsRepository>(context)),
-      child: _EditAccountForm(account),
-    );
+            child: SingleChildScrollView(child: _EditAccountForm(account))));
   }
 }
 
@@ -112,8 +101,13 @@ class _EditAccountFormState extends State<_EditAccountForm> {
             id: widget.account.id,
             name: _nameController.text,
             type: _typeController.type);
-        BlocProvider.of<AccountsBloc>(context)
-            .add(AccountUpdated(newModifiedAccount));
+
+        // Check if the account has been modified
+        if (newModifiedAccount != widget.account)
+          BlocProvider.of<AccountsBloc>(context)
+              .add(AccountUpdated(newModifiedAccount));
+        else
+          Navigator.pop(context);
       } else {
         setState(() {
           _autoValidate = true;
