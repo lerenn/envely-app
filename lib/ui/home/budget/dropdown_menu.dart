@@ -97,6 +97,8 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
               child: new Text(
                 value.name,
                 textAlign: TextAlign.end,
+                softWrap: false,
+                overflow: TextOverflow.ellipsis,
               ),
             ));
       }).toList(),
