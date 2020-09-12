@@ -59,7 +59,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountUpdatedToState(AccountUpdated event) async* {
-    // assert(selectedBudget == null);
+    assert(selectedBudget != null);
     yield AccountsLoading();
     try {
       _accountsRepository.updateAccount(selectedBudget, event.account);
@@ -70,7 +70,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountCreatedToState(AccountCreated event) async* {
-    assert(selectedBudget == null);
+    assert(selectedBudget != null);
     yield AccountsLoading();
     try {
       _accountsRepository.createAccount(selectedBudget, event.account);
@@ -81,7 +81,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountDeletedToState(AccountDeleted event) async* {
-    assert(selectedBudget == null);
+    assert(selectedBudget != null);
     yield AccountsLoading();
     try {
       _accountsRepository.deleteAccount(selectedBudget, event.account);

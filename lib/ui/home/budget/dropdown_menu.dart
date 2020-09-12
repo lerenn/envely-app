@@ -109,7 +109,7 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
           widget.controller.set(context, newValue);
         });
       },
-      underline: Container(height: 0),
+      underline: Text(''),
     );
   }
 }
