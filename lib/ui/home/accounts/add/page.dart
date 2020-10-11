@@ -27,7 +27,6 @@ class _AddAccountFormState extends State<_AddAccountForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _typeController = AccountTypeFieldController();
-  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +55,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
           width: ScreenUtil().setWidth(1080),
           child: Form(
               key: _key,
-              autovalidate: _autoValidate,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   AccountNameField(controller: _nameController),
@@ -76,10 +75,6 @@ class _AddAccountFormState extends State<_AddAccountForm> {
             name: _nameController.text,
             type: _typeController.type);
         BlocProvider.of<AccountsBloc>(context).add(AccountCreated(account));
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 

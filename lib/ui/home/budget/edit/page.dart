@@ -36,7 +36,6 @@ class _EditBudgetFormState extends State<_EditBudgetForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _typeController = BudgetCurrencyFieldController();
-  bool _autoValidate = false;
 
   @override
   void initState() {
@@ -77,7 +76,7 @@ class _EditBudgetFormState extends State<_EditBudgetForm> {
           width: ScreenUtil().setWidth(1080),
           child: Form(
               key: _key,
-              autovalidate: _autoValidate,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   BudgetNameField(
@@ -106,10 +105,6 @@ class _EditBudgetFormState extends State<_EditBudgetForm> {
               .add(BudgetUpdated(newModifiedBudget));
         else
           Navigator.pop(context);
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 
@@ -127,10 +122,6 @@ class _EditBudgetFormState extends State<_EditBudgetForm> {
     _onDeleteBudgetButtonPressed() {
       if (_key.currentState.validate()) {
         BlocProvider.of<BudgetsBloc>(context).add(BudgetDeleted(widget.budget));
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 

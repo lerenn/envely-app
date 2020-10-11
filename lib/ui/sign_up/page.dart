@@ -118,7 +118,6 @@ class _SignUpFormState extends State<_SignUpForm> {
   final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
-  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +127,7 @@ class _SignUpFormState extends State<_SignUpForm> {
 
       return Form(
           key: _key,
-          autovalidate: _autoValidate,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Container(
               child: Column(children: <Widget>[
             Container(
@@ -251,10 +250,6 @@ class _SignUpFormState extends State<_SignUpForm> {
             name: _nameController.text,
             email: _emailController.text,
             password: _passwordController.text));
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 

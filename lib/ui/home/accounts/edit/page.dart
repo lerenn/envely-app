@@ -36,7 +36,6 @@ class _EditAccountFormState extends State<_EditAccountForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _typeController = AccountTypeFieldController();
-  bool _autoValidate = false;
 
   @override
   void initState() {
@@ -79,7 +78,7 @@ class _EditAccountFormState extends State<_EditAccountForm> {
           width: ScreenUtil().setWidth(1080),
           child: Form(
               key: _key,
-              autovalidate: _autoValidate,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   AccountNameField(
@@ -108,10 +107,6 @@ class _EditAccountFormState extends State<_EditAccountForm> {
               .add(AccountUpdated(newModifiedAccount));
         else
           Navigator.pop(context);
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 
@@ -130,10 +125,6 @@ class _EditAccountFormState extends State<_EditAccountForm> {
       if (_key.currentState.validate()) {
         BlocProvider.of<AccountsBloc>(context)
             .add(AccountDeleted(widget.account));
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 

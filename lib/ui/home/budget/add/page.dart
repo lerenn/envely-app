@@ -27,7 +27,6 @@ class _AddBudgetFormState extends State<_AddBudgetForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _currencyController = BudgetCurrencyFieldController();
-  bool _autoValidate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,7 @@ class _AddBudgetFormState extends State<_AddBudgetForm> {
           width: ScreenUtil().setWidth(1080),
           child: Form(
               key: _key,
-              autovalidate: _autoValidate,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: <Widget>[
                   BudgetNameField(controller: _nameController),
@@ -74,10 +73,6 @@ class _AddBudgetFormState extends State<_AddBudgetForm> {
             name: _nameController.text,
             currency: _currencyController.currency);
         BlocProvider.of<BudgetsBloc>(context).add(BudgetCreated(budget));
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
       }
     }
 
