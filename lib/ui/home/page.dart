@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/models/models.dart';
+import 'package:Envely/ui/common/common.dart';
 
 import 'accounts/accounts.dart';
 import 'budget/budget.dart';
@@ -21,10 +22,10 @@ enum EnvelyTabPosition {
 
 class HomePage extends StatefulWidget {
   final User user;
-  final BudgetController budgetController;
+  final BudgetControllerSingleton controller;
 
   HomePage({Key key, this.user})
-      : budgetController = BudgetController(),
+      : controller = BudgetControllerSingleton(),
         super(key: key);
 
   @override
@@ -44,7 +45,7 @@ class _HomePageState extends State<HomePage>
       // Set state to make sure that the [EnvelyTab] widgets get updated when changing tabs.
       setState(() {});
     });
-    _appBarBuilder = EnvelyAppBarBuilder(widget.budgetController);
+    _appBarBuilder = EnvelyAppBarBuilder();
   }
 
   @override
@@ -124,19 +125,15 @@ class _HomePageState extends State<HomePage>
 }
 
 class EnvelyAppBarBuilder {
-  final BudgetController budgetController;
-
-  const EnvelyAppBarBuilder(this.budgetController);
-
   AppBar appBar(BuildContext context, TabController tabController) {
     if (tabController.index == EnvelyTabPosition.BudgetTab.index)
-      return BudgetAppBarBuilder(budgetController).build(context);
+      return BudgetAppBarBuilder().build(context);
     if (tabController.index == EnvelyTabPosition.SpendingsTab.index)
-      return SpendingsAppBarBuilder(budgetController).build(context);
+      return SpendingsAppBarBuilder().build(context);
     if (tabController.index == EnvelyTabPosition.PreviewTab.index)
-      return PreviewAppBarBuilder(budgetController).build(context);
+      return PreviewAppBarBuilder().build(context);
     if (tabController.index == EnvelyTabPosition.AccountsTab.index)
-      return AccountsAppBarBuilder(budgetController).build(context);
+      return AccountsAppBarBuilder().build(context);
     if (tabController.index == EnvelyTabPosition.SettingsTab.index)
       return SettingsAppBarBuilder().build(context);
 

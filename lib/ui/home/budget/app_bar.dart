@@ -3,24 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
+import 'package:Envely/ui/common/common.dart';
 
-import 'budget.dart';
-import 'add/page.dart';
-import 'edit/page.dart';
+import 'budgets/budgets.dart';
 
 class BudgetAppBarBuilder {
-  final BudgetController budgetController;
-
-  BudgetAppBarBuilder(this.budgetController);
-
   AppBar build(BuildContext context) {
     return AppBar(
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text("Budget"),
         Row(children: [
-          BudgetDropdownMenu(controller: budgetController),
+          BudgetDropdownMenu(),
           Container(margin: EdgeInsets.only(left: 10)),
-          _SettingsButton(budgetController),
+          _SettingsButton(),
         ]),
       ]),
       bottom: AppBar(
@@ -40,10 +35,6 @@ class BudgetAppBarBuilder {
 }
 
 class _SettingsButton extends StatelessWidget {
-  final BudgetController budgetController;
-
-  _SettingsButton(this.budgetController);
-
   final List<SettingsField> list = [
     SettingsFieldAdd(),
     SettingsFieldModify(),
@@ -77,7 +68,9 @@ class _SettingsButton extends StatelessWidget {
                                     ]),
                                     onTap: () => {
                                           list[index].onTap(
-                                              context, budgetController.budget)
+                                              context,
+                                              BudgetControllerSingleton()
+                                                  .budget)
                                         });
                               },
                             ),

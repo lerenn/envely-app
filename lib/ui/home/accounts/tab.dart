@@ -32,7 +32,10 @@ class _AccountsTabState extends State<AccountsTab> {
           _AddAccountButton()
         ]);
       if (state is AccountsLoadFailure)
-        return _AccountsLoadFailure(message: state.error);
+        return LoadFailure(
+            message: state.error,
+            bloc: BlocProvider.of<AccountsBloc>(context),
+            reloadAction: AccountsLoad(BudgetControllerSingleton().budget));
       return Loading(false);
     });
   }
@@ -103,32 +106,5 @@ class _AddAccountButton extends StatelessWidget {
             Text("Add Account", style: TextStyle(fontSize: 18))
           ],
         ));
-  }
-}
-
-class _AccountsLoadFailure extends StatelessWidget {
-  final String message;
-
-  _AccountsLoadFailure({@required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        RichText(
-            text: TextSpan(
-                text: message,
-                style: TextStyle(color: Theme.of(context).primaryColor))),
-        FlatButton(
-            color: Colors.white,
-            textColor: Theme.of(context).colorScheme.onPrimary,
-            child: Text('Retry'),
-            onPressed: () {
-              BlocProvider.of<AuthenticationBloc>(context).add(AppLoaded());
-            })
-      ],
-    ));
   }
 }

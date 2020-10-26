@@ -24,6 +24,9 @@ class Envely extends StatelessWidget {
       RepositoryProvider<BudgetsRepository>(
         create: (context) => FirebaseBudgetsRepository(),
       ),
+      RepositoryProvider<EnvelopsRepository>(
+        create: (context) => FirebaseEnvelopsRepository(),
+      ),
     ], child: child);
   }
 
@@ -42,6 +45,11 @@ class Envely extends StatelessWidget {
         create: (context) => BudgetsBloc(
             budgetsRepository:
                 RepositoryProvider.of<BudgetsRepository>(context)),
+      ),
+      BlocProvider<EnvelopsBloc>(
+        create: (context) => EnvelopsBloc(
+            envelopsRepository:
+                RepositoryProvider.of<EnvelopsRepository>(context)),
       )
     ], child: child);
   }

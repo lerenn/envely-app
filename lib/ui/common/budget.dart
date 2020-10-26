@@ -10,9 +10,7 @@ import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 
 class BudgetDropdownMenu extends StatelessWidget {
-  final BudgetController controller;
-
-  BudgetDropdownMenu({@required this.controller});
+  final BudgetControllerSingleton controller = BudgetControllerSingleton();
 
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
@@ -60,7 +58,7 @@ class BudgetDropdownMenuLoading extends StatelessWidget {
 }
 
 class BudgetDropdownMenuLoaded extends StatefulWidget {
-  final BudgetController controller;
+  final BudgetControllerSingleton controller;
   final List<Budget> budgets;
 
   BudgetDropdownMenuLoaded({@required this.controller, @required this.budgets});
@@ -126,7 +124,18 @@ class BudgetController {
     _budget = budget;
 
     // Change blocs
-
     BlocProvider.of<AccountsBloc>(context).add(AccountsLoad(budget));
+    BlocProvider.of<EnvelopsBloc>(context).add(EnvelopsLoad(budget));
   }
+}
+
+class BudgetControllerSingleton extends BudgetController {
+  static final BudgetControllerSingleton _singleton =
+      BudgetControllerSingleton._internal();
+
+  factory BudgetControllerSingleton() {
+    return _singleton;
+  }
+
+  BudgetControllerSingleton._internal();
 }

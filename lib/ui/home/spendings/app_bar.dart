@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../budget/budget.dart';
+import 'package:Envely/ui/common/common.dart';
 
 class SpendingsAppBarBuilder {
-  final BudgetController budgetController;
-
-  SpendingsAppBarBuilder(this.budgetController);
-
   AppBar build(BuildContext context) {
     return AppBar(
         title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-          Text("Spendings"),
-          BudgetDropdownMenu(controller: budgetController)
-        ]));
+            children: [Text("Spendings"), BudgetDropdownMenu()]));
   }
 }
