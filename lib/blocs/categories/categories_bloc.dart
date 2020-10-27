@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:Envely/repositories/repositories.dart';
-import 'package:Envely/models/models.dart';
 
 import 'categories_event.dart';
 import 'categories_state.dart';
@@ -12,7 +11,6 @@ import 'categories_state.dart';
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final CategoriesRepository _categoriesRepository;
   StreamSubscription _categoriesSubscription;
-  Budget selectedBudget;
 
   CategoriesBloc({@required CategoriesRepository categoriesRepository})
       : assert(categoriesRepository != null),
@@ -41,13 +39,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     // Cancel old subscriptions
     _categoriesSubscription?.cancel();
 
-    // Update budget
-    selectedBudget = event.budget;
-
     // Get new subscription
     try {
       _categoriesSubscription =
-          _categoriesRepository.getCategories(selectedBudget).listen(
+          _categoriesRepository.getCategories(event.budget).listen(
         (categories) {
           add(
             CategoriesUpdated(categories),
@@ -61,10 +56,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   Stream<CategoriesState> _mapCategoryUpdatedToState(
       CategoryUpdated event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield CategoriesLoading();
     try {
-      _categoriesRepository.updateCategory(selectedBudget, event.category);
+      _categoriesRepository.updateCategory(event.budget, event.category);
       yield CategoryUpdatedSuccess();
     } catch (error) {
       yield CategoryUpdatedFailure(error: error.toString());
@@ -73,10 +68,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   Stream<CategoriesState> _mapCategoryCreatedToState(
       CategoryCreated event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield CategoriesLoading();
     try {
-      _categoriesRepository.createCategory(selectedBudget, event.category);
+      _categoriesRepository.createCategory(event.budget, event.category);
       yield CategoryCreatedSuccess();
     } catch (error) {
       yield CategoryCreatedFailure(error: error.toString());
@@ -85,10 +80,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   Stream<CategoriesState> _mapCategoryDeletedToState(
       CategoryDeleted event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield CategoriesLoading();
     try {
-      _categoriesRepository.deleteCategory(selectedBudget, event.category);
+      _categoriesRepository.deleteCategory(event.budget, event.category);
       yield CategoryDeletedSuccess();
     } catch (error) {
       yield CategoryDeletedFailure(error: error.toString());

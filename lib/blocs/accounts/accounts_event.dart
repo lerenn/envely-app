@@ -26,37 +26,40 @@ class AccountsUpdated extends AccountsEvent {
 }
 
 class AccountCreated extends AccountsEvent {
+  final Budget budget;
   final Account account;
 
-  AccountCreated(this.account);
+  AccountCreated(this.budget, this.account);
 
   @override
-  List<Object> get props => [account];
+  List<Object> get props => [budget, account];
 
   @override
-  String toString() => 'AccountCreated { account: $account }';
+  String toString() => 'AccountCreated { budget: $budget, account: $account }';
 }
 
 class AccountUpdated extends AccountsEvent {
+  final Budget budget;
   final Account account;
 
-  AccountUpdated(this.account);
+  AccountUpdated(this.budget, this.account);
 
   @override
-  List<Object> get props => [account];
+  List<Object> get props => [budget, account];
 
   @override
-  String toString() => 'AccountUpdated { account: $account }';
+  String toString() => 'AccountUpdated { budget: $budget, account: $account }';
 }
 
 class AccountDeleted extends AccountsEvent {
+  final Budget budget;
   final Account account;
 
-  AccountDeleted(this.account);
+  AccountDeleted(this.budget, this.account);
 
   @override
-  List<Object> get props => [account];
+  List<Object> get props => [budget, account];
 
   @override
-  String toString() => 'AccountDeleted { account: $account }';
+  String toString() => 'AccountDeleted { budget: $budget, account: $account }';
 }

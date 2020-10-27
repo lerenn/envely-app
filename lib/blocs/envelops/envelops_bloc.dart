@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:Envely/repositories/repositories.dart';
-import 'package:Envely/models/models.dart';
 
 import 'envelops_event.dart';
 import 'envelops_state.dart';
@@ -12,7 +11,6 @@ import 'envelops_state.dart';
 class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
   final EnvelopsRepository _envelopsRepository;
   StreamSubscription _envelopsSubscription;
-  Budget selectedBudget;
 
   EnvelopsBloc({@required EnvelopsRepository envelopsRepository})
       : assert(envelopsRepository != null),
@@ -40,13 +38,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
     // Cancel old subscriptions
     _envelopsSubscription?.cancel();
 
-    // Update budget
-    selectedBudget = event.budget;
-
     // Get new subscription
     try {
       _envelopsSubscription =
-          _envelopsRepository.getEnvelops(selectedBudget).listen(
+          _envelopsRepository.getEnvelops(event.budget).listen(
         (envelops) {
           add(
             EnvelopsUpdated(envelops),
@@ -59,10 +54,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
   }
 
   Stream<EnvelopsState> _mapEnvelopUpdatedToState(EnvelopUpdated event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield EnvelopsLoading();
     try {
-      _envelopsRepository.updateEnvelop(selectedBudget, event.envelop);
+      _envelopsRepository.updateEnvelop(event.budget, event.envelop);
       yield EnvelopUpdatedSuccess();
     } catch (error) {
       yield EnvelopUpdatedFailure(error: error.toString());
@@ -70,10 +65,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
   }
 
   Stream<EnvelopsState> _mapEnvelopCreatedToState(EnvelopCreated event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield EnvelopsLoading();
     try {
-      _envelopsRepository.createEnvelop(selectedBudget, event.envelop);
+      _envelopsRepository.createEnvelop(event.budget, event.envelop);
       yield EnvelopCreatedSuccess();
     } catch (error) {
       yield EnvelopCreatedFailure(error: error.toString());
@@ -81,10 +76,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
   }
 
   Stream<EnvelopsState> _mapEnvelopDeletedToState(EnvelopDeleted event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield EnvelopsLoading();
     try {
-      _envelopsRepository.deleteEnvelop(selectedBudget, event.envelop);
+      _envelopsRepository.deleteEnvelop(event.budget, event.envelop);
       yield EnvelopDeletedSuccess();
     } catch (error) {
       yield EnvelopDeletedFailure(error: error.toString());

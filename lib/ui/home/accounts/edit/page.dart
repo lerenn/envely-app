@@ -103,8 +103,8 @@ class _EditAccountFormState extends State<_EditAccountForm> {
 
         // Check if the account has been modified
         if (newModifiedAccount != widget.account)
-          BlocProvider.of<AccountsBloc>(context)
-              .add(AccountUpdated(newModifiedAccount));
+          BlocProvider.of<AccountsBloc>(context).add(AccountUpdated(
+              BudgetControllerSingleton().budget, newModifiedAccount));
         else
           Navigator.pop(context);
       }
@@ -123,8 +123,8 @@ class _EditAccountFormState extends State<_EditAccountForm> {
   Widget deleteButton(AccountsState state) {
     _onDeleteAccountButtonPressed() {
       if (_key.currentState.validate()) {
-        BlocProvider.of<AccountsBloc>(context)
-            .add(AccountDeleted(widget.account));
+        BlocProvider.of<AccountsBloc>(context).add(
+            AccountDeleted(BudgetControllerSingleton().budget, widget.account));
       }
     }
 

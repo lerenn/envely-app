@@ -26,37 +26,40 @@ class EnvelopsUpdated extends EnvelopsEvent {
 }
 
 class EnvelopCreated extends EnvelopsEvent {
+  final Budget budget;
   final Envelop envelop;
 
-  EnvelopCreated(this.envelop);
+  EnvelopCreated(this.budget, this.envelop);
 
   @override
-  List<Object> get props => [envelop];
+  List<Object> get props => [budget, envelop];
 
   @override
-  String toString() => 'EnvelopCreated { envelop: $envelop }';
+  String toString() => 'EnvelopCreated { budget: $budget, envelop: $envelop }';
 }
 
 class EnvelopUpdated extends EnvelopsEvent {
+  final Budget budget;
   final Envelop envelop;
 
-  EnvelopUpdated(this.envelop);
+  EnvelopUpdated(this.budget, this.envelop);
 
   @override
-  List<Object> get props => [envelop];
+  List<Object> get props => [budget, envelop];
 
   @override
-  String toString() => 'EnvelopUpdated { envelop: $envelop }';
+  String toString() => 'EnvelopUpdated { budget: $budget, envelop: $envelop }';
 }
 
 class EnvelopDeleted extends EnvelopsEvent {
+  final Budget budget;
   final Envelop envelop;
 
-  EnvelopDeleted(this.envelop);
+  EnvelopDeleted(this.budget, this.envelop);
 
   @override
-  List<Object> get props => [envelop];
+  List<Object> get props => [budget, envelop];
 
   @override
-  String toString() => 'EnvelopDeleted { envelop: $envelop }';
+  String toString() => 'EnvelopDeleted { budget: $budget, envelop: $envelop }';
 }

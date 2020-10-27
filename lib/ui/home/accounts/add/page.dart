@@ -74,7 +74,8 @@ class _AddAccountFormState extends State<_AddAccountForm> {
             id: "unknown",
             name: _nameController.text,
             type: _typeController.type);
-        BlocProvider.of<AccountsBloc>(context).add(AccountCreated(account));
+        BlocProvider.of<AccountsBloc>(context)
+            .add(AccountCreated(BudgetControllerSingleton().budget, account));
       }
     }
 

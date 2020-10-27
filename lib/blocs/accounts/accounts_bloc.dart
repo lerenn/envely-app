@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:Envely/repositories/repositories.dart';
-import 'package:Envely/models/models.dart';
 
 import 'accounts_event.dart';
 import 'accounts_state.dart';
@@ -12,7 +11,6 @@ import 'accounts_state.dart';
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   final AccountsRepository _accountsRepository;
   StreamSubscription _accountsSubscription;
-  Budget selectedBudget;
 
   AccountsBloc({@required AccountsRepository accountsRepository})
       : assert(accountsRepository != null),
@@ -40,13 +38,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     // Cancel old subscriptions
     _accountsSubscription?.cancel();
 
-    // Update budget
-    selectedBudget = event.budget;
-
     // Get new subscription
     try {
       _accountsSubscription =
-          _accountsRepository.getAccounts(selectedBudget).listen(
+          _accountsRepository.getAccounts(event.budget).listen(
         (accounts) {
           add(
             AccountsUpdated(accounts),
@@ -59,10 +54,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountUpdatedToState(AccountUpdated event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield AccountsLoading();
     try {
-      _accountsRepository.updateAccount(selectedBudget, event.account);
+      _accountsRepository.updateAccount(event.budget, event.account);
       yield AccountUpdatedSuccess();
     } catch (error) {
       yield AccountUpdatedFailure(error: error.toString());
@@ -70,10 +65,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountCreatedToState(AccountCreated event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield AccountsLoading();
     try {
-      _accountsRepository.createAccount(selectedBudget, event.account);
+      _accountsRepository.createAccount(event.budget, event.account);
       yield AccountCreatedSuccess();
     } catch (error) {
       yield AccountCreatedFailure(error: error.toString());
@@ -81,10 +76,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Stream<AccountsState> _mapAccountDeletedToState(AccountDeleted event) async* {
-    assert(selectedBudget != null);
+    assert(event.budget != null);
     yield AccountsLoading();
     try {
-      _accountsRepository.deleteAccount(selectedBudget, event.account);
+      _accountsRepository.deleteAccount(event.budget, event.account);
       yield AccountDeletedSuccess();
     } catch (error) {
       yield AccountDeletedFailure(error: error.toString());

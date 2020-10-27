@@ -26,37 +26,43 @@ class CategoriesUpdated extends CategoriesEvent {
 }
 
 class CategoryCreated extends CategoriesEvent {
+  final Budget budget;
   final Category category;
 
-  CategoryCreated(this.category);
+  CategoryCreated(this.budget, this.category);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [budget, category];
 
   @override
-  String toString() => 'CategoryCreated { category: $category }';
+  String toString() =>
+      'CategoryCreated { budget: $budget, category: $category }';
 }
 
 class CategoryUpdated extends CategoriesEvent {
+  final Budget budget;
   final Category category;
 
-  CategoryUpdated(this.category);
+  CategoryUpdated(this.budget, this.category);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [budget, category];
 
   @override
-  String toString() => 'CategoryUpdated { category: $category }';
+  String toString() =>
+      'CategoryUpdated { budget: $budget, category: $category }';
 }
 
 class CategoryDeleted extends CategoriesEvent {
+  final Budget budget;
   final Category category;
 
-  CategoryDeleted(this.category);
+  CategoryDeleted(this.budget, this.category);
 
   @override
-  List<Object> get props => [category];
+  List<Object> get props => [budget, category];
 
   @override
-  String toString() => 'CategoryDeleted { category: $category }';
+  String toString() =>
+      'CategoryDeleted { budget: $budget, category: $category }';
 }
