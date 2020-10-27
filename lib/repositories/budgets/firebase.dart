@@ -4,9 +4,10 @@ import 'package:Envely/entities/entities.dart';
 import 'package:Envely/models/models.dart';
 
 import 'abstract.dart';
+import '../common/common.dart';
 
 class FirebaseBudgetsRepository extends BudgetsRepository {
-  final collection = Firestore.instance.collection('budgets');
+  final collection = Firestore.instance.collection(Collections.Budgets.name);
 
   Future<void> createBudget(Budget budget) async {
     await collection.add(budget.toEntity().toDocument());

@@ -3,16 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Envely/entities/entities.dart';
 import 'package:Envely/models/models.dart';
 
+import '../common/common.dart';
 import 'abstract.dart';
 
 class FirebaseEnvelopsRepository extends EnvelopsRepository {
-  final budgetCollection = Firestore.instance.collection('budgets');
-  final envelopsCollectionName = 'envelops';
+  final budgetCollection =
+      Firestore.instance.collection(Collections.Categories.name);
 
   CollectionReference _envelopCollection(Budget budget) {
     return budgetCollection
         .document(budget.id)
-        .collection(envelopsCollectionName);
+        .collection(Collections.Envelops.name);
   }
 
   Future<void> createEnvelop(Budget budget, Envelop envelop) async {

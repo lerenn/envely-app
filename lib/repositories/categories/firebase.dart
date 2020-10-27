@@ -4,15 +4,16 @@ import 'package:Envely/entities/entities.dart';
 import 'package:Envely/models/models.dart';
 
 import 'abstract.dart';
+import '../common/common.dart';
 
 class FirebaseCategoriesRepository extends CategoriesRepository {
-  final budgetCollection = Firestore.instance.collection('budgets');
-  final categoriesCollectionName = 'categories';
+  final budgetCollection =
+      Firestore.instance.collection(Collections.Budgets.name);
 
   CollectionReference _categoryCollection(Budget budget) {
     return budgetCollection
         .document(budget.id)
-        .collection(categoriesCollectionName);
+        .collection(Collections.Categories.name);
   }
 
   Future<void> createCategory(Budget budget, Category category) async {

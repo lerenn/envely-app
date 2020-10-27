@@ -4,15 +4,16 @@ import 'package:Envely/entities/entities.dart';
 import 'package:Envely/models/models.dart';
 
 import 'abstract.dart';
+import '../common/common.dart';
 
 class FirebaseAccountsRepository extends AccountsRepository {
-  final budgetCollection = Firestore.instance.collection('budgets');
-  final accountsCollectionName = 'accounts';
+  final budgetCollection =
+      Firestore.instance.collection(Collections.Budgets.name);
 
   CollectionReference _accountCollection(Budget budget) {
     return budgetCollection
         .document(budget.id)
-        .collection(accountsCollectionName);
+        .collection(Collections.Accounts.name);
   }
 
   Future<void> createAccount(Budget budget, Account account) async {
