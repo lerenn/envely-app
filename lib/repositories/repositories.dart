@@ -1,5 +1,5 @@
-export 'accounts/accounts.dart';
-export 'authentication/authentication.dart';
-export 'budgets/budgets.dart';
-export 'categories/categories.dart';
-export 'envelops/envelops.dart';
+export 'repositories/accounts/accounts.dart';
+export 'repositories/authentication/authentication.dart';
+export 'repositories/budgets/budgets.dart';
+export 'repositories/categories/categories.dart';
+export 'repositories/envelops/envelops.dart';

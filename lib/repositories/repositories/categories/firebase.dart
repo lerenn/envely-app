@@ -1,28 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:Envely/entities/entities.dart';
 import 'package:Envely/models/models.dart';
+import 'package:Envely/repositories/providers/firebase.dart';
 
 import 'abstract.dart';
-import '../common/common.dart';
 
 class FirebaseCategoriesRepository extends CategoriesRepository {
-  final budgetCollection =
-      Firestore.instance.collection(Collections.Budgets.name);
-
-  CollectionReference _categoryCollection(Budget budget) {
-    return budgetCollection
-        .document(budget.id)
-        .collection(Collections.Categories.name);
-  }
-
   Future<void> createCategory(Budget budget, Category category) async {
-    var collection = _categoryCollection(budget);
+    var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
     await collection.add(category.toEntity().toDocument());
   }
 
   Stream<List<Category>> getCategories(Budget budget) {
-    var collection = _categoryCollection(budget);
+    var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
     return collection.snapshots().map((snapshot) {
       return snapshot.documents
           .map((doc) => Category.fromEntity(CategoryEntity.fromSnapshot(doc)))
@@ -31,14 +20,14 @@ class FirebaseCategoriesRepository extends CategoriesRepository {
   }
 
   Future<void> updateCategory(Budget budget, Category category) {
-    var collection = _categoryCollection(budget);
+    var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
     return collection
         .document(category.id)
         .updateData(category.toEntity().toDocument());
   }
 
   Future<void> deleteCategory(Budget budget, Category category) async {
-    var collection = _categoryCollection(budget);
+    var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
     await collection.document(category.id).delete();
   }
 }
