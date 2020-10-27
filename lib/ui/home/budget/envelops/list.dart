@@ -31,32 +31,45 @@ class EnvelopItem implements EnvelopListItem {
 }
 
 class EnvelopList extends StatelessWidget {
+  final List<Category> categories;
   final List<Envelop> envelops;
+  final List<EnvelopListItem> items = List<EnvelopListItem>();
 
-  EnvelopList(this.envelops);
+  EnvelopList(this.categories, this.envelops) {
+    // Sort lists
+    categories.sort((a, b) => a.position.compareTo(b.position));
 
-  @override
-  Widget build(BuildContext context) {
-    List<String> categories = List<String>();
-    List<EnvelopListItem> items = List<EnvelopListItem>();
-
-    // Create categories list
-    envelops.forEach((envelop) {
-      if (!categories.contains(envelop.category))
-        categories.add(envelop.category);
-    });
-
-    // Create categories list
+    // Create items
     categories.forEach((category) {
       // Add item category
-      items.add(EnvelopCategoryItem(category));
+      items.add(EnvelopCategoryItem(category.name));
 
       // Add items envelops
       envelops.forEach((envelop) {
-        if (category == envelop.category) items.add(EnvelopItem(envelop.name));
+        if (category.name == envelop.category)
+          items.add(EnvelopItem(envelop.name));
       });
     });
 
+    // Create a category for items with no category
+    items.add(EnvelopCategoryItem("Orphaned envelops"));
+    envelops.forEach((envelop) {
+      // Check if the envelop is orphaned
+      bool orphan = true;
+      for (final category in categories) {
+        if (category.name == envelop.category) {
+          orphan = false;
+          break;
+        }
+      }
+
+      // Add it to orphan category
+      if (orphan) items.add(EnvelopItem(envelop.name));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
