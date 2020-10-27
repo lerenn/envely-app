@@ -6,40 +6,40 @@ import 'package:Envely/models/models.dart';
 import 'abstract.dart';
 
 class FakeEnvelopsRepository extends EnvelopsRepository {
-  Map<String, List<Envelop>> accounts;
+  Map<String, List<Envelop>> envelops;
   StreamController<List<Envelop>> streamController;
 
-  Future<void> createEnvelop(Budget budget, Envelop account) async {
+  Future<void> createEnvelop(Budget budget, Envelop envelop) async {
     await Future.delayed(Duration(seconds: 1)); // Simulate a network delay
-    accounts[budget.id].add(account);
-    streamController.add([...accounts[budget.id]]);
+    envelops[budget.id].add(envelop);
+    streamController.add([...envelops[budget.id]]);
   }
 
   Stream<List<Envelop>> getEnvelops(Budget budget) {
     return streamController.stream;
   }
 
-  Future<void> updateEnvelop(Budget budget, Envelop account) async {
+  Future<void> updateEnvelop(Budget budget, Envelop envelop) async {
     await Future.delayed(Duration(seconds: 1)); // Simulate a network delay
-    for (var i = 0; i < accounts.length; i++) {
-      if (accounts[budget.id][i].id == account.id) {
-        accounts[budget.id][i] = account;
-        streamController.add([...accounts[budget.id]]);
+    for (var i = 0; i < envelops.length; i++) {
+      if (envelops[budget.id][i].id == envelop.id) {
+        envelops[budget.id][i] = envelop;
+        streamController.add([...envelops[budget.id]]);
         return null;
       }
     }
-    throw EnvelopsException(message: "This account doesn't exists");
+    throw EnvelopsException(message: "This envelop doesn't exists");
   }
 
-  Future<void> deleteEnvelop(Budget budget, Envelop account) async {
+  Future<void> deleteEnvelop(Budget budget, Envelop envelop) async {
     await Future.delayed(Duration(seconds: 1)); // Simulate a network delay
-    for (var i = 0; i < accounts.length; i++) {
-      if (accounts[budget.id][i].id == account.id) {
-        accounts[budget.id].removeAt(i);
-        streamController.add([...accounts[budget.id]]);
+    for (var i = 0; i < envelops.length; i++) {
+      if (envelops[budget.id][i].id == envelop.id) {
+        envelops[budget.id].removeAt(i);
+        streamController.add([...envelops[budget.id]]);
         return null;
       }
     }
-    throw EnvelopsException(message: "This account doesn't exists");
+    throw EnvelopsException(message: "This envelop doesn't exists");
   }
 }
