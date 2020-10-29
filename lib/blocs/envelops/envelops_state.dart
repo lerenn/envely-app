@@ -22,9 +22,9 @@ class EnvelopsInit extends EnvelopsState {}
 class EnvelopsLoading extends EnvelopsState {}
 
 class EnvelopsLoadSuccess extends EnvelopsState {
-  final List<Envelop> envelops;
+  final Map<Category, List<Envelop>> envelops;
 
-  EnvelopsLoadSuccess([this.envelops = const []]);
+  EnvelopsLoadSuccess(this.envelops);
 
   @override
   List<Object> get props => [envelops];

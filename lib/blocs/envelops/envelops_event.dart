@@ -3,52 +3,60 @@ import 'package:equatable/equatable.dart';
 import 'package:Envely/models/models.dart';
 
 abstract class EnvelopsEvent extends Equatable {
+  final Budget budget;
+
+  EnvelopsEvent(this.budget);
+
   @override
   List<Object> get props => [];
 }
 
 class EnvelopsLoad extends EnvelopsEvent {
-  final Budget budget;
   final Category category;
 
-  EnvelopsLoad(this.budget, this.category);
+  EnvelopsLoad(budget, this.category) : super(budget);
+
+  @override
+  List<Object> get props => [budget, category];
+
+  @override
+  String toString() =>
+      'EnvelopsUpdated { budget: $budget, categories: $category}';
 }
 
 class EnvelopsUpdated extends EnvelopsEvent {
   final Category category;
   final List<Envelop> envelops;
 
-  EnvelopsUpdated(this.category, this.envelops);
+  EnvelopsUpdated(budget, this.category, this.envelops) : super(budget);
 
   @override
-  List<Object> get props => [category, envelops];
+  List<Object> get props => [budget, envelops];
 
   @override
   String toString() =>
-      'EnvelopsUpdated { category: $category, envelops: $envelops }';
+      'EnvelopsUpdated { budget: $budget, envelops: $envelops }';
 }
 
 class EnvelopCreated extends EnvelopsEvent {
-  final Budget budget;
   final Category category;
   final Envelop envelop;
 
-  EnvelopCreated(this.budget, this.category, this.envelop);
+  EnvelopCreated(budget, this.category, this.envelop) : super(budget);
 
   @override
   List<Object> get props => [budget, category, envelop];
 
   @override
   String toString() =>
-      'EnvelopCreated { budget: $budget, category:$category, envelop: $envelop }';
+      'EnvelopCreated { budget: $budget, category: $category, envelop: $envelop }';
 }
 
 class EnvelopUpdated extends EnvelopsEvent {
-  final Budget budget;
   final Category category;
   final Envelop envelop;
 
-  EnvelopUpdated(this.budget, this.category, this.envelop);
+  EnvelopUpdated(budget, this.category, this.envelop) : super(budget);
 
   @override
   List<Object> get props => [budget, category, envelop];
@@ -59,11 +67,10 @@ class EnvelopUpdated extends EnvelopsEvent {
 }
 
 class EnvelopDeleted extends EnvelopsEvent {
-  final Budget budget;
   final Category category;
   final Envelop envelop;
 
-  EnvelopDeleted(this.budget, this.category, this.envelop);
+  EnvelopDeleted(budget, this.category, this.envelop) : super(budget);
 
   @override
   List<Object> get props => [budget, category, envelop];

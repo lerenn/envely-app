@@ -76,8 +76,12 @@ class _BudgetListState extends State<BudgetList> {
 
   Widget loadEnvelops(BuildContext context, Category category) {
     return BlocBuilder<EnvelopsBloc, EnvelopsState>(builder: (context, state) {
-      if (state is EnvelopsLoadSuccess)
-        return buildList(context, category, state.envelops);
+      if (state is EnvelopsLoadSuccess) {
+        List<Envelop> envelops = state.envelops.containsKey(category)
+            ? state.envelops[category]
+            : [];
+        return buildList(context, category, envelops);
+      }
       if (state is EnvelopsLoadFailure)
         return LoadFailure(
             message: "Cannot load envelops",
@@ -88,8 +92,8 @@ class _BudgetListState extends State<BudgetList> {
     });
   }
 
-  Widget buildList(
-      BuildContext context, Category category, List<Envelop> envelops) {
+  Widget buildList(BuildContext context, Category category,
+      [List<Envelop> envelops = const []]) {
     List<EnvelopListItem> items = List<EnvelopListItem>();
 
     // Sort envelops
@@ -103,10 +107,6 @@ class _BudgetListState extends State<BudgetList> {
       items.add(EnvelopItem(envelop.name));
     });
 
-    // items.forEach((element) {
-    //   print(element);
-    // });
-    // return Column();
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,

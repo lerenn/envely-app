@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:Envely/repositories/repositories.dart';
+import 'package:Envely/models/models.dart';
 
 import 'package:Envely/blocs/categories/categories.dart';
 
@@ -13,8 +14,8 @@ import 'envelops_state.dart';
 class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
   final CategoriesBloc _categoriesBloc;
   final EnvelopsRepository _repository;
-  Map<String, StreamSubscription> _envelopsSubscriptions =
-      Map<String, StreamSubscription>();
+  Map<Category, StreamSubscription> _envelopsSubscriptions;
+  Map<Category, List<Envelop>> _envelopsCache;
 
   EnvelopsBloc(
       {@required EnvelopsRepository repository,
@@ -23,6 +24,11 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
         _repository = repository,
         _categoriesBloc = categoriesBloc,
         super(EnvelopsInit()) {
+    // Initialize other attributes
+    _envelopsSubscriptions = Map<Category, StreamSubscription>();
+    _envelopsCache = Map<Category, List<Envelop>>();
+
+    // Link to cateogry BLoC
     _categoriesBloc.listen((CategoriesState state) {
       if (state is CategoriesLoadSuccess) {
         state.categories.forEach((element) {
@@ -58,11 +64,11 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
 
     // Get new subscription
     try {
-      _envelopsSubscriptions[event.category.id] =
+      _envelopsSubscriptions[event.category] =
           _repository.getEnvelops(event.budget, event.category).listen(
         (envelops) {
           add(
-            EnvelopsUpdated(event.category, envelops),
+            EnvelopsUpdated(event.budget, event.category, envelops),
           );
         },
       );
@@ -109,7 +115,16 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
 
   Stream<EnvelopsState> _mapEnvelopsUpdatedToState(
       EnvelopsUpdated event) async* {
-    yield EnvelopsLoadSuccess(event.envelops);
+    // Create a new shallow map to avoid comparing the same map on state
+    Map<Category, List<Envelop>> newCache =
+        new Map<Category, List<Envelop>>.from(_envelopsCache)
+          ..addAll({event.category: event.envelops});
+
+    // Yield new map as state
+    yield EnvelopsLoadSuccess(newCache);
+
+    // Assign new map
+    _envelopsCache = newCache;
   }
 
   @override
