@@ -9,12 +9,12 @@ import 'categories_event.dart';
 import 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final CategoriesRepository _categoriesRepository;
+  final CategoriesRepository _repository;
   StreamSubscription _categoriesSubscription;
 
-  CategoriesBloc({@required CategoriesRepository categoriesRepository})
-      : assert(categoriesRepository != null),
-        _categoriesRepository = categoriesRepository,
+  CategoriesBloc({@required CategoriesRepository repository})
+      : assert(repository != null),
+        _repository = repository,
         super(CategoriesInit());
 
   @override
@@ -41,11 +41,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
     // Get new subscription
     try {
-      _categoriesSubscription =
-          _categoriesRepository.getCategories(event.budget).listen(
+      _categoriesSubscription = _repository.getCategories(event.budget).listen(
         (categories) {
           add(
-            CategoriesUpdated(categories),
+            CategoriesUpdated(event.budget, categories),
           );
         },
       );
@@ -59,7 +58,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     assert(event.budget != null);
     yield CategoriesLoading();
     try {
-      _categoriesRepository.updateCategory(event.budget, event.category);
+      _repository.updateCategory(event.budget, event.category);
       yield CategoryUpdatedSuccess();
     } catch (error) {
       yield CategoryUpdatedFailure(error: error.toString());
@@ -71,7 +70,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     assert(event.budget != null);
     yield CategoriesLoading();
     try {
-      _categoriesRepository.createCategory(event.budget, event.category);
+      _repository.createCategory(event.budget, event.category);
       yield CategoryCreatedSuccess();
     } catch (error) {
       yield CategoryCreatedFailure(error: error.toString());
@@ -83,7 +82,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     assert(event.budget != null);
     yield CategoriesLoading();
     try {
-      _categoriesRepository.deleteCategory(event.budget, event.category);
+      _repository.deleteCategory(event.budget, event.category);
       yield CategoryDeletedSuccess();
     } catch (error) {
       yield CategoryDeletedFailure(error: error.toString());
@@ -92,7 +91,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
 
   Stream<CategoriesState> _mapCategoriesUpdatedToState(
       CategoriesUpdated event) async* {
-    yield CategoriesLoadSuccess(event.categories);
+    yield CategoriesLoadSuccess(event.budget, event.categories);
   }
 
   @override

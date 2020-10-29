@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
+import 'package:Envely/ui/common/common.dart';
 
 abstract class EnvelopListItem {
   Widget content();
@@ -18,6 +21,9 @@ class EnvelopCategoryItem implements EnvelopListItem {
       );
 
   Color color(BuildContext context) => Theme.of(context).backgroundColor;
+
+  @override
+  String toString() => "Category $name";
 }
 
 class EnvelopItem implements EnvelopListItem {
@@ -28,49 +34,82 @@ class EnvelopItem implements EnvelopListItem {
   Widget content() => Text(name);
 
   Color color(BuildContext context) => Theme.of(context).secondaryHeaderColor;
+
+  @override
+  String toString() => "Envelop $name";
 }
 
-class EnvelopList extends StatelessWidget {
-  final List<Category> categories;
-  final List<Envelop> envelops;
-  final List<EnvelopListItem> items = List<EnvelopListItem>();
+class BudgetList extends StatefulWidget {
+  @override
+  _BudgetListState createState() => _BudgetListState();
+}
 
-  EnvelopList(this.categories, this.envelops) {
-    // Sort lists
-    categories.sort((a, b) => a.position.compareTo(b.position));
+class _BudgetListState extends State<BudgetList> {
+  @override
+  Widget build(BuildContext context) {
+    return loadCategories(context);
+  }
 
-    // Create items
-    categories.forEach((category) {
-      // Add item category
-      items.add(EnvelopCategoryItem(category.name));
-
-      // Add items envelops
-      envelops.forEach((envelop) {
-        if (category.name == envelop.category)
-          items.add(EnvelopItem(envelop.name));
-      });
-    });
-
-    // Create a category for items with no category
-    items.add(EnvelopCategoryItem("Orphaned envelops"));
-    envelops.forEach((envelop) {
-      // Check if the envelop is orphaned
-      bool orphan = true;
-      for (final category in categories) {
-        if (category.name == envelop.category) {
-          orphan = false;
-          break;
-        }
-      }
-
-      // Add it to orphan category
-      if (orphan) items.add(EnvelopItem(envelop.name));
+  Widget loadCategories(BuildContext context) {
+    return BlocBuilder<CategoriesBloc, CategoriesState>(
+        builder: (context, state) {
+      if (state is CategoriesLoadSuccess)
+        return sortAndDisplayByCategory(context, state.categories);
+      if (state is CategoriesLoadFailure)
+        return LoadFailure(
+            message: "Cannot load envelops categories",
+            bloc: BlocProvider.of<CategoriesBloc>(context),
+            reloadAction: CategoriesLoad(BudgetControllerSingleton().budget));
+      return Loading(false);
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget sortAndDisplayByCategory(
+      BuildContext context, List<Category> categories) {
+    // Sort categories by position
+    categories.sort((a, b) => a.position.compareTo(b.position));
+
+    return Column(
+        children: List<Widget>.generate(categories.length,
+            (index) => loadEnvelops(context, categories[index])));
+  }
+
+  Widget loadEnvelops(BuildContext context, Category category) {
+    return BlocBuilder<EnvelopsBloc, EnvelopsState>(builder: (context, state) {
+      if (state is EnvelopsLoadSuccess)
+        return buildList(context, category, state.envelops);
+      if (state is EnvelopsLoadFailure)
+        return LoadFailure(
+            message: "Cannot load envelops",
+            bloc: BlocProvider.of<CategoriesBloc>(context),
+            reloadAction:
+                EnvelopsLoad(BudgetControllerSingleton().budget, category));
+      return Loading(false);
+    });
+  }
+
+  Widget buildList(
+      BuildContext context, Category category, List<Envelop> envelops) {
+    List<EnvelopListItem> items = List<EnvelopListItem>();
+
+    // Sort envelops
+    // envelops.sort((a, b) => a.position.compareTo(b.position));
+
+    // Add item category
+    items.add(EnvelopCategoryItem(category.name));
+
+    // Add items envelops
+    envelops.forEach((envelop) {
+      items.add(EnvelopItem(envelop.name));
+    });
+
+    // items.forEach((element) {
+    //   print(element);
+    // });
+    // return Column();
     return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];

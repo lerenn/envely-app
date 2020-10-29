@@ -34,31 +34,48 @@ class Envely extends StatelessWidget {
   }
 
   Widget blocProvider(Widget child) {
+    CategoriesBloc catBloc;
+
+    // Authentication
+    BlocProvider<AuthenticationBloc> authBloc =
+        BlocProvider<AuthenticationBloc>(create: (context) {
+      return AuthenticationBloc(
+          repository: RepositoryProvider.of<AuthenticationRepository>(context))
+        ..add(AppLoaded());
+    });
+
+    // Budgets
+    BlocProvider<BudgetsBloc> budgetsBloc = BlocProvider<BudgetsBloc>(
+      create: (context) => BudgetsBloc(
+          repository: RepositoryProvider.of<BudgetsRepository>(context)),
+    );
+
+    // Accounts
+    BlocProvider<AccountsBloc> accountsBloc = BlocProvider<AccountsBloc>(
+        create: (context) => AccountsBloc(
+            repository: RepositoryProvider.of<AccountsRepository>(context)));
+
+    // Categories
+    BlocProvider<CategoriesBloc> categoriesBloc =
+        BlocProvider<CategoriesBloc>(create: (context) {
+      catBloc = CategoriesBloc(
+          repository: RepositoryProvider.of<CategoriesRepository>(context));
+      return catBloc;
+    });
+
+    // Envelops
+    BlocProvider<EnvelopsBloc> envelopsBloc = BlocProvider<EnvelopsBloc>(
+      create: (context) => EnvelopsBloc(
+          categoriesBloc: catBloc,
+          repository: RepositoryProvider.of<EnvelopsRepository>(context)),
+    );
+
     return MultiBlocProvider(providers: [
-      BlocProvider<AuthenticationBloc>(create: (context) {
-        final authRepository =
-            RepositoryProvider.of<AuthenticationRepository>(context);
-        return AuthenticationBloc(authRepository)..add(AppLoaded());
-      }),
-      BlocProvider<AccountsBloc>(
-          create: (context) => AccountsBloc(
-              accountsRepository:
-                  RepositoryProvider.of<AccountsRepository>(context))),
-      BlocProvider<BudgetsBloc>(
-        create: (context) => BudgetsBloc(
-            budgetsRepository:
-                RepositoryProvider.of<BudgetsRepository>(context)),
-      ),
-      BlocProvider<CategoriesBloc>(
-        create: (context) => CategoriesBloc(
-            categoriesRepository:
-                RepositoryProvider.of<CategoriesRepository>(context)),
-      ),
-      BlocProvider<EnvelopsBloc>(
-        create: (context) => EnvelopsBloc(
-            envelopsRepository:
-                RepositoryProvider.of<EnvelopsRepository>(context)),
-      )
+      authBloc,
+      budgetsBloc,
+      accountsBloc,
+      categoriesBloc,
+      envelopsBloc,
     ], child: child);
   }
 

@@ -9,57 +9,66 @@ abstract class EnvelopsEvent extends Equatable {
 
 class EnvelopsLoad extends EnvelopsEvent {
   final Budget budget;
+  final Category category;
 
-  EnvelopsLoad(this.budget);
+  EnvelopsLoad(this.budget, this.category);
 }
 
 class EnvelopsUpdated extends EnvelopsEvent {
+  final Category category;
   final List<Envelop> envelops;
 
-  EnvelopsUpdated(this.envelops);
+  EnvelopsUpdated(this.category, this.envelops);
 
   @override
-  List<Object> get props => [envelops];
+  List<Object> get props => [category, envelops];
 
   @override
-  String toString() => 'EnvelopsUpdated { envelops: $envelops }';
+  String toString() =>
+      'EnvelopsUpdated { category: $category, envelops: $envelops }';
 }
 
 class EnvelopCreated extends EnvelopsEvent {
   final Budget budget;
+  final Category category;
   final Envelop envelop;
 
-  EnvelopCreated(this.budget, this.envelop);
+  EnvelopCreated(this.budget, this.category, this.envelop);
 
   @override
-  List<Object> get props => [budget, envelop];
+  List<Object> get props => [budget, category, envelop];
 
   @override
-  String toString() => 'EnvelopCreated { budget: $budget, envelop: $envelop }';
+  String toString() =>
+      'EnvelopCreated { budget: $budget, category:$category, envelop: $envelop }';
 }
 
 class EnvelopUpdated extends EnvelopsEvent {
   final Budget budget;
+  final Category category;
   final Envelop envelop;
 
-  EnvelopUpdated(this.budget, this.envelop);
+  EnvelopUpdated(this.budget, this.category, this.envelop);
 
   @override
-  List<Object> get props => [budget, envelop];
+  List<Object> get props => [budget, category, envelop];
 
   @override
-  String toString() => 'EnvelopUpdated { budget: $budget, envelop: $envelop }';
+  String toString() =>
+      'EnvelopUpdated { budget: $budget, category: $category, envelop: $envelop }';
 }
 
 class EnvelopDeleted extends EnvelopsEvent {
   final Budget budget;
+  final Category category;
   final Envelop envelop;
 
-  EnvelopDeleted(this.budget, this.envelop);
+  EnvelopDeleted(this.budget, this.category, this.envelop);
 
   @override
-  List<Object> get props => [budget, envelop];
+  List<Object> get props => [budget, category, envelop];
 
   @override
-  String toString() => 'EnvelopDeleted { budget: $budget, envelop: $envelop }';
+  String toString() =>
+      'EnvelopDeleted { budget: $budget, category: $category, envelop: $envelop }';
 }

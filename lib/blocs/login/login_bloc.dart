@@ -9,14 +9,14 @@ import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationBloc _authenticationBloc;
-  final AuthenticationRepository _authenticationRepository;
+  final AuthenticationRepository _repository;
 
   LoginBloc(AuthenticationBloc authenticationBloc,
-      AuthenticationRepository authenticationRepository)
+      AuthenticationRepository repository)
       : assert(authenticationBloc != null),
-        assert(authenticationRepository != null),
+        assert(repository != null),
         _authenticationBloc = authenticationBloc,
-        _authenticationRepository = authenticationRepository,
+        _repository = repository,
         super(LoginInitial());
 
   @override
@@ -30,7 +30,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginInWithEmailButtonPressed event) async* {
     yield LoginLoading();
     try {
-      final user = await _authenticationRepository.signInWithEmailAndPassword(
+      final user = await _repository.signInWithEmailAndPassword(
           event.email, event.password);
       if (user != null) {
         // push new authentication event

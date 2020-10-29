@@ -9,12 +9,12 @@ import 'budgets_event.dart';
 import 'budgets_state.dart';
 
 class BudgetsBloc extends Bloc<BudgetsEvent, BudgetsState> {
-  final BudgetsRepository _budgetsRepository;
+  final BudgetsRepository _repository;
   StreamSubscription _budgetsSubscription;
 
-  BudgetsBloc({@required BudgetsRepository budgetsRepository})
-      : assert(budgetsRepository != null),
-        _budgetsRepository = budgetsRepository,
+  BudgetsBloc({@required BudgetsRepository repository})
+      : assert(repository != null),
+        _repository = repository,
         super(BudgetsInit());
 
   @override
@@ -36,7 +36,7 @@ class BudgetsBloc extends Bloc<BudgetsEvent, BudgetsState> {
     yield BudgetsLoading();
     _budgetsSubscription?.cancel();
     try {
-      _budgetsSubscription = _budgetsRepository.getBudgets().listen(
+      _budgetsSubscription = _repository.getBudgets().listen(
         (budgets) {
           add(
             BudgetsUpdated(budgets),
@@ -51,7 +51,7 @@ class BudgetsBloc extends Bloc<BudgetsEvent, BudgetsState> {
   Stream<BudgetsState> _mapBudgetUpdatedToState(BudgetUpdated event) async* {
     yield BudgetsLoading();
     try {
-      _budgetsRepository.updateBudget(event.budget);
+      _repository.updateBudget(event.budget);
       yield BudgetUpdatedSuccess();
     } catch (error) {
       yield BudgetUpdatedFailure(error: error.toString());
@@ -61,7 +61,7 @@ class BudgetsBloc extends Bloc<BudgetsEvent, BudgetsState> {
   Stream<BudgetsState> _mapBudgetCreatedToState(BudgetCreated event) async* {
     yield BudgetsLoading();
     try {
-      _budgetsRepository.createBudget(event.budget);
+      _repository.createBudget(event.budget);
       yield BudgetCreatedSuccess();
     } catch (error) {
       yield BudgetCreatedFailure(error: error.toString());
@@ -71,7 +71,7 @@ class BudgetsBloc extends Bloc<BudgetsEvent, BudgetsState> {
   Stream<BudgetsState> _mapBudgetDeletedToState(BudgetDeleted event) async* {
     yield BudgetsLoading();
     try {
-      _budgetsRepository.deleteBudget(event.budget);
+      _repository.deleteBudget(event.budget);
       yield BudgetDeletedSuccess();
     } catch (error) {
       yield BudgetDeletedFailure(error: error.toString());

@@ -126,7 +126,6 @@ class BudgetController {
     // Change blocs
     BlocProvider.of<AccountsBloc>(context).add(AccountsLoad(budget));
     BlocProvider.of<CategoriesBloc>(context).add(CategoriesLoad(budget));
-    BlocProvider.of<EnvelopsBloc>(context).add(EnvelopsLoad(budget));
   }
 }
 

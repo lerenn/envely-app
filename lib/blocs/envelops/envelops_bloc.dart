@@ -5,17 +5,32 @@ import 'package:meta/meta.dart';
 
 import 'package:Envely/repositories/repositories.dart';
 
+import 'package:Envely/blocs/categories/categories.dart';
+
 import 'envelops_event.dart';
 import 'envelops_state.dart';
 
 class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
-  final EnvelopsRepository _envelopsRepository;
-  StreamSubscription _envelopsSubscription;
+  final CategoriesBloc _categoriesBloc;
+  final EnvelopsRepository _repository;
+  Map<String, StreamSubscription> _envelopsSubscriptions =
+      Map<String, StreamSubscription>();
 
-  EnvelopsBloc({@required EnvelopsRepository envelopsRepository})
-      : assert(envelopsRepository != null),
-        _envelopsRepository = envelopsRepository,
-        super(EnvelopsInit());
+  EnvelopsBloc(
+      {@required EnvelopsRepository repository,
+      @required CategoriesBloc categoriesBloc})
+      : assert(repository != null),
+        _repository = repository,
+        _categoriesBloc = categoriesBloc,
+        super(EnvelopsInit()) {
+    _categoriesBloc.listen((CategoriesState state) {
+      if (state is CategoriesLoadSuccess) {
+        state.categories.forEach((element) {
+          this.add(EnvelopsLoad(state.budget, element));
+        });
+      }
+    });
+  }
 
   @override
   Stream<EnvelopsState> mapEventToState(EnvelopsEvent event) async* {
@@ -33,18 +48,21 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
   }
 
   Stream<EnvelopsState> _mapEnvelopsLoadToState(EnvelopsLoad event) async* {
+    assert(event.budget != null);
+    assert(event.category != null);
     yield EnvelopsLoading();
 
     // Cancel old subscriptions
-    _envelopsSubscription?.cancel();
+    if (_envelopsSubscriptions.containsKey(event.category.id))
+      _envelopsSubscriptions[event.category.id]?.cancel();
 
     // Get new subscription
     try {
-      _envelopsSubscription =
-          _envelopsRepository.getEnvelops(event.budget).listen(
+      _envelopsSubscriptions[event.category.id] =
+          _repository.getEnvelops(event.budget, event.category).listen(
         (envelops) {
           add(
-            EnvelopsUpdated(envelops),
+            EnvelopsUpdated(event.category, envelops),
           );
         },
       );
@@ -55,9 +73,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
 
   Stream<EnvelopsState> _mapEnvelopUpdatedToState(EnvelopUpdated event) async* {
     assert(event.budget != null);
+    assert(event.category != null);
     yield EnvelopsLoading();
     try {
-      _envelopsRepository.updateEnvelop(event.budget, event.envelop);
+      _repository.updateEnvelop(event.budget, event.category, event.envelop);
       yield EnvelopUpdatedSuccess();
     } catch (error) {
       yield EnvelopUpdatedFailure(error: error.toString());
@@ -66,9 +85,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
 
   Stream<EnvelopsState> _mapEnvelopCreatedToState(EnvelopCreated event) async* {
     assert(event.budget != null);
+    assert(event.category != null);
     yield EnvelopsLoading();
     try {
-      _envelopsRepository.createEnvelop(event.budget, event.envelop);
+      _repository.createEnvelop(event.budget, event.category, event.envelop);
       yield EnvelopCreatedSuccess();
     } catch (error) {
       yield EnvelopCreatedFailure(error: error.toString());
@@ -77,9 +97,10 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
 
   Stream<EnvelopsState> _mapEnvelopDeletedToState(EnvelopDeleted event) async* {
     assert(event.budget != null);
+    assert(event.category != null);
     yield EnvelopsLoading();
     try {
-      _envelopsRepository.deleteEnvelop(event.budget, event.envelop);
+      _repository.deleteEnvelop(event.budget, event.category, event.envelop);
       yield EnvelopDeletedSuccess();
     } catch (error) {
       yield EnvelopDeletedFailure(error: error.toString());
@@ -93,7 +114,9 @@ class EnvelopsBloc extends Bloc<EnvelopsEvent, EnvelopsState> {
 
   @override
   Future<void> close() {
-    _envelopsSubscription?.cancel();
+    _envelopsSubscriptions.forEach((_, subscription) {
+      subscription?.cancel();
+    });
     return super.close();
   }
 }

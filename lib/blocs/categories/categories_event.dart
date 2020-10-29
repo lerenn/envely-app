@@ -3,33 +3,35 @@ import 'package:equatable/equatable.dart';
 import 'package:Envely/models/models.dart';
 
 abstract class CategoriesEvent extends Equatable {
+  final Budget budget;
+
+  CategoriesEvent(this.budget);
+
   @override
   List<Object> get props => [];
 }
 
 class CategoriesLoad extends CategoriesEvent {
-  final Budget budget;
-
-  CategoriesLoad(this.budget);
+  CategoriesLoad(budget) : super(budget);
 }
 
 class CategoriesUpdated extends CategoriesEvent {
   final List<Category> categories;
 
-  CategoriesUpdated(this.categories);
+  CategoriesUpdated(budget, this.categories) : super(budget);
 
   @override
-  List<Object> get props => [categories];
+  List<Object> get props => [budget, categories];
 
   @override
-  String toString() => 'CategoriesUpdated { categories: $categories }';
+  String toString() =>
+      'CategoriesUpdated { budget: $budget, categories: $categories }';
 }
 
 class CategoryCreated extends CategoriesEvent {
-  final Budget budget;
   final Category category;
 
-  CategoryCreated(this.budget, this.category);
+  CategoryCreated(budget, this.category) : super(budget);
 
   @override
   List<Object> get props => [budget, category];
@@ -40,10 +42,9 @@ class CategoryCreated extends CategoriesEvent {
 }
 
 class CategoryUpdated extends CategoriesEvent {
-  final Budget budget;
   final Category category;
 
-  CategoryUpdated(this.budget, this.category);
+  CategoryUpdated(budget, this.category) : super(budget);
 
   @override
   List<Object> get props => [budget, category];
@@ -54,10 +55,9 @@ class CategoryUpdated extends CategoriesEvent {
 }
 
 class CategoryDeleted extends CategoriesEvent {
-  final Budget budget;
   final Category category;
 
-  CategoryDeleted(this.budget, this.category);
+  CategoryDeleted(budget, this.category) : super(budget);
 
   @override
   List<Object> get props => [budget, category];

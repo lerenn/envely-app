@@ -22,9 +22,10 @@ class CategoriesInit extends CategoriesState {}
 class CategoriesLoading extends CategoriesState {}
 
 class CategoriesLoadSuccess extends CategoriesState {
+  final Budget budget;
   final List<Category> categories;
 
-  CategoriesLoadSuccess([this.categories = const []]);
+  CategoriesLoadSuccess(this.budget, this.categories);
 
   @override
   List<Object> get props => [categories];

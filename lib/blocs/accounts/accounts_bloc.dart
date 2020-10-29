@@ -9,12 +9,12 @@ import 'accounts_event.dart';
 import 'accounts_state.dart';
 
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
-  final AccountsRepository _accountsRepository;
+  final AccountsRepository _repository;
   StreamSubscription _accountsSubscription;
 
-  AccountsBloc({@required AccountsRepository accountsRepository})
-      : assert(accountsRepository != null),
-        _accountsRepository = accountsRepository,
+  AccountsBloc({@required AccountsRepository repository})
+      : assert(repository != null),
+        _repository = repository,
         super(AccountsInit());
 
   @override
@@ -40,8 +40,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
     // Get new subscription
     try {
-      _accountsSubscription =
-          _accountsRepository.getAccounts(event.budget).listen(
+      _accountsSubscription = _repository.getAccounts(event.budget).listen(
         (accounts) {
           add(
             AccountsUpdated(accounts),
@@ -57,7 +56,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     assert(event.budget != null);
     yield AccountsLoading();
     try {
-      _accountsRepository.updateAccount(event.budget, event.account);
+      _repository.updateAccount(event.budget, event.account);
       yield AccountUpdatedSuccess();
     } catch (error) {
       yield AccountUpdatedFailure(error: error.toString());
@@ -68,7 +67,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     assert(event.budget != null);
     yield AccountsLoading();
     try {
-      _accountsRepository.createAccount(event.budget, event.account);
+      _repository.createAccount(event.budget, event.account);
       yield AccountCreatedSuccess();
     } catch (error) {
       yield AccountCreatedFailure(error: error.toString());
@@ -79,7 +78,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     assert(event.budget != null);
     yield AccountsLoading();
     try {
-      _accountsRepository.deleteAccount(event.budget, event.account);
+      _repository.deleteAccount(event.budget, event.account);
       yield AccountDeletedSuccess();
     } catch (error) {
       yield AccountDeletedFailure(error: error.toString());

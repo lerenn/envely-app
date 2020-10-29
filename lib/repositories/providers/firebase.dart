@@ -33,4 +33,12 @@ extension FirebaseCollectionsExtension on FirebaseCollections {
     final budgetCollection = FirebaseCollections.Budgets.reference();
     return budgetCollection.document(budget.id).collection(this.name);
   }
+
+  CollectionReference referenceFromCategory(Budget budget, Category category) {
+    final budgetCollection = FirebaseCollections.Budgets.reference();
+    final categoryCollection = budgetCollection
+        .document(budget.id)
+        .collection(FirebaseCollections.Categories.name);
+    return categoryCollection.document(category.id).collection(this.name);
+  }
 }
