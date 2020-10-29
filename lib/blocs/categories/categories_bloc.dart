@@ -59,7 +59,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     yield CategoriesLoading();
     try {
       _repository.updateCategory(event.budget, event.category);
-      yield CategoryUpdatedSuccess();
+      yield CategoryUpdatedSuccess(event.category);
     } catch (error) {
       yield CategoryUpdatedFailure(error: error.toString());
     }
@@ -83,7 +83,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     yield CategoriesLoading();
     try {
       _repository.deleteCategory(event.budget, event.category);
-      yield CategoryDeletedSuccess();
+      yield CategoryDeletedSuccess(event.category);
     } catch (error) {
       yield CategoryDeletedFailure(error: error.toString());
     }

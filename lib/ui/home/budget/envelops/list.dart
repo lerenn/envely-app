@@ -77,8 +77,8 @@ class _BudgetListState extends State<BudgetList> {
   Widget loadEnvelops(BuildContext context, Category category) {
     return BlocBuilder<EnvelopsBloc, EnvelopsState>(builder: (context, state) {
       if (state is EnvelopsLoadSuccess) {
-        List<Envelop> envelops = state.envelops.containsKey(category)
-            ? state.envelops[category]
+        List<Envelop> envelops = state.envelops.containsKey(category.id)
+            ? state.envelops[category.id]
             : [];
         return buildList(context, category, envelops);
       }

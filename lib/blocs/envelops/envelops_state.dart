@@ -22,7 +22,7 @@ class EnvelopsInit extends EnvelopsState {}
 class EnvelopsLoading extends EnvelopsState {}
 
 class EnvelopsLoadSuccess extends EnvelopsState {
-  final Map<Category, List<Envelop>> envelops;
+  final Map<String, List<Envelop>> envelops;
 
   EnvelopsLoadSuccess(this.envelops);
 

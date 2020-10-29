@@ -41,13 +41,27 @@ class CategoryCreatedFailure extends CategoriesStateFailure {
   CategoryCreatedFailure({@required String error}) : super(error);
 }
 
-class CategoryUpdatedSuccess extends CategoriesState {}
+class CategoryUpdatedSuccess extends CategoriesState {
+  final Category category;
+
+  CategoryUpdatedSuccess(this.category);
+
+  @override
+  List<Object> get props => [category];
+}
 
 class CategoryUpdatedFailure extends CategoriesStateFailure {
   CategoryUpdatedFailure({@required String error}) : super(error);
 }
 
-class CategoryDeletedSuccess extends CategoriesState {}
+class CategoryDeletedSuccess extends CategoriesState {
+  final Category category;
+
+  CategoryDeletedSuccess(this.category);
+
+  @override
+  List<Object> get props => [category];
+}
 
 class CategoryDeletedFailure extends CategoriesStateFailure {
   CategoryDeletedFailure({@required String error}) : super(error);
