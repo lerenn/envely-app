@@ -1,4 +1,3 @@
-import 'package:Envely/repositories/entities/entities.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -57,23 +56,6 @@ class Account extends Equatable {
 
   @override
   String toString() => 'Account { id: $id, name: $name, type: $type}';
-
-  AccountEntity toEntity() {
-    return AccountEntity(id, name, type.short());
-  }
-
-  static Account fromEntity(AccountEntity entity) {
-    var type = AccountType.Unknown;
-    AccountType.values.forEach((t) {
-      if (t.short() == entity.type) type = t;
-    });
-
-    return Account(
-      id: entity.id,
-      name: entity.name,
-      type: type,
-    );
-  }
 
   @override
   List<Object> get props => [id, name, type];

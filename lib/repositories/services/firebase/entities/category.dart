@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:Envely/models/models.dart';
+
 class CategoryEntity extends Equatable {
   final String id;
   final String name;
@@ -8,25 +10,9 @@ class CategoryEntity extends Equatable {
 
   CategoryEntity(this.id, this.name, this.position);
 
-  Map<String, Object> toJSON() {
-    return {
-      'id': id,
-      'name': name,
-      'position': position,
-    };
-  }
-
   @override
   String toString() {
     return 'CategoryEntity { id: $id, name: $name, position: $position }';
-  }
-
-  static CategoryEntity fromJSON(Map<String, Object> json) {
-    return CategoryEntity(
-      json['id'] as String,
-      json['name'] as String,
-      json['position'] as int,
-    );
   }
 
   static CategoryEntity fromSnapshot(DocumentSnapshot snap) {
@@ -34,6 +20,18 @@ class CategoryEntity extends Equatable {
       snap.documentID,
       snap.data['name'],
       snap.data['position'],
+    );
+  }
+
+  static CategoryEntity fromModel(Category category) {
+    return CategoryEntity(category.id, category.name, category.position);
+  }
+
+  Category toModel() {
+    return Category(
+      id: this.id,
+      name: this.name,
+      position: this.position,
     );
   }
 

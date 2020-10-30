@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:Envely/models/models.dart';
 import 'package:Envely/exceptions/exceptions.dart';
 
-import '../abstract/abstract.dart';
+import '../../repositories.dart';
 
 class FakeEnvelopsRepository extends EnvelopsRepository {
   Map<String, Map<String, List<Envelop>>> envelops;

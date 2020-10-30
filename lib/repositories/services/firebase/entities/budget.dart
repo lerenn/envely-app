@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:Envely/models/models.dart';
+
 class BudgetEntity extends Equatable {
   final String id;
   final String name;
@@ -8,25 +10,9 @@ class BudgetEntity extends Equatable {
 
   BudgetEntity(this.id, this.name, this.currency);
 
-  Map<String, Object> toJSON() {
-    return {
-      'id': id,
-      'name': name,
-      'currency': currency,
-    };
-  }
-
   @override
   String toString() {
     return 'BudgetEntity { id: $id, name: $name, currency: $currency }';
-  }
-
-  static BudgetEntity fromJSON(Map<String, Object> json) {
-    return BudgetEntity(
-      json['id'] as String,
-      json['name'] as String,
-      json['currency'] as String,
-    );
   }
 
   static BudgetEntity fromSnapshot(DocumentSnapshot snap) {
@@ -34,6 +20,23 @@ class BudgetEntity extends Equatable {
       snap.documentID,
       snap.data['name'],
       snap.data['currency'],
+    );
+  }
+
+  static BudgetEntity fromModel(Budget budget) {
+    return BudgetEntity(budget.id, budget.name, budget.currency.short());
+  }
+
+  Budget toModel() {
+    var currency = Currency.Custom;
+    Currency.values.forEach((t) {
+      if (t.short() == this.currency) currency = t;
+    });
+
+    return Budget(
+      id: this.id,
+      name: this.name,
+      currency: currency,
     );
   }
 

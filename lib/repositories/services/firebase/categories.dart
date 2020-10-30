@@ -1,21 +1,21 @@
-import 'package:Envely/repositories/entities/entities.dart';
 import 'common.dart';
 
 import 'package:Envely/models/models.dart';
 
-import '../abstract/abstract.dart';
+import 'entities/entities.dart';
+import '../../repositories.dart';
 
 class FirebaseCategoriesRepository extends CategoriesRepository {
   Future<void> createCategory(Budget budget, Category category) async {
     var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
-    await collection.add(category.toEntity().toDocument());
+    await collection.add(CategoryEntity.fromModel(category).toDocument());
   }
 
   Stream<List<Category>> getCategories(Budget budget) {
     var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
     return collection.snapshots().map((snapshot) {
       return snapshot.documents
-          .map((doc) => Category.fromEntity(CategoryEntity.fromSnapshot(doc)))
+          .map((doc) => CategoryEntity.fromSnapshot(doc).toModel())
           .toList();
     });
   }
@@ -24,7 +24,7 @@ class FirebaseCategoriesRepository extends CategoriesRepository {
     var collection = FirebaseCollections.Categories.referenceFromBudget(budget);
     return collection
         .document(category.id)
-        .updateData(category.toEntity().toDocument());
+        .updateData(CategoryEntity.fromModel(category).toDocument());
   }
 
   Future<void> deleteCategory(Budget budget, Category category) async {

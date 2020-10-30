@@ -1,16 +1,16 @@
-import 'package:Envely/repositories/entities/entities.dart';
 import 'common.dart';
 
 import 'package:Envely/models/models.dart';
 
-import '../abstract/abstract.dart';
+import 'entities/entities.dart';
+import '../../repositories.dart';
 
 class FirebaseEnvelopsRepository extends EnvelopsRepository {
   Future<void> createEnvelop(
       Budget budget, Category category, Envelop envelop) async {
     var collection =
         FirebaseCollections.Envelops.referenceFromCategory(budget, category);
-    await collection.add(envelop.toEntity().toDocument());
+    await collection.add(EnvelopEntity.fromModel(envelop).toDocument());
   }
 
   Stream<List<Envelop>> getEnvelops(Budget budget, Category category) {
@@ -18,8 +18,7 @@ class FirebaseEnvelopsRepository extends EnvelopsRepository {
         FirebaseCollections.Envelops.referenceFromCategory(budget, category);
     return collection.snapshots().map((snapshot) {
       return snapshot.documents
-          .map((doc) =>
-              Envelop.fromEntity(EnvelopEntity.fromSnapshot(doc), category))
+          .map((doc) => EnvelopEntity.fromSnapshot(doc).toModel(category))
           .toList();
     });
   }
@@ -30,7 +29,7 @@ class FirebaseEnvelopsRepository extends EnvelopsRepository {
         FirebaseCollections.Envelops.referenceFromCategory(budget, category);
     return collection
         .document(envelop.id)
-        .updateData(envelop.toEntity().toDocument());
+        .updateData(EnvelopEntity.fromModel(envelop).toDocument());
   }
 
   Future<void> deleteEnvelop(

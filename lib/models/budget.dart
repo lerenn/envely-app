@@ -1,4 +1,3 @@
-import 'package:Envely/repositories/entities/entities.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -45,23 +44,6 @@ class Budget extends Equatable {
 
   @override
   String toString() => 'Budget { id: $id, name: $name, currency: $currency}';
-
-  BudgetEntity toEntity() {
-    return BudgetEntity(id, name, currency.short());
-  }
-
-  static Budget fromEntity(BudgetEntity entity) {
-    var currency = Currency.Custom;
-    Currency.values.forEach((t) {
-      if (t.short() == entity.currency) currency = t;
-    });
-
-    return Budget(
-      id: entity.id,
-      name: entity.name,
-      currency: currency,
-    );
-  }
 
   @override
   List<Object> get props => [id, name, currency];

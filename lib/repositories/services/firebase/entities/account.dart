@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:Envely/models/models.dart';
+
 class AccountEntity extends Equatable {
   final String id;
   final String name;
@@ -8,25 +10,9 @@ class AccountEntity extends Equatable {
 
   AccountEntity(this.id, this.name, this.type);
 
-  Map<String, Object> toJSON() {
-    return {
-      'id': id,
-      'name': name,
-      'type': type,
-    };
-  }
-
   @override
   String toString() {
     return 'AccountEntity { id: $id, name: $name, type: $type }';
-  }
-
-  static AccountEntity fromJSON(Map<String, Object> json) {
-    return AccountEntity(
-      json['id'] as String,
-      json['name'] as String,
-      json['type'] as String,
-    );
   }
 
   static AccountEntity fromSnapshot(DocumentSnapshot snap) {
@@ -34,6 +20,23 @@ class AccountEntity extends Equatable {
       snap.documentID,
       snap.data['name'],
       snap.data['type'],
+    );
+  }
+
+  static AccountEntity fromModel(Account account) {
+    return AccountEntity(account.id, account.name, account.type.short());
+  }
+
+  Account toModel() {
+    var type = AccountType.Unknown;
+    AccountType.values.forEach((t) {
+      if (t.short() == this.type) type = t;
+    });
+
+    return Account(
+      id: this.id,
+      name: this.name,
+      type: type,
     );
   }
 

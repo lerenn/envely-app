@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/repositories/repositories.dart';
+import 'package:Envely/repositories/services.dart';
 import 'package:Envely/view/view.dart';
 
 void main() => runApp(Envely());

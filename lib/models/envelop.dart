@@ -1,4 +1,3 @@
-import 'package:Envely/repositories/entities/entities.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -13,14 +12,6 @@ class Envelop extends Equatable {
 
   @override
   String toString() => 'Envelop { id: $id, name: $name, category: $category}';
-
-  EnvelopEntity toEntity() {
-    return EnvelopEntity(id, name);
-  }
-
-  static Envelop fromEntity(EnvelopEntity entity, Category category) {
-    return Envelop(id: entity.id, name: entity.name, category: category);
-  }
 
   @override
   List<Object> get props => [id, name, category];

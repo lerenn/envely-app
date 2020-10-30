@@ -1,7 +1,7 @@
 import 'package:Envely/models/models.dart';
 import 'package:Envely/exceptions/exceptions.dart';
 
-import '../abstract/abstract.dart';
+import '../../repositories.dart';
 
 class FakeAuthenticationRepository extends AuthenticationRepository {
   User _user;

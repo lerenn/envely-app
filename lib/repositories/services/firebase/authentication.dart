@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Envely/exceptions/exceptions.dart';
 import 'package:Envely/models/models.dart';
 
-import '../abstract/abstract.dart';
+import '../../repositories.dart';
 
 class FirebaseAuthenticationRepository extends AuthenticationRepository {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
