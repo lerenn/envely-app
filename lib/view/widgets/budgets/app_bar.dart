@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/pages/budget_add_page.dart';
-import 'package:Envely/view/pages/budget_edit_page.dart';
+import '../../pages/budget_add_page.dart';
+import '../../pages/budget_edit_page.dart';
 
 import '../budgets/controller.dart';
 import '../budgets/switcher.dart';
@@ -107,7 +107,7 @@ class SettingsFieldAdd extends SettingsField {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddBudgetPage(),
+        builder: (context) => BudgetAddPage(),
       ),
     );
   }
@@ -122,7 +122,7 @@ class SettingsFieldModify extends SettingsField {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditBudgetPage(budget),
+        builder: (context) => BudgetEditPage(budget),
       ),
     );
   }

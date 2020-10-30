@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:Envely/view/widgets/widgets.dart';
 import 'package:Envely/models/models.dart';
 import 'package:Envely/blocs/blocs.dart';
 
-class EditBudgetPage extends StatelessWidget {
+import '../widgets/widgets.dart';
+
+class BudgetEditPage extends StatelessWidget {
   final Budget budget;
 
-  EditBudgetPage(this.budget);
+  BudgetEditPage(this.budget);
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +18,20 @@ class EditBudgetPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text("Edit budget")),
         body: SafeArea(
-            child: SingleChildScrollView(child: _EditBudgetForm(budget))));
+            child: SingleChildScrollView(child: _BudgetEditForm(budget))));
   }
 }
 
-class _EditBudgetForm extends StatefulWidget {
+class _BudgetEditForm extends StatefulWidget {
   final Budget budget;
 
-  _EditBudgetForm(this.budget);
+  _BudgetEditForm(this.budget);
 
   @override
-  _EditBudgetFormState createState() => _EditBudgetFormState();
+  _BudgetEditFormState createState() => _BudgetEditFormState();
 }
 
-class _EditBudgetFormState extends State<_EditBudgetForm> {
+class _BudgetEditFormState extends State<_BudgetEditForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _typeController = BudgetCurrencyFieldController();
@@ -90,7 +91,7 @@ class _EditBudgetFormState extends State<_EditBudgetForm> {
   }
 
   Widget editButton(BudgetsState state) {
-    _onEditBudgetButtonPressed() {
+    _onBudgetEditButtonPressed() {
       if (_key.currentState.validate()) {
         var newModifiedBudget = Budget(
             id: widget.budget.id,
@@ -112,7 +113,7 @@ class _EditBudgetFormState extends State<_EditBudgetForm> {
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Update budget'),
-      onPressed: state is BudgetsLoading ? () {} : _onEditBudgetButtonPressed,
+      onPressed: state is BudgetsLoading ? () {} : _onBudgetEditButtonPressed,
     );
   }
 

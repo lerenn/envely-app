@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/widgets/widgets.dart';
+import '../widgets/widgets.dart';
 
 const TabNb = 5;
 

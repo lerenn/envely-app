@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/blocs/blocs.dart';
-import 'package:Envely/view/widgets/widgets.dart';
 import 'package:Envely/repositories/repositories.dart';
 
+import '../widgets/widgets.dart';
 import 'sign_up_page.dart';
 
 class LoginPage extends StatelessWidget {

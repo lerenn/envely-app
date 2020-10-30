@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:Envely/view/widgets/widgets.dart';
 import 'package:Envely/models/models.dart';
 import 'package:Envely/blocs/blocs.dart';
 
-class AddBudgetPage extends StatelessWidget {
+import '../widgets/widgets.dart';
+
+class BudgetAddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return Scaffold(
         appBar: AppBar(title: Text("Add Budget")),
-        body: SafeArea(child: SingleChildScrollView(child: _AddBudgetForm())));
+        body: SafeArea(child: SingleChildScrollView(child: _BudgetAddForm())));
   }
 }
 
-class _AddBudgetForm extends StatefulWidget {
+class _BudgetAddForm extends StatefulWidget {
   @override
-  _AddBudgetFormState createState() => _AddBudgetFormState();
+  _BudgetAddFormState createState() => _BudgetAddFormState();
 }
 
-class _AddBudgetFormState extends State<_AddBudgetForm> {
+class _BudgetAddFormState extends State<_BudgetAddForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _currencyController = BudgetCurrencyFieldController();
@@ -64,7 +65,7 @@ class _AddBudgetFormState extends State<_AddBudgetForm> {
   }
 
   Widget addButton(BudgetsState state) {
-    _onAddBudgetButtonPressed() {
+    _onBudgetAddButtonPressed() {
       if (_key.currentState.validate()) {
         final budget = Budget(
             id: "unknown",
@@ -80,7 +81,7 @@ class _AddBudgetFormState extends State<_AddBudgetForm> {
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Add budget'),
-      onPressed: state is BudgetsLoading ? () {} : _onAddBudgetButtonPressed,
+      onPressed: state is BudgetsLoading ? () {} : _onBudgetAddButtonPressed,
     );
   }
 }

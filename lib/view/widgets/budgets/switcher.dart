@@ -7,7 +7,7 @@ import 'package:progress_indicators/progress_indicators.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/pages/budget_add_page.dart';
+import '../../pages/budget_add_page.dart';
 
 import 'controller.dart';
 
@@ -124,7 +124,7 @@ class BudgetSwitcherLoadedState extends State<BudgetSwitcherLoaded> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddBudgetPage(),
+        builder: (context) => BudgetAddPage(),
       ),
     );
   }

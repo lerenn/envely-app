@@ -4,24 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
-import 'package:Envely/view/widgets/widgets.dart';
 
-class AddAccountPage extends StatelessWidget {
+import '../widgets/widgets.dart';
+
+class AccountAddPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return Scaffold(
         appBar: AppBar(title: Text("Add Account")),
-        body: SafeArea(child: SingleChildScrollView(child: _AddAccountForm())));
+        body: SafeArea(child: SingleChildScrollView(child: _AccountAddForm())));
   }
 }
 
-class _AddAccountForm extends StatefulWidget {
+class _AccountAddForm extends StatefulWidget {
   @override
-  _AddAccountFormState createState() => _AddAccountFormState();
+  _AccountAddFormState createState() => _AccountAddFormState();
 }
 
-class _AddAccountFormState extends State<_AddAccountForm> {
+class _AccountAddFormState extends State<_AccountAddForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _typeController = AccountTypeFieldController();
@@ -66,7 +67,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
   }
 
   Widget addButton(AccountsState state) {
-    _onAddAccountButtonPressed() {
+    _onAccountAddButtonPressed() {
       if (_key.currentState.validate()) {
         final account = Account(
             id: "unknown",
@@ -83,7 +84,7 @@ class _AddAccountFormState extends State<_AddAccountForm> {
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Add account'),
-      onPressed: state is AccountsLoading ? () {} : _onAddAccountButtonPressed,
+      onPressed: state is AccountsLoading ? () {} : _onAccountAddButtonPressed,
     );
   }
 }

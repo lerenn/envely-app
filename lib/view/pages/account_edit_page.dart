@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
-import 'package:Envely/view/widgets/widgets.dart';
 
-class EditAccountPage extends StatelessWidget {
+import '../widgets/widgets.dart';
+
+class AccountEditPage extends StatelessWidget {
   final Account account;
 
-  EditAccountPage(this.account);
+  AccountEditPage(this.account);
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +18,20 @@ class EditAccountPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text("Edit account")),
         body: SafeArea(
-            child: SingleChildScrollView(child: _EditAccountForm(account))));
+            child: SingleChildScrollView(child: _AccountEditForm(account))));
   }
 }
 
-class _EditAccountForm extends StatefulWidget {
+class _AccountEditForm extends StatefulWidget {
   final Account account;
 
-  _EditAccountForm(this.account);
+  _AccountEditForm(this.account);
 
   @override
-  _EditAccountFormState createState() => _EditAccountFormState();
+  _AccountEditFormState createState() => _AccountEditFormState();
 }
 
-class _EditAccountFormState extends State<_EditAccountForm> {
+class _AccountEditFormState extends State<_AccountEditForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _typeController = AccountTypeFieldController();
@@ -92,7 +93,7 @@ class _EditAccountFormState extends State<_EditAccountForm> {
   }
 
   Widget editButton(AccountsState state) {
-    _onEditAccountButtonPressed() {
+    _onAccountEditButtonPressed() {
       if (_key.currentState.validate()) {
         var newModifiedAccount = Account(
             id: widget.account.id,
@@ -114,7 +115,7 @@ class _EditAccountFormState extends State<_EditAccountForm> {
       shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(8.0)),
       child: Text('Update account'),
-      onPressed: state is AccountsLoading ? () {} : _onEditAccountButtonPressed,
+      onPressed: state is AccountsLoading ? () {} : _onAccountEditButtonPressed,
     );
   }
 

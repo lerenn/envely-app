@@ -7,7 +7,7 @@ import 'package:progress_indicators/progress_indicators.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/pages/budget_add_page.dart';
+import '../../pages/budget_add_page.dart';
 
 import 'budgets.dart';
 
@@ -125,7 +125,7 @@ class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddBudgetPage(),
+        builder: (context) => BudgetAddPage(),
       ),
     );
   }

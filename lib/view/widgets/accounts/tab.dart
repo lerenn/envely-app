@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/pages/account_add_page.dart';
-import 'package:Envely/view/pages/account_edit_page.dart';
+import '../../pages/account_add_page.dart';
+import '../../pages/account_edit_page.dart';
 
 import '../budgets/controller.dart';
 import '../loading.dart';
@@ -79,7 +79,7 @@ class _AccountsList extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditAccountPage(account),
+                      builder: (context) => AccountEditPage(account),
                     ),
                   );
                 },
@@ -95,7 +95,7 @@ class _AddAccountButton extends StatelessWidget {
         onPressed: () {
           return Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
-            return AddAccountPage();
+            return AccountAddPage();
           }));
         },
         textColor: Theme.of(context).primaryColor,

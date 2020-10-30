@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:Envely/repositories/repositories.dart';
 import 'package:Envely/blocs/blocs.dart';
-import 'package:Envely/view/widgets/widgets.dart';
+
+import '../widgets/widgets.dart';
 
 class SignUpPage extends StatelessWidget {
   @override
