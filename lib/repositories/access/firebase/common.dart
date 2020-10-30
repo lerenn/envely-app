@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 enum FirebaseCollections {
   Accounts,

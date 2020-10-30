@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 class AccountTypeField extends StatefulWidget {
   final AccountTypeFieldController controller;

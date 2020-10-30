@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:Envely/logic/blocs/blocs.dart';
+import 'package:Envely/blocs/blocs.dart';
 import 'package:Envely/repositories/repositories.dart';
-import 'package:Envely/view/screens/screens.dart';
+import 'package:Envely/view/view.dart';
 
 void main() => runApp(Envely());
 

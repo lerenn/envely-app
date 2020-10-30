@@ -1,5 +1,5 @@
 import 'package:Envely/repositories/entities/entities.dart';
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 import 'common.dart';
 import '../abstract/abstract.dart';

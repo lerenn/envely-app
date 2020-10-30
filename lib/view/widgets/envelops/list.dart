@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:Envely/logic/blocs/blocs.dart';
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/models/models.dart';
 
 import '../loading.dart';
 import '../budgets/controller.dart';

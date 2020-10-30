@@ -1,4 +1,4 @@
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 abstract class CategoriesRepository {
   Future<void> createCategory(Budget budget, Category category);

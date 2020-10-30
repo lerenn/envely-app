@@ -1,4 +1,4 @@
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/models/models.dart';
 
 abstract class AuthenticationRepository {
   Future<User> getCurrentUser();

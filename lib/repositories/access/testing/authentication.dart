@@ -1,5 +1,5 @@
-import 'package:Envely/logic/models/models.dart';
-import 'package:Envely/logic/exceptions/exceptions.dart';
+import 'package:Envely/models/models.dart';
+import 'package:Envely/exceptions/exceptions.dart';
 
 import '../abstract/abstract.dart';
 

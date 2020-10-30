@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:progress_indicators/progress_indicators.dart';
 
-import 'package:Envely/logic/blocs/blocs.dart';
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/screens/budget_add_screen.dart';
+import 'package:Envely/view/pages/budget_add_page.dart';
 
 import 'controller.dart';
 

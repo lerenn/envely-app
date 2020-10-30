@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:Envely/logic/blocs/blocs.dart';
-import 'package:Envely/logic/models/models.dart';
+import 'package:Envely/blocs/blocs.dart';
+import 'package:Envely/models/models.dart';
 
-import 'package:Envely/view/screens/budget_add_screen.dart';
-import 'package:Envely/view/screens/budget_edit_screen.dart';
+import 'package:Envely/view/pages/budget_add_page.dart';
+import 'package:Envely/view/pages/budget_edit_page.dart';
 
 import '../budgets/controller.dart';
 import '../budgets/switcher.dart';
