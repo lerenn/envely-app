@@ -13,9 +13,8 @@ class BudgetAppBarBuilder {
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text("Budget"),
         Row(children: [
-          BudgetDropdownMenu(),
-          Container(margin: EdgeInsets.only(left: 10)),
           _SettingsButton(),
+          BudgetDropdownMenu(),
         ]),
       ]),
       bottom: AppBar(

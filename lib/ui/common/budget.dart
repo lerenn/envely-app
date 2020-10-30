@@ -71,44 +71,41 @@ class BudgetDropdownMenuLoaded extends StatefulWidget {
 class BudgetDropdownMenuLoadedState extends State<BudgetDropdownMenuLoaded> {
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      dropDown(context),
+    return displayMenu(context);
+  }
+
+  Widget displayMenu(BuildContext context) {
+    return IconButton(
+        icon: Icon(Icons.layers_rounded),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text("Budgets"), content: contentMenu(context));
+              });
+        });
+  }
+
+  Widget contentMenu(BuildContext context) {
+    return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      Container(
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: widget.budgets.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+                title: Text(widget.budgets[index].name),
+                onTap: () => {changeBudget(context, widget.budgets[index])});
+          },
+        ),
+      )
     ]);
   }
 
-  Widget dropDown(BuildContext context) {
-    if (widget.controller.budget == null ||
-        !widget.budgets.contains(widget.controller.budget))
-      widget.controller.set(context, widget.budgets[0]);
-
-    return DropdownButton<Budget>(
-      dropdownColor: Theme.of(context).primaryColor,
-      value: widget.controller.budget,
-      icon: Container(
-          margin: EdgeInsets.only(left: 10), child: Icon(Icons.swap_vert)),
-      iconEnabledColor: Theme.of(context).colorScheme.onSecondary,
-      items: widget.budgets.map((Budget value) {
-        return DropdownMenuItem<Budget>(
-            value: value,
-            child: Container(
-              width: ScreenUtil().setWidth(400),
-              child: new Text(
-                value.name,
-                textAlign: TextAlign.end,
-                softWrap: false,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ));
-      }).toList(),
-      style: TextStyle(
-          fontSize: 20, color: Theme.of(context).colorScheme.onSecondary),
-      onChanged: (Budget newValue) {
-        setState(() {
-          widget.controller.set(context, newValue);
-        });
-      },
-      underline: Text(''),
-    );
+  void changeBudget(BuildContext context, Budget budget) {
+    Navigator.pop(context);
+    widget.controller.set(context, budget);
   }
 }
 
