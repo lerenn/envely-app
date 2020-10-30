@@ -14,7 +14,7 @@ class EnvelopEntity extends Equatable {
     return 'EnvelopEntity { id: $id, name: $name }';
   }
 
-  static EnvelopEntity fromSnapshot(DocumentSnapshot snap) {
+  static EnvelopEntity fromFirestoreSnapshot(DocumentSnapshot snap) {
     return EnvelopEntity(
       snap.documentID,
       snap.data['name'],
@@ -29,7 +29,7 @@ class EnvelopEntity extends Equatable {
     return Envelop(id: this.id, name: this.name, category: category);
   }
 
-  Map<String, Object> toDocument() {
+  Map<String, Object> toFirestoreDocument() {
     return {
       // No ID here
       'name': name,

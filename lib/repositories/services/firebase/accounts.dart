@@ -1,20 +1,21 @@
 import 'package:Envely/models/models.dart';
 
 import 'common.dart';
-import 'entities/entities.dart';
+import '../../entities/entities.dart';
 import '../../repositories.dart';
 
 class FirebaseAccountsRepository extends AccountsRepository {
   Future<void> createAccount(Budget budget, Account account) async {
     var collection = FirebaseCollections.Accounts.referenceFromBudget(budget);
-    await collection.add(AccountEntity.fromModel(account).toDocument());
+    await collection
+        .add(AccountEntity.fromModel(account).toFirestoreDocument());
   }
 
   Stream<List<Account>> getAccounts(Budget budget) {
     var collection = FirebaseCollections.Accounts.referenceFromBudget(budget);
     return collection.snapshots().map((snapshot) {
       return snapshot.documents
-          .map((doc) => AccountEntity.fromSnapshot(doc).toModel())
+          .map((doc) => AccountEntity.fromFirestoreSnapshot(doc).toModel())
           .toList();
     });
   }
@@ -23,7 +24,7 @@ class FirebaseAccountsRepository extends AccountsRepository {
     var collection = FirebaseCollections.Accounts.referenceFromBudget(budget);
     return collection
         .document(account.id)
-        .updateData(AccountEntity.fromModel(account).toDocument());
+        .updateData(AccountEntity.fromModel(account).toFirestoreDocument());
   }
 
   Future<void> deleteAccount(Budget budget, Account account) async {

@@ -15,7 +15,7 @@ class CategoryEntity extends Equatable {
     return 'CategoryEntity { id: $id, name: $name, position: $position }';
   }
 
-  static CategoryEntity fromSnapshot(DocumentSnapshot snap) {
+  static CategoryEntity fromFirestoreSnapshot(DocumentSnapshot snap) {
     return CategoryEntity(
       snap.documentID,
       snap.data['name'],
@@ -35,7 +35,7 @@ class CategoryEntity extends Equatable {
     );
   }
 
-  Map<String, Object> toDocument() {
+  Map<String, Object> toFirestoreDocument() {
     return {
       // No ID here
       'name': name,

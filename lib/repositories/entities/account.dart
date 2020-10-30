@@ -15,7 +15,7 @@ class AccountEntity extends Equatable {
     return 'AccountEntity { id: $id, name: $name, type: $type }';
   }
 
-  static AccountEntity fromSnapshot(DocumentSnapshot snap) {
+  static AccountEntity fromFirestoreSnapshot(DocumentSnapshot snap) {
     return AccountEntity(
       snap.documentID,
       snap.data['name'],
@@ -40,7 +40,7 @@ class AccountEntity extends Equatable {
     );
   }
 
-  Map<String, Object> toDocument() {
+  Map<String, Object> toFirestoreDocument() {
     return {
       // No ID here
       'name': name,

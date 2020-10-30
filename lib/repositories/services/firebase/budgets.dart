@@ -2,20 +2,20 @@ import 'common.dart';
 
 import 'package:Envely/models/models.dart';
 
-import 'entities/entities.dart';
+import '../../entities/entities.dart';
 import '../../repositories.dart';
 
 class FirebaseBudgetsRepository extends BudgetsRepository {
   final collection = FirebaseCollections.Budgets.reference();
 
   Future<void> createBudget(Budget budget) async {
-    await collection.add(BudgetEntity.fromModel(budget).toDocument());
+    await collection.add(BudgetEntity.fromModel(budget).toFirestoreDocument());
   }
 
   Stream<List<Budget>> getBudgets() {
     return collection.snapshots().map((snapshot) {
       return snapshot.documents
-          .map((doc) => BudgetEntity.fromSnapshot(doc).toModel())
+          .map((doc) => BudgetEntity.fromFirestoreSnapshot(doc).toModel())
           .toList();
     });
   }
@@ -23,7 +23,7 @@ class FirebaseBudgetsRepository extends BudgetsRepository {
   Future<void> updateBudget(Budget budget) {
     return collection
         .document(budget.id)
-        .updateData(BudgetEntity.fromModel(budget).toDocument());
+        .updateData(BudgetEntity.fromModel(budget).toFirestoreDocument());
   }
 
   Future<void> deleteBudget(Budget budget) async {

@@ -15,7 +15,7 @@ class BudgetEntity extends Equatable {
     return 'BudgetEntity { id: $id, name: $name, currency: $currency }';
   }
 
-  static BudgetEntity fromSnapshot(DocumentSnapshot snap) {
+  static BudgetEntity fromFirestoreSnapshot(DocumentSnapshot snap) {
     return BudgetEntity(
       snap.documentID,
       snap.data['name'],
@@ -40,7 +40,7 @@ class BudgetEntity extends Equatable {
     );
   }
 
-  Map<String, Object> toDocument() {
+  Map<String, Object> toFirestoreDocument() {
     return {
       // No ID here
       'name': name,
